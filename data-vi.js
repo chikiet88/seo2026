@@ -157,10 +157,10 @@ const TRENDS_2026 = [
 
 // Phương án nhân sự SEO 2026
 const NHAN_SU = {
-  moHinh: "1 SEO Manager + CTV Linh Hoạt",
+  moHinh: "1 SEO Manager + CTV Linh Hoạt + AI Hỗ Trợ",
   manager: {
     viTri: "SEO Manager (Full-time)",
-    yeuCau: ["3+ năm kinh nghiệm SEO", "Biết Technical SEO (Schema, tốc độ, mobile)", "Hiểu AI/AIO optimization", "Kỹ năng quản lý CTV"],
+    yeuCau: ["3+ năm kinh nghiệm SEO", "Biết Technical SEO (Schema, tốc độ, mobile)", "Hiểu AI/AIO optimization", "Kỹ năng quản lý CTV", "Thành thạo AI tools (ChatGPT, Claude)"],
     congViec: [
       "Lập chiến lược SEO 5 website",
       "Technical SEO: Schema, tốc độ, mobile, AI chatbot",
@@ -168,66 +168,85 @@ const NHAN_SU = {
       "Quản lý & QC nội dung từ CTV",
       "Báo cáo KPI hàng tuần/tháng/quý",
       "Partnership & đối ngoại (ĐH, bệnh viện)",
-      "Keyword research & content brief"
+      "Keyword research & content brief",
+      "Viết content TazaGroup + hỗ trợ các site khác với AI"
     ]
   },
   ctv: [
     {
-      viTri: "CTV Nội Dung 1 - Chuyên Timona",
-      loai: "CTV cố định hoặc Part-time",
-      output: "15-20 bài/tháng",
-      gia: "150-250K/bài (1,000-1,500 từ)",
-      chiPhi: { thap: 3000000, cao: 5000000, tb: 4000000 },
-      noiDung: "Hướng nghiệp, khóa học, case học viên"
+      viTri: "CTV Nội Dung Chính",
+      loai: "CTV cố định (1 người đa năng)",
+      output: "20-25 bài/tháng (Timona + Clinic)",
+      gia: "120-180K/bài (AI draft + CTV edit/optimize)",
+      chiPhi: { thap: 2400000, cao: 4500000, tb: 3500000 },
+      noiDung: "Timona (hướng nghiệp), Clinic (dịch vụ) - AI draft 70%"
     },
     {
-      viTri: "CTV Nội Dung 2 - Clinic + Hderma + Elasome",
-      loai: "CTV cố định",
-      output: "10-15 bài/tháng",
-      gia: "200-350K/bài (long-form chuyên sâu)",
-      chiPhi: { thap: 2500000, cao: 4000000, tb: 3000000 },
-      noiDung: "Dịch vụ thẩm mỹ, sản phẩm, B2B"
+      viTri: "CTV Nội Dung Phụ",
+      loai: "CTV part-time (theo nhu cầu)",
+      output: "5-8 bài/tháng (Hderma + Elasome)",
+      gia: "150-200K/bài",
+      chiPhi: { thap: 750000, cao: 1600000, tb: 1000000 },
+      noiDung: "Sản phẩm Hderma, B2B Elasome - Chỉ cần Q2-Q4"
     },
     {
       viTri: "CTV Link Building",
-      loai: "Thuê theo dự án",
-      output: "5-10 backlink chất lượng/tháng",
-      gia: "200-500K/link hoặc gói 2-3M/tháng",
-      chiPhi: { thap: 1000000, cao: 3000000, tb: 2000000 },
-      noiDung: "Backlink từ ĐH, bệnh viện, forum"
-    },
-    {
-      viTri: "CTV Video/Design",
-      loai: "Thuê theo dự án",
-      output: "2-4 video/infographic mỗi tháng",
-      gia: "300-800K/video, 500K-1M/infographic",
-      chiPhi: { thap: 500000, cao: 2000000, tb: 1000000 },
-      noiDung: "Video before-after, infographic"
+      loai: "Thuê theo quý (Q2, Q3)",
+      output: "3-5 backlink chất lượng/tháng",
+      gia: "300-500K/link",
+      chiPhi: { thap: 0, cao: 2500000, tb: 1000000 },
+      noiDung: "Chỉ thuê Q2-Q3, còn lại Manager tự outreach"
     }
   ],
   tools: [
-    { name: "Semrush hoặc Ahrefs", gia: 3000000, mucDich: "Keyword + Audit + Backlink" },
-    { name: "Surfer SEO", gia: 1500000, mucDich: "Content optimization" },
-    { name: "ChatGPT Plus", gia: 500000, mucDich: "Draft content, research" },
-    { name: "Canva Pro", gia: 300000, mucDich: "Design infographic" }
+    { name: "Google Search Console + Analytics", gia: 0, mucDich: "Tracking, audit cơ bản (FREE)" },
+    { name: "Ubersuggest (Free tier)", gia: 0, mucDich: "Keyword research cơ bản (FREE)" },
+    { name: "ChatGPT Plus", gia: 500000, mucDich: "Draft content, research, outline" },
+    { name: "Screaming Frog (Free 500 URLs)", gia: 0, mucDich: "Technical audit (FREE)" },
+    { name: "Canva Free", gia: 0, mucDich: "Design cơ bản (FREE)" },
+    { name: "Ahrefs Webmaster (Free)", gia: 0, mucDich: "Backlink check (FREE)" }
+  ],
+  toolsPremium: [
+    { name: "Semrush/Ahrefs (Chỉ khi cần)", gia: 2500000, mucDich: "Audit sâu - thuê 1-2 tháng/năm" }
   ],
   chiPhiTheoQuy: [
-    { quy: "Q1", trongTam: "Audit + Nền tảng", ctvCan: "2 CTV nội dung", chiPhi: { thap: 5500000, cao: 8000000 } },
-    { quy: "Q2", trongTam: "Content + Campaign hè", ctvCan: "2 CTV nội dung + Video", chiPhi: { thap: 10000000, cao: 15000000 } },
-    { quy: "Q3", trongTam: "Partnership + Trẻ hóa", ctvCan: "2 CTV + Link building", chiPhi: { thap: 12000000, cao: 18000000 } },
-    { quy: "Q4", trongTam: "Campaign Tết + Báo cáo", ctvCan: "2 CTV + Design", chiPhi: { thap: 8000000, cao: 12000000 } }
+    { quy: "Q1", trongTam: "Audit + Nền tảng", ctvCan: "1 CTV chính", chiPhi: { thap: 2400000, cao: 4000000 }, ghiChu: "Manager làm nhiều, CTV hỗ trợ" },
+    { quy: "Q2", trongTam: "Content + Campaign hè", ctvCan: "1 CTV chính + 1 phụ + Link", chiPhi: { thap: 5000000, cao: 8000000 }, ghiChu: "Cao điểm tuyển sinh" },
+    { quy: "Q3", trongTam: "Partnership + Trẻ hóa", ctvCan: "1 CTV chính + Link building", chiPhi: { thap: 4000000, cao: 7000000 }, ghiChu: "Đẩy mạnh backlink" },
+    { quy: "Q4", trongTam: "Campaign Tết + Báo cáo", ctvCan: "1 CTV chính + 1 phụ", chiPhi: { thap: 3500000, cao: 6000000 }, ghiChu: "Campaign Tết" }
   ],
   tongChiPhi: {
-    ctvThang: { thap: 7000000, cao: 14000000, tb: 10000000 },
-    toolsThang: 5300000,
-    tongThang: { thap: 12300000, cao: 19300000, tb: 15300000 },
-    tongNam: { thap: 147600000, cao: 231600000, tb: 183600000 }
+    ctvThang: { thap: 3150000, cao: 8600000, tb: 5500000 },
+    toolsThang: 500000,
+    toolsPremiumNam: 5000000,
+    tongThang: { thap: 3650000, cao: 9100000, tb: 6000000 },
+    tongNam: { thap: 43800000, cao: 109200000, tb: 72000000 }
   },
   phanBoWebsite: [
-    { site: "TazaSkinClinic.com", output: "5-10 bài/tháng", ctv: "CTV Nội dung 2", chiPhi: 2000000 },
-    { site: "Timona.edu.vn", output: "15-20 bài/tháng (Q1-Q2), 10-12 bài (Q3-Q4)", ctv: "CTV Nội dung 1", chiPhi: 4000000 },
-    { site: "Hderma.vn", output: "2 bài/tháng + refresh 95 bài cũ", ctv: "CTV Nội dung 2", chiPhi: 1000000 },
-    { site: "Elasome.com", output: "1-2 bài/tháng", ctv: "CTV Nội dung 2", chiPhi: 500000 },
-    { site: "TazaGroup.vn", output: "1 bài/tháng", ctv: "SEO Manager tự viết", chiPhi: 0 }
-  ]
+    { site: "TazaSkinClinic.com", output: "5-8 bài/tháng", ctv: "CTV Chính (AI draft)", chiPhi: 1200000, aiHoTro: "70%" },
+    { site: "Timona.edu.vn", output: "12-15 bài/tháng", ctv: "CTV Chính (AI draft)", chiPhi: 2300000, aiHoTro: "60%" },
+    { site: "Hderma.vn", output: "2-3 bài/tháng", ctv: "CTV Phụ hoặc Manager", chiPhi: 500000, aiHoTro: "80%" },
+    { site: "Elasome.com", output: "1-2 bài/tháng", ctv: "CTV Phụ hoặc Manager", chiPhi: 300000, aiHoTro: "80%" },
+    { site: "TazaGroup.vn", output: "1 bài/tháng", ctv: "SEO Manager + AI", chiPhi: 0, aiHoTro: "90%" }
+  ],
+  aiStrategy: {
+    title: "Chiến lược AI-First Content",
+    steps: [
+      "SEO Manager tạo brief + keyword",
+      "ChatGPT/Claude draft 70-80% nội dung",
+      "CTV edit, thêm case thực tế, optimize",
+      "Manager QC final + publish",
+    ],
+    benefits: [
+      "Giảm 40-50% thời gian viết",
+      "CTV tập trung vào chất lượng, không phải số lượng",
+      "Chi phí/bài giảm từ 200-350K xuống 120-180K",
+      "Output tăng 30% với cùng chi phí"
+    ]
+  },
+  soSanh: {
+    phuongAnCu: { ten: "Phương án cũ", chiPhiThang: 15000000, chiPhiNam: 180000000 },
+    phuongAnMoi: { ten: "Phương án tối ưu AI", chiPhiThang: 6000000, chiPhiNam: 72000000 },
+    tietKiem: { thang: 9000000, nam: 108000000, phanTram: 60 }
+  }
 };
