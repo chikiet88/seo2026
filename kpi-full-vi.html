@@ -83,6 +83,7 @@
         <button onclick="showTab('group')" id="btn-group" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏢 TazaGroup</button>
         <button onclick="showTab('gantt')" id="btn-gantt" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📊 Gantt Chart</button>
         <button onclick="showTab('ai')" id="btn-ai" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🤖 KPI Thời Đại AI</button>
+        <button onclick="showTab('nhansu')" id="btn-nhansu" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">👥 Nhân Sự & Chi Phí</button>
       </div>
       
       <!-- Nội dung Tab -->
@@ -128,6 +129,8 @@
         setTimeout(() => mermaid.run(), 100);
       } else if (tab === 'ai') {
         content.innerHTML = renderAIKPIs();
+      } else if (tab === 'nhansu') {
+        content.innerHTML = renderNhanSu();
       } else {
         content.innerHTML = renderSiteTable(tab);
       }
@@ -298,6 +301,211 @@ gantt
             <li>• Tỷ lệ trích dẫn cần theo dõi thủ công hoặc công cụ tùy chỉnh</li>
             <li>• Điểm nhúng (Embedding) > 0.7 đảm bảo nội dung được AI trích xuất</li>
             <li>• Hiện diện không click: tối ưu featured snippets, FAQ schema</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function renderNhanSu() {
+      const formatMoney = (num) => num.toLocaleString('vi-VN') + 'đ';
+      return `
+        <h2 class="text-2xl font-bold mb-4">👥 Phương Án Nhân Sự & Chi Phí SEO 2026</h2>
+        <p class="text-gray-600 mb-6">Mô hình: <strong class="text-blue-600">${NHAN_SU.moHinh}</strong> - Tối ưu chi phí, linh hoạt theo mùa vụ</p>
+        
+        <!-- Sơ đồ tổ chức -->
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6 border">
+          <h3 class="font-bold text-lg mb-4 text-center">📊 Mô Hình Tổ Chức</h3>
+          <div class="text-center">
+            <div class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold mb-4">
+              SEO MANAGER (Full-time)<br>
+              <span class="text-sm font-normal">Chiến lược | Technical | Điều phối | Báo cáo</span>
+            </div>
+            <div class="flex justify-center gap-4 flex-wrap">
+              ${NHAN_SU.ctv.map((ctv, i) => `
+                <div class="bg-white px-4 py-3 rounded-lg shadow border text-sm">
+                  <div class="font-semibold text-gray-800">${ctv.viTri.split(' - ')[0]}</div>
+                  <div class="text-gray-500 text-xs">${ctv.loai}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+        
+        <!-- SEO Manager -->
+        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+          <div class="bg-blue-600 text-white px-4 py-3">
+            <h3 class="font-bold">👤 ${NHAN_SU.manager.viTri}</h3>
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="font-semibold mb-2">📋 Yêu cầu:</h4>
+                <ul class="text-sm space-y-1">
+                  ${NHAN_SU.manager.yeuCau.map(y => `<li>• ${y}</li>`).join('')}
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-2">✅ Công việc chính:</h4>
+                <ul class="text-sm space-y-1">
+                  ${NHAN_SU.manager.congViec.map(c => `<li>• ${c}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bảng CTV -->
+        <h3 class="text-xl font-bold mb-4">👥 Chi Tiết CTV (Cộng Tác Viên)</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Vị trí</th>
+                <th class="border p-2 text-left">Loại</th>
+                <th class="border p-2 text-left">Output</th>
+                <th class="border p-2 text-left">Đơn giá</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.ctv.map((ctv, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${ctv.viTri}</td>
+                  <td class="border p-2">${ctv.loai}</td>
+                  <td class="border p-2">${ctv.output}</td>
+                  <td class="border p-2">${ctv.gia}</td>
+                  <td class="border p-2 text-right text-green-600 font-semibold">${formatMoney(ctv.chiPhi.thap)} - ${formatMoney(ctv.chiPhi.cao)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+            <tfoot>
+              <tr class="bg-blue-50 font-bold">
+                <td class="border p-2" colspan="4">TỔNG CHI PHÍ CTV/THÁNG</td>
+                <td class="border p-2 text-right text-blue-600">${formatMoney(NHAN_SU.tongChiPhi.ctvThang.thap)} - ${formatMoney(NHAN_SU.tongChiPhi.ctvThang.cao)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <!-- Công cụ SEO -->
+        <h3 class="text-xl font-bold mb-4">🛠️ Công Cụ SEO</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Công cụ</th>
+                <th class="border p-2 text-left">Mục đích</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.tools.map((tool, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${tool.name}</td>
+                  <td class="border p-2">${tool.mucDich}</td>
+                  <td class="border p-2 text-right text-green-600">${formatMoney(tool.gia)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+            <tfoot>
+              <tr class="bg-purple-50 font-bold">
+                <td class="border p-2" colspan="2">TỔNG CHI PHÍ TOOLS/THÁNG</td>
+                <td class="border p-2 text-right text-purple-600">${formatMoney(NHAN_SU.tongChiPhi.toolsThang)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <!-- Chi phí theo quý -->
+        <h3 class="text-xl font-bold mb-4">📅 Phân Bổ Chi Phí Theo Quý</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Quý</th>
+                <th class="border p-2 text-left">Trọng tâm</th>
+                <th class="border p-2 text-left">CTV cần</th>
+                <th class="border p-2 text-right">Chi phí CTV/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.chiPhiTheoQuy.map((q, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-bold">${q.quy}</td>
+                  <td class="border p-2">${q.trongTam}</td>
+                  <td class="border p-2">${q.ctvCan}</td>
+                  <td class="border p-2 text-right text-green-600">${formatMoney(q.chiPhi.thap)} - ${formatMoney(q.chiPhi.cao)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Phân bổ theo website -->
+        <h3 class="text-xl font-bold mb-4">🌐 Phân Bổ CTV Theo Website</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Website</th>
+                <th class="border p-2 text-left">Output</th>
+                <th class="border p-2 text-left">CTV phụ trách</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.phanBoWebsite.map((w, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${w.site}</td>
+                  <td class="border p-2">${w.output}</td>
+                  <td class="border p-2">${w.ctv}</td>
+                  <td class="border p-2 text-right ${w.chiPhi > 0 ? 'text-green-600' : 'text-gray-400'}">${w.chiPhi > 0 ? '~' + formatMoney(w.chiPhi) : 'Miễn phí'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Tổng chi phí -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-lg shadow">
+            <h4 class="font-bold text-lg">💰 Chi Phí CTV/Tháng</h4>
+            <p class="text-3xl font-bold mt-2">~${formatMoney(NHAN_SU.tongChiPhi.ctvThang.tb)}</p>
+            <p class="text-sm opacity-80 mt-1">(${formatMoney(NHAN_SU.tongChiPhi.ctvThang.thap)} - ${formatMoney(NHAN_SU.tongChiPhi.ctvThang.cao)})</p>
+          </div>
+          <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-lg shadow">
+            <h4 class="font-bold text-lg">🛠️ Chi Phí Tools/Tháng</h4>
+            <p class="text-3xl font-bold mt-2">~${formatMoney(NHAN_SU.tongChiPhi.toolsThang)}</p>
+            <p class="text-sm opacity-80 mt-1">Semrush + Surfer + ChatGPT + Canva</p>
+          </div>
+          <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-lg shadow">
+            <h4 class="font-bold text-lg">📊 TỔNG/THÁNG (không lương Manager)</h4>
+            <p class="text-3xl font-bold mt-2">~${formatMoney(NHAN_SU.tongChiPhi.tongThang.tb)}</p>
+            <p class="text-sm opacity-80 mt-1">≈ ${formatMoney(NHAN_SU.tongChiPhi.tongNam.tb)}/năm</p>
+          </div>
+        </div>
+        
+        <!-- Ưu điểm -->
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-6">
+          <h4 class="font-bold text-green-800">✅ Ưu Điểm Phương Án CTV</h4>
+          <ul class="mt-2 text-green-700 grid grid-cols-1 md:grid-cols-2 gap-2">
+            <li>• <strong>Chi phí thấp</strong> - Chỉ trả theo output thực tế</li>
+            <li>• <strong>Linh hoạt scale</strong> - Tăng/giảm CTV theo mùa vụ</li>
+            <li>• <strong>Không gánh nặng</strong> - Không bảo hiểm, thuế, phúc lợi</li>
+            <li>• <strong>Dễ thay thế</strong> - Nếu CTV không phù hợp</li>
+            <li>• <strong>Chuyên môn hóa</strong> - Thuê đúng người cho đúng việc</li>
+            <li>• <strong>Tiết kiệm ~40%</strong> - So với team full-time 4 người</li>
+          </ul>
+        </div>
+        
+        <!-- Lưu ý -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <h4 class="font-bold text-yellow-800">⚠️ Lưu Ý Quan Trọng</h4>
+          <ul class="mt-2 text-yellow-700 space-y-1">
+            <li>• Chi phí trên <strong>chưa bao gồm lương SEO Manager</strong></li>
+            <li>• Cần hợp đồng rõ ràng với CTV + backup 1-2 CTV dự phòng</li>
+            <li>• SEO Manager cần QC 100% nội dung + training CTV ban đầu</li>
+            <li>• Q2-Q3 chi phí cao hơn do mùa cao điểm tuyển sinh & campaign</li>
           </ul>
         </div>
       `;
