@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng KPI SEO 2026 - TazaGroup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="data-vi.js"></script>
+  <style>
+    .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+    .mermaid { background: #f8fafc; border-radius: 8px; padding: 20px; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto p-4">
+    <!-- Tiêu đề -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
+      <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
+      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Cập nhật: 22/12/2025</p>
+    </div>
+
+    <!-- Các nút xuất -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button onclick="exportAllToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📥 Xuất Excel Tổng Hợp
+      </button>
+      <button onclick="exportGanttToExcel()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📊 Xuất Gantt Chart
+      </button>
+      <button onclick="exportCurrentTab()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📄 Xuất Tab Hiện Tại
+      </button>
+      <a href="gantt-detail-vi.html" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        🗓️ Xem Chi Tiết Tuần/Ngày →
+      </a>
+    </div>
+
+    <!-- Thẻ tổng kết -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
+        <h3 class="font-bold text-red-600">TazaSkinClinic</h3>
+        <p class="text-2xl font-bold mt-2">~630</p>
+        <p class="text-sm text-gray-500">đặt lịch/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~53/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-700">
+        <h3 class="font-bold text-blue-700">Timona</h3>
+        <p class="text-2xl font-bold mt-2">~3.660</p>
+        <p class="text-sm text-gray-500">đăng ký/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~305/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-600">
+        <h3 class="font-bold text-green-600">Hderma</h3>
+        <p class="text-2xl font-bold mt-2">~114</p>
+        <p class="text-sm text-gray-500">đơn hàng/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~10/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-purple-600">
+        <h3 class="font-bold text-purple-600">Elasome</h3>
+        <p class="text-2xl font-bold mt-2">~14</p>
+        <p class="text-sm text-gray-500">lead B2B/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~1,2/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-gray-500">
+        <h3 class="font-bold text-gray-600">TazaGroup</h3>
+        <p class="text-2xl font-bold mt-2">~94</p>
+        <p class="text-sm text-gray-500">lead/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~8/tháng</p>
+      </div>
+    </div>
+
+    <!-- Tab điều hướng -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="flex overflow-x-auto border-b">
+        <button onclick="showTab('overview')" id="btn-overview" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100 tab-active">📈 Tổng Quan</button>
+        <button onclick="showTab('clinic')" id="btn-clinic" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏥 TazaSkinClinic</button>
+        <button onclick="showTab('timona')" id="btn-timona" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🎓 Timona</button>
+        <button onclick="showTab('hderma')" id="btn-hderma" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">💊 Hderma</button>
+        <button onclick="showTab('elasome')" id="btn-elasome" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🧬 Elasome</button>
+        <button onclick="showTab('group')" id="btn-group" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏢 TazaGroup</button>
+        <button onclick="showTab('gantt')" id="btn-gantt" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📊 Gantt Chart</button>
+        <button onclick="showTab('ai')" id="btn-ai" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🤖 KPI Thời Đại AI</button>
+      </div>
+      
+      <!-- Nội dung Tab -->
+      <div id="tab-content" class="p-6">
+        <!-- Nội dung sẽ được render bởi JavaScript -->
+      </div>
+    </div>
+
+    <!-- Biểu đồ -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-bold mb-4 text-lg">📈 Xu hướng Lượt Truy Cập 2026</h3>
+        <canvas id="trafficChart" height="200"></canvas>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-bold mb-4 text-lg">📊 Dự báo Lead/Chuyển đổi 2026</h3>
+        <canvas id="leadsChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-500 py-4">
+      <p>© 2026 TazaGroup - Kế hoạch KPI SEO Toàn Diện</p>
+      <p class="text-sm mt-1">Dựa trên phân tích phantichmoinhat.md - Chiến lược AI-First SEO</p>
+    </div>
+  </div>
+
+  <script>
+    let currentTab = 'overview';
+    const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+
+    function showTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('[id^="btn-"]').forEach(btn => btn.classList.remove('tab-active'));
+      document.getElementById(`btn-${tab}`).classList.add('tab-active');
+      
+      const content = document.getElementById('tab-content');
+      
+      if (tab === 'overview') {
+        content.innerHTML = renderOverview();
+      } else if (tab === 'gantt') {
+        content.innerHTML = renderGantt();
+        setTimeout(() => mermaid.run(), 100);
+      } else if (tab === 'ai') {
+        content.innerHTML = renderAIKPIs();
+      } else {
+        content.innerHTML = renderSiteTable(tab);
+      }
+    }
+
+    function renderOverview() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">📊 Tổng Quan KPI 2026 - 5 Website</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-3 text-left">Website</th>
+                <th class="border p-3 text-left">Mô Tả</th>
+                <th class="border p-3 text-center">Truy Cập/Năm</th>
+                <th class="border p-3 text-center">Lead/Năm</th>
+                <th class="border p-3 text-center">TB/Tháng</th>
+                <th class="border p-3 text-left">Trọng Tâm</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.keys(DATA).map(key => {
+                const site = DATA[key];
+                const sum = SUMMARY[key];
+                return `
+                  <tr class="hover:bg-gray-50">
+                    <td class="border p-3 font-semibold" style="color:${site.color}">${site.name}</td>
+                    <td class="border p-3 text-sm">${site.desc}</td>
+                    <td class="border p-3 text-center font-bold">${sum.traffic}</td>
+                    <td class="border p-3 text-center font-bold text-green-600">${sum.leads}</td>
+                    <td class="border p-3 text-center text-blue-600">${sum.avgMonth}</td>
+                    <td class="border p-3 text-sm">${sum.focus}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">🎯 Xu Hướng SEO 2026</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          ${TRENDS_2026.map(trend => `
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <span class="text-blue-600">✓</span> ${trend}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSiteTable(key) {
+      const site = DATA[key];
+      return `
+        <div class="mb-4">
+          <h2 class="text-2xl font-bold" style="color:${site.color}">${site.name}</h2>
+          <p class="text-gray-600">${site.desc}</p>
+          <p class="text-sm mt-2"><strong>Trọng tâm:</strong> ${site.focus}</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                ${site.headers.map(h => `<th class="border p-2 text-left whitespace-nowrap">${h}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${site.rows.map((row, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50">
+                  ${row.map((cell, j) => `
+                    <td class="border p-2 ${j === 0 ? 'font-semibold' : ''} ${j === 2 ? 'text-green-600 font-bold' : ''}">${cell}</td>
+                  `).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderGantt() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">📊 Gantt Chart KPI SEO 2026</h2>
+        <div class="mermaid">
+gantt
+    title Kế Hoạch KPI SEO 2026 - TazaGroup
+    dateFormat YYYY-MM-DD
+    
+    section Kiểm Tra
+    Kiểm tra kỹ thuật + Nghiên cứu từ khóa    :2026-01-01, 59d
+    
+    section Clinic
+    Case study peel/phục hồi              :2026-03-01, 306d
+    Chiến dịch HIFU 199K, Triệt lông 499K :2026-03-01, 306d
+    
+    section Timona
+    Nội dung hướng nghiệp & khóa học      :2026-03-01, 214d
+    Mùa tuyển sinh (ưu đãi trả góp)       :2026-03-01, 214d
+    
+    section Hderma
+    Sản phẩm routine & cảm nhận           :2026-03-01, 306d
+    Chiến dịch Bundle & Tết               :crit, 2026-10-01, 92d
+    
+    section Elasome
+    Nội dung Exosome M1-M5 B2B            :2026-04-01, 275d
+    Hợp tác clinic/spa B2B                :2026-07-01, 184d
+    
+    section AI SEO
+    Xây dựng entity & Theo dõi trích dẫn  :2026-01-01, 365d
+    Kiểm tra lead ảnh hưởng AI            :crit, 2026-05-01, 245d
+    
+    section Báo Cáo
+    Báo cáo Q1                            :milestone, 2026-03-31, 0d
+    Báo cáo Q2                            :milestone, 2026-06-30, 0d
+    Báo cáo Q3                            :milestone, 2026-09-30, 0d
+    Báo cáo năm & Kế hoạch 2027           :milestone, 2026-12-31, 0d
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">📋 Chi Tiết Gantt</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                ${GANTT_DATA[0].map(h => `<th class="border p-2">${h}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${GANTT_DATA.slice(1).map((row, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  ${row.map(cell => `<td class="border p-2">${cell}</td>`).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderAIKPIs() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">🤖 Chỉ Số KPI Thời Đại AI</h2>
+        <p class="text-gray-600 mb-6">Các chỉ số mới quan trọng cho SEO trong kỷ nguyên AI (AIO, SGE, Perplexity...)</p>
+        
+        <div class="overflow-x-auto mb-8">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                <th class="border p-3 text-left">Chỉ số</th>
+                <th class="border p-3 text-left">Mục tiêu 2026</th>
+                <th class="border p-3 text-left">Công cụ đo</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${AI_KPIS.map((kpi, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-3 font-semibold">${kpi.name}</td>
+                  <td class="border p-3 text-green-600">${kpi.target}</td>
+                  <td class="border p-3 text-gray-600">${kpi.tool}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <h4 class="font-bold text-yellow-800">⚠️ Lưu ý quan trọng</h4>
+          <ul class="mt-2 text-yellow-700 space-y-1">
+            <li>• Kiểm tra lead ảnh hưởng AI bắt đầu từ T5/2026 (bước đột phá)</li>
+            <li>• Tỷ lệ trích dẫn cần theo dõi thủ công hoặc công cụ tùy chỉnh</li>
+            <li>• Điểm nhúng (Embedding) > 0.7 đảm bảo nội dung được AI trích xuất</li>
+            <li>• Hiện diện không click: tối ưu featured snippets, FAQ schema</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    // Khởi tạo biểu đồ
+    function initCharts() {
+      // Biểu đồ lượt truy cập
+      new Chart(document.getElementById('trafficChart'), {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            { label: 'Timona', data: [10000,10500,12000,14000,16000,18000,20000,22000,23000,24000,24500,25000], borderColor: '#1e40af', tension: 0.3 },
+            { label: 'Clinic', data: [1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300], borderColor: '#dc2626', tension: 0.3 },
+            { label: 'Hderma', data: [200,220,250,280,310,340,370,400,430,460,480,500], borderColor: '#059669', tension: 0.3 }
+          ]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      // Biểu đồ leads
+      new Chart(document.getElementById('leadsChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Clinic', 'Timona', 'Hderma', 'Elasome', 'Group'],
+          datasets: [{
+            label: 'Lead/Năm 2026',
+            data: [630, 3660, 114, 14, 94],
+            backgroundColor: ['#dc2626', '#1e40af', '#059669', '#7c3aed', '#64748b']
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+    }
+
+    // Hàm xuất Excel
+    function exportAllToExcel() {
+      const wb = XLSX.utils.book_new();
+      
+      // Sheet tổng quan
+      const overview = [
+        ['BẢNG KPI SEO 2026 - TAZAGROUP'],
+        [''],
+        ['Website', 'Mô Tả', 'Truy Cập/Năm', 'Lead/Năm', 'TB/Tháng', 'Trọng Tâm'],
+        ...Object.keys(DATA).map(key => [
+          DATA[key].name,
+          DATA[key].desc,
+          SUMMARY[key].traffic,
+          SUMMARY[key].leads,
+          SUMMARY[key].avgMonth,
+          SUMMARY[key].focus
+        ])
+      ];
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(overview), 'Tổng Quan');
+      
+      // Sheet cho từng website
+      Object.keys(DATA).forEach(key => {
+        const site = DATA[key];
+        const data = [site.headers, ...site.rows];
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name.replace('.com', '').replace('.vn', ''));
+      });
+      
+      // Sheet Gantt
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
+      
+      // Sheet KPI AI
+      const aiData = [
+        ['Chỉ số', 'Mục tiêu 2026', 'Công cụ'],
+        ...AI_KPIS.map(k => [k.name, k.target, k.tool])
+      ];
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aiData), 'KPI Thời Đại AI');
+      
+      XLSX.writeFile(wb, 'KPI_SEO_2026_TazaGroup.xlsx');
+    }
+
+    function exportGanttToExcel() {
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
+      XLSX.writeFile(wb, 'Gantt_SEO_2026.xlsx');
+    }
+
+    function exportCurrentTab() {
+      const wb = XLSX.utils.book_new();
+      
+      if (currentTab === 'overview' || currentTab === 'ai') {
+        exportAllToExcel();
+        return;
+      } else if (currentTab === 'gantt') {
+        exportGanttToExcel();
+        return;
+      } else {
+        const site = DATA[currentTab];
+        const data = [site.headers, ...site.rows];
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name);
+        XLSX.writeFile(wb, `KPI_${site.name}_2026.xlsx`);
+      }
+    }
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', () => {
+      showTab('overview');
+      initCharts();
+    });
+  </script>
+</body>
+</html>

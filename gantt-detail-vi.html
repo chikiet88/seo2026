@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Công Việc Tuần/Ngày - KPI SEO 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="gantt-tasks-vi.js"></script>
+  <style>
+    .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+    .view-active { background: #3b82f6; color: white; }
+    .task-card { transition: all 0.2s; }
+    .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto p-4">
+    <!-- Tiêu đề -->
+    <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-6 rounded-lg mb-6 shadow-lg">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold">🗓️ Chi Tiết Công Việc Theo Tuần/Ngày</h1>
+          <p class="mt-2 opacity-90">KPI SEO 2026 TazaGroup • 52 tuần công việc chi tiết</p>
+        </div>
+        <a href="kpi-full-vi.html" class="bg-white text-orange-600 px-4 py-2 rounded-lg font-semibold hover:bg-orange-100">
+          ← Quay về Tổng Quan
+        </a>
+      </div>
+    </div>
+
+    <!-- Điều khiển -->
+    <div class="bg-white rounded-lg shadow mb-6 p-4">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+        <!-- Chế độ xem -->
+        <div class="flex gap-2">
+          <button onclick="setView('week')" id="view-week" class="px-4 py-2 rounded-lg border view-active">📅 Xem Tuần</button>
+          <button onclick="setView('day')" id="view-day" class="px-4 py-2 rounded-lg border hover:bg-gray-100">📆 Xem Ngày</button>
+          <button onclick="setView('list')" id="view-list" class="px-4 py-2 rounded-lg border hover:bg-gray-100">📋 Danh Sách</button>
+        </div>
+        
+        <!-- Bộ lọc -->
+        <div class="flex gap-2 flex-wrap">
+          <select id="filterSite" onchange="applyFilters()" class="px-4 py-2 rounded-lg border">
+            <option value="all">Tất cả Website</option>
+            <option value="clinic">TazaSkinClinic</option>
+            <option value="timona">Timona</option>
+            <option value="hderma">Hderma</option>
+            <option value="elasome">Elasome</option>
+            <option value="group">TazaGroup</option>
+          </select>
+          <select id="filterType" onchange="applyFilters()" class="px-4 py-2 rounded-lg border">
+            <option value="all">Tất cả Loại</option>
+            <option value="noiDung">📝 Nội dung</option>
+            <option value="kyThuat">⚙️ Kỹ thuật</option>
+            <option value="chienDich">🎯 Chiến dịch</option>
+            <option value="ai">🤖 AI/AIO</option>
+            <option value="entity">🏢 Entity</option>
+            <option value="baoCao">📊 Báo cáo</option>
+          </select>
+          <button onclick="exportDetailToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+            📥 Xuất Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Quý -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="flex overflow-x-auto border-b">
+        <button onclick="showQuarter('q1')" id="btn-q1" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100 tab-active">🌱 Quý 1 (T1-T3)</button>
+        <button onclick="showQuarter('q2')" id="btn-q2" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">☀️ Quý 2 (T4-T6)</button>
+        <button onclick="showQuarter('q3')" id="btn-q3" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🍂 Quý 3 (T7-T9)</button>
+        <button onclick="showQuarter('q4')" id="btn-q4" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">❄️ Quý 4 (T10-T12)</button>
+      </div>
+      
+      <!-- Nội dung -->
+      <div id="content" class="p-6">
+        <!-- Render bởi JavaScript -->
+      </div>
+    </div>
+
+    <!-- Chú giải -->
+    <div class="bg-white rounded-lg shadow p-4 mb-6">
+      <h3 class="font-bold mb-3">📌 Chú Giải Loại Công Việc</h3>
+      <div id="legend" class="flex flex-wrap gap-2">
+        <!-- Render bởi JavaScript -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-500 py-4">
+      <p>© 2026 TazaGroup - Chi Tiết Công Việc SEO</p>
+    </div>
+  </div>
+
+  <script>
+    let currentQuarter = 'q1';
+    let currentView = 'week';
+    let filterSite = 'all';
+    let filterType = 'all';
+
+    const SITE_COLORS = {
+      all: '#374151',
+      clinic: '#dc2626',
+      timona: '#1e40af',
+      hderma: '#059669',
+      elasome: '#7c3aed',
+      group: '#64748b'
+    };
+
+    const SITE_NAMES = {
+      all: 'Tất cả',
+      clinic: 'TazaSkinClinic',
+      timona: 'Timona',
+      hderma: 'Hderma',
+      elasome: 'Elasome',
+      group: 'TazaGroup'
+    };
+
+    function setView(view) {
+      currentView = view;
+      document.querySelectorAll('[id^="view-"]').forEach(btn => {
+        btn.classList.remove('view-active');
+        btn.classList.add('hover:bg-gray-100');
+      });
+      document.getElementById(`view-${view}`).classList.add('view-active');
+      document.getElementById(`view-${view}`).classList.remove('hover:bg-gray-100');
+      render();
+    }
+
+    function showQuarter(q) {
+      currentQuarter = q;
+      document.querySelectorAll('[id^="btn-q"]').forEach(btn => btn.classList.remove('tab-active'));
+      document.getElementById(`btn-${q}`).classList.add('tab-active');
+      render();
+    }
+
+    function applyFilters() {
+      filterSite = document.getElementById('filterSite').value;
+      filterType = document.getElementById('filterType').value;
+      render();
+    }
+
+    function getFilteredTasks(weeks) {
+      return weeks.map(week => ({
+        ...week,
+        tasks: week.tasks.filter(task => {
+          const siteMatch = filterSite === 'all' || task.site === filterSite || task.site === 'all';
+          const typeMatch = filterType === 'all' || task.type === filterType;
+          return siteMatch && typeMatch;
+        })
+      })).filter(week => week.tasks.length > 0);
+    }
+
+    function render() {
+      const data = GANTT_TASKS[currentQuarter];
+      const filteredWeeks = getFilteredTasks(data.weeks);
+      const content = document.getElementById('content');
+
+      if (currentView === 'week') {
+        content.innerHTML = renderWeekView(filteredWeeks, data.name);
+      } else if (currentView === 'day') {
+        content.innerHTML = renderDayView(filteredWeeks, data.name);
+      } else {
+        content.innerHTML = renderListView(filteredWeeks, data.name);
+      }
+    }
+
+    function renderWeekView(weeks, quarterName) {
+      if (weeks.length === 0) {
+        return '<p class="text-gray-500 text-center py-8">Không có công việc phù hợp với bộ lọc</p>';
+      }
+      
+      return `
+        <h2 class="text-2xl font-bold mb-6">${quarterName}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${weeks.map(week => `
+            <div class="border rounded-lg overflow-hidden task-card">
+              <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3">
+                <div class="font-bold">📅 Tuần ${week.week}</div>
+                <div class="text-sm opacity-90">${week.start} - ${week.end}/2026</div>
+              </div>
+              <div class="p-3 space-y-2">
+                ${week.tasks.map(task => `
+                  <div class="flex items-start gap-2 p-2 rounded-lg bg-gray-50 hover:bg-gray-100">
+                    <span class="text-lg">${TASK_TYPES[task.type]?.icon || '📌'}</span>
+                    <div class="flex-1">
+                      <div class="text-sm font-medium">${task.task}</div>
+                      <div class="flex gap-2 mt-1">
+                        <span class="text-xs px-2 py-0.5 rounded" style="background:${SITE_COLORS[task.site]}20; color:${SITE_COLORS[task.site]}">${SITE_NAMES[task.site]}</span>
+                        <span class="text-xs">${PRIORITIES[task.priority]?.icon || '🟡'}</span>
+                      </div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderDayView(weeks, quarterName) {
+      if (weeks.length === 0) {
+        return '<p class="text-gray-500 text-center py-8">Không có công việc phù hợp với bộ lọc</p>';
+      }
+      
+      // Phân bổ công việc theo ngày trong tuần (bao gồm Thứ 7)
+      const daysOfWeek = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+      
+      // Hàm phân bổ đều công việc vào các ngày
+      function distributeTasks(tasks, numDays) {
+        const distribution = Array.from({ length: numDays }, () => []);
+        tasks.forEach((task, i) => {
+          distribution[i % numDays].push(task);
+        });
+        return distribution;
+      }
+      
+      return `
+        <h2 class="text-2xl font-bold mb-6">${quarterName} - Phân Bổ Theo Ngày</h2>
+        ${weeks.map(week => {
+          const tasksByDay = distributeTasks(week.tasks, daysOfWeek.length);
+          return `
+          <div class="mb-6 border rounded-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3">
+              <div class="font-bold">📅 Tuần ${week.week}: ${week.start} - ${week.end}/2026</div>
+              <div class="text-sm opacity-80">${week.tasks.length} công việc</div>
+            </div>
+            <div class="grid grid-cols-6 divide-x">
+              ${daysOfWeek.map((day, idx) => {
+                const dayTasks = tasksByDay[idx];
+                return `
+                  <div class="p-2">
+                    <div class="text-center font-semibold text-sm text-gray-600 mb-2 pb-2 border-b">${day}</div>
+                    <div class="space-y-1">
+                      ${dayTasks.length > 0 ? dayTasks.map(task => `
+                        <div class="text-xs p-2 rounded" style="background:${TASK_TYPES[task.type]?.color}20">
+                          <div class="font-medium">${task.task}</div>
+                          <div class="text-gray-500 mt-1">${SITE_NAMES[task.site]}</div>
+                        </div>
+                      `).join('') : '<div class="text-xs text-gray-400 text-center">-</div>'}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `}).join('')}
+      `;
+    }
+
+    function renderListView(weeks, quarterName) {
+      if (weeks.length === 0) {
+        return '<p class="text-gray-500 text-center py-8">Không có công việc phù hợp với bộ lọc</p>';
+      }
+      
+      const allTasks = weeks.flatMap(week => 
+        week.tasks.map(task => ({ ...task, week: week.week, start: week.start, end: week.end }))
+      );
+      
+      return `
+        <h2 class="text-2xl font-bold mb-6">${quarterName} - Danh Sách (${allTasks.length} công việc)</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Tuần</th>
+                <th class="border p-2 text-left">Thời gian</th>
+                <th class="border p-2 text-left">Website</th>
+                <th class="border p-2 text-left">Công việc</th>
+                <th class="border p-2 text-left">Loại</th>
+                <th class="border p-2 text-center">Ưu tiên</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allTasks.map((task, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50">
+                  <td class="border p-2 font-semibold">${task.week}</td>
+                  <td class="border p-2 text-gray-600">${task.start} - ${task.end}</td>
+                  <td class="border p-2">
+                    <span class="px-2 py-1 rounded text-xs text-white" style="background:${SITE_COLORS[task.site]}">${SITE_NAMES[task.site]}</span>
+                  </td>
+                  <td class="border p-2">${task.task}</td>
+                  <td class="border p-2">
+                    <span class="px-2 py-1 rounded text-xs text-white" style="background:${TASK_TYPES[task.type]?.color || '#888'}">${TASK_TYPES[task.type]?.icon || ''} ${TASK_TYPES[task.type]?.name || task.type}</span>
+                  </td>
+                  <td class="border p-2 text-center">${PRIORITIES[task.priority]?.icon || '🟡'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function exportDetailToExcel() {
+      const wb = XLSX.utils.book_new();
+      
+      // Xuất từng quý
+      Object.entries(GANTT_TASKS).forEach(([qKey, qData]) => {
+        const rows = [['Tuần', 'Bắt đầu', 'Kết thúc', 'Website', 'Công việc', 'Loại', 'Ưu tiên']];
+        qData.weeks.forEach(week => {
+          week.tasks.forEach(task => {
+            rows.push([
+              week.week,
+              week.start,
+              week.end,
+              SITE_NAMES[task.site],
+              task.task,
+              TASK_TYPES[task.type]?.name || task.type,
+              PRIORITIES[task.priority]?.name || task.priority
+            ]);
+          });
+        });
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), qData.name.substring(0, 31));
+      });
+      
+      // Sheet tổng hợp
+      const allRows = [['Quý', 'Tuần', 'Bắt đầu', 'Kết thúc', 'Website', 'Công việc', 'Loại', 'Ưu tiên']];
+      Object.entries(GANTT_TASKS).forEach(([qKey, qData]) => {
+        qData.weeks.forEach(week => {
+          week.tasks.forEach(task => {
+            allRows.push([
+              qData.name,
+              week.week,
+              week.start,
+              week.end,
+              SITE_NAMES[task.site],
+              task.task,
+              TASK_TYPES[task.type]?.name || task.type,
+              PRIORITIES[task.priority]?.name || task.priority
+            ]);
+          });
+        });
+      });
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(allRows), 'Tổng Hợp');
+      
+      XLSX.writeFile(wb, 'Chi_Tiet_Cong_Viec_SEO_2026.xlsx');
+    }
+
+    // Render chú giải
+    function renderLegend() {
+      const legend = document.getElementById('legend');
+      legend.innerHTML = Object.entries(TASK_TYPES).map(([key, val]) => `
+        <span class="px-3 py-1 rounded-full text-sm text-white" style="background:${val.color}">
+          ${val.icon} ${val.name}
+        </span>
+      `).join('');
+    }
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLegend();
+      render();
+    });
+  </script>
+</body>
+</html>
