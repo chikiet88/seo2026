@@ -3,140 +3,705 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KPI SEO 2026 - 5 Website TazaGroup + Gantt Chart</title>
+  <title>Bảng KPI SEO 2026 - TazaGroup</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#1e40af',
-            secondary: '#10b981',
-            accent: '#f59e0b',
-          }
-        }
-      }
-    }
-    mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="data-vi.js"></script>
   <style>
-    table { border-collapse: separate; border-spacing: 0; }
-    th, td { @apply px-4 py-3 text-left align-top; }
-    th { @apply sticky top-0 bg-primary text-white; }
-    tbody tr:nth-child(even) { @apply bg-gray-50; }
-    tbody tr:hover { @apply bg-blue-50 transition-colors; }
-    .table-container { @apply overflow-x-auto rounded-lg shadow-lg mb-16; }
-    .mermaid { @apply bg-white p-6 rounded-lg shadow-lg mb-16; }
+    .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
+    .mermaid { background: #f8fafc; border-radius: 8px; padding: 20px; }
   </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
-  <div class="container max-w-full mx-auto px-4 py-8">
-    <h1 class="text-4xl font-bold text-center text-primary mb-4">KPI SEO Năm 2026 - Hệ Thống 5 Website TazaGroup</h1>
-    <p class="text-center text-gray-600 mb-8">Tập trung chuyển đổi nhanh: Timona (học phí), Hderma (đơn hàng), Elasome (lead B2B)</p>
-
-    <!-- Button Export Excel -->
-    <div class="text-center mb-12">
-      <button id="exportExcel" class="bg-secondary hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md transition">
-        Export Toàn Bộ KPI Ra Excel
-      </button>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto p-4">
+    <!-- Tiêu đề -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
+      <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
+      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Cập nhật: 22/12/2025</p>
     </div>
 
-    <!-- Gantt Chart -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-semibold text-primary mb-6 text-center">Gantt Chart Triển Khai SEO 2026 (Focus 3 Website Chính)</h2>
-      <div class="mermaid">
-        gantt
-          title Lộ Trình SEO 2026 - Timona, Hderma, Elasome
-          dateFormat  YYYY-MM-DD
-          axisFormat %m/%Y
+    <!-- Các nút xuất -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button onclick="exportAllToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📥 Xuất Excel Tổng Hợp
+      </button>
+      <button onclick="exportGanttToExcel()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📊 Xuất Gantt Chart
+      </button>
+      <button onclick="exportCurrentTab()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        📄 Xuất Tab Hiện Tại
+      </button>
+      <a href="gantt-detail-vi.html" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        🗓️ Xem Chi Tiết Tuần/Ngày →
+      </a>
+    </div>
 
-          section Audit & Foundation
-          Audit kỹ thuật + Keyword research :2026-01-01, 2026-01-31
-          Tối ưu UI/UX & Tracking chuyển đổi :2026-02-01, 2026-02-28
-
-          section Nội Dung Chuyển Đổi Cao
-          Nội dung hướng nghiệp (Timona) - Mùa tuyển sinh :2026-03-01, 2026-05-31
-          Nội dung sản phẩm & routine (Hderma) :2026-03-01, 2026-08-31
-          Clinical case & PDF B2B (Elasome) :2026-04-01, 2026-09-30
-
-          section Campaign Mùa Vụ & Duy Trì
-          Campaign ưu đãi Timona (peak mùa) :2026-04-01, 2026-06-30
-          Campaign bundle & Tết (Hderma) :2026-10-01, 2026-12-31
-          Partnership & hội thảo (Elasome) :2026-07-01, 2026-12-31
-
-          section AI Visibility & Entity
-          Build entity & citation tracking :2026-01-01, 2026-12-31
-          Test AI-influenced leads :crit, 2026-05-01, 2026-12-31
-
-          section Báo Cáo & Plan 2027
-          Báo cáo Q1-Q4 & Tổng kết :milestone, 2026-03-31
-          Báo cáo Q1-Q4 & Tổng kết :milestone, 2026-06-30
-          Báo cáo Q1-Q4 & Tổng kết :milestone, 2026-09-30
-          Báo cáo năm & Plan 2027 :milestone, 2026-12-31
+    <!-- Thẻ tổng kết -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
+        <h3 class="font-bold text-red-600">TazaSkinClinic</h3>
+        <p class="text-2xl font-bold mt-2">~630</p>
+        <p class="text-sm text-gray-500">đặt lịch/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~53/tháng</p>
       </div>
-    </section>
-
-    <!-- Các bảng KPI (đã đầy đủ 5 website như trước) -->
-    <!-- 1. Timona.edu.vn -->
-    <section class="mb-16">
-      <h2 class="text-3xl font-semibold text-primary mb-6">1. Timona.edu.vn (Tuyển sinh khóa học thẩm mỹ)</h2>
-      <div class="table-container">
-        <table id="table-timona" class="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th class="rounded-tl-lg">Tháng</th>
-              <th>Traffic (lượt/tháng)</th>
-              <th>Lead (đăng ký khóa học)</th>
-              <th>Top Keywords (Total 1-10)</th>
-              <th class="rounded-tr-lg">Overview & Gợi Ý AI Theo Tuần</th>
-            </tr>
-          </thead>
-          <tbody class="text-gray-700 text-sm">
-            <tr><td>Tháng 1</td><td>10,000</td><td>100</td><td>280</td><td>Baseline mùa thấp. Tuần 1: Audit keyword hướng nghiệp cho AIO. Tuần 2: Video routine. Tuần 3: Embedding score. Tuần 4: Test 50 query AI.</td></tr>
-            <tr><td>Tháng 2</td><td>10,500</td><td>120</td><td>300</td><td>Chuẩn bị mùa tuyển sinh. Tuần 1: Refresh “16 tuổi học nghề gì”. Tuần 2: Build entity. Tuần 3: PDF capture lead. Tuần 4: Citation rate.</td></tr>
-            <tr><td>Tháng 3</td><td>12,000</td><td>180</td><td>327</td><td>Bắt đầu cao điểm. Tuần 1: So sánh học nghề vs đại học. Tuần 2: A/B CTA. Tuần 3: AI chat tư vấn. Tuần 4: Báo cáo visibility.</td></tr>
-            <tr><td>Tháng 4</td><td>14,000</td><td>250</td><td>340</td><td>Cao điểm. Tuần 1: Case study thực. Tuần 2: Influencer. Tuần 3: Structured data course. Tuần 4: Chunk retrieval.</td></tr>
-            <tr><td>Tháng 5</td><td>16,000</td><td>320</td><td>355</td><td>Peak mùa. Tuần 1: Ưu đãi ngắn hạn. Tuần 2: Test AI-influenced leads. Tuần 3: Mobile AIO. Tuần 4: Sentiment AI.</td></tr>
-            <tr><td>Tháng 6</td><td>18,000</td><td>360</td><td>370</td><td>Duy trì cao. Tuần 1: Refresh entity-rich. Tuần 2: Webinar B2B. Tuần 3: Attribution rate. Tuần 4: Adjust Q3.</td></tr>
-            <tr><td>Tháng 7</td><td>20,000</td><td>380</td><td>385</td><td>Sau peak. Tuần 1: Lộ trình dài hạn. Tuần 2: Backlink education. Tuần 3: Embedding relevance. Tuần 4: Zero-click presence.</td></tr>
-            <tr><td>Tháng 8</td><td>22,000</td><td>400</td><td>400</td><td>Tăng cuối mùa. Tuần 1: Partnership spa. Tuần 2: FAQ AI. Tuần 3: User-generated reviews. Tuần 4: Share of voice.</td></tr>
-            <tr><td>Tháng 9</td><td>23,000</td><td>420</td><td>415</td><td>Peak cuối. Tuần 1: Ưu đãi hè. Tuần 2: Infographic nghề. Tuần 3: Semantic density. Tuần 4: Prep Q4.</td></tr>
-            <tr><td>Tháng 10</td><td>24,000</td><td>400</td><td>430</td><td>Giảm nhẹ. Tuần 1: Chuẩn bị năm mới. Tuần 2: Citation keyword. Tuần 3: Internal links. Tuần 4: Conversions report.</td></tr>
-            <tr><td>Tháng 11</td><td>24,500</td><td>380</td><td>445</td><td>Thấp. Tuần 1: Entity LinkedIn/Reddit. Tuần 2: Refresh AIO. Tuần 3: Influenced conversions. Tuần 4: Prep báo cáo.</td></tr>
-            <tr><td>Tháng 12</td><td>25,000</td><td>350</td><td>460</td><td>Tổng kết ~3,660 lead. Tuần 1: Campaign Tết. Tuần 2: Báo cáo AI KPIs. Tuần 3: Backup. Tuần 4: Plan 2027.</td></tr>
-          </tbody>
-        </table>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-700">
+        <h3 class="font-bold text-blue-700">Timona</h3>
+        <p class="text-2xl font-bold mt-2">~3.660</p>
+        <p class="text-sm text-gray-500">đăng ký/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~305/tháng</p>
       </div>
-    </section>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-600">
+        <h3 class="font-bold text-green-600">Hderma</h3>
+        <p class="text-2xl font-bold mt-2">~114</p>
+        <p class="text-sm text-gray-500">đơn hàng/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~10/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-purple-600">
+        <h3 class="font-bold text-purple-600">Elasome</h3>
+        <p class="text-2xl font-bold mt-2">~14</p>
+        <p class="text-sm text-gray-500">lead B2B/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~1,2/tháng</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-gray-500">
+        <h3 class="font-bold text-gray-600">TazaGroup</h3>
+        <p class="text-2xl font-bold mt-2">~94</p>
+        <p class="text-sm text-gray-500">lead/năm</p>
+        <p class="text-xs text-green-600 mt-1">TB ~8/tháng</p>
+      </div>
+    </div>
 
-    <!-- Các bảng còn lại giữ nguyên như phiên bản trước (Hderma, Elasome, TazaSkinClinic, TazaGroup) -->
-    <!-- Để ngắn gọn trong phản hồi, bạn có thể copy từ phiên bản trước và dán vào đây -->
+    <!-- Tab điều hướng -->
+    <div class="bg-white rounded-lg shadow mb-6">
+      <div class="flex overflow-x-auto border-b">
+        <button onclick="showTab('overview')" id="btn-overview" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100 tab-active">📈 Tổng Quan</button>
+        <button onclick="showTab('clinic')" id="btn-clinic" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏥 TazaSkinClinic</button>
+        <button onclick="showTab('timona')" id="btn-timona" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🎓 Timona</button>
+        <button onclick="showTab('hderma')" id="btn-hderma" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">💊 Hderma</button>
+        <button onclick="showTab('elasome')" id="btn-elasome" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🧬 Elasome</button>
+        <button onclick="showTab('group')" id="btn-group" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏢 TazaGroup</button>
+        <button onclick="showTab('gantt')" id="btn-gantt" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📊 Gantt Chart</button>
+        <button onclick="showTab('ai')" id="btn-ai" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🤖 KPI Thời Đại AI</button>
+        <button onclick="showTab('nhansu')" id="btn-nhansu" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">👥 Nhân Sự & Chi Phí</button>
+      </div>
+      
+      <!-- Nội dung Tab -->
+      <div id="tab-content" class="p-6">
+        <!-- Nội dung sẽ được render bởi JavaScript -->
+      </div>
+    </div>
 
-    <!-- Script Export Excel -->
-    <script>
-      function exportTableToExcel(tableID, filename = ''){
-        var wb = XLSX.utils.book_new();
-        var ws = XLSX.utils.table_to_sheet(document.getElementById(tableID));
-        XLSX.utils.book_append_sheet(wb, ws, tableID.replace('table-', ''));
-        var fname = filename ? filename + '.xlsx' : 'KPI_SEO_2026.xlsx';
-        XLSX.writeFile(wb, fname);
-      }
+    <!-- Biểu đồ -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-bold mb-4 text-lg">📈 Xu hướng Lượt Truy Cập 2026</h3>
+        <canvas id="trafficChart" height="200"></canvas>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-bold mb-4 text-lg">📊 Dự báo Lead/Chuyển đổi 2026</h3>
+        <canvas id="leadsChart" height="200"></canvas>
+      </div>
+    </div>
 
-      document.getElementById('exportExcel').addEventListener('click', function() {
-        // Export từng bảng thành sheet riêng
-        exportTableToExcel('table-timona', 'KPI_Timona');
-        // Thêm các bảng khác nếu có id tương tự
-        alert('Đã export thành công các file Excel riêng cho từng website! (Hiện tại chỉ demo Timona - bạn có thể thêm ID cho các bảng khác)');
-      });
-    </script>
-
-    <footer class="text-center text-gray-500 mt-12 pb-8">
-      <p>Bảng KPI SEO 2026 + Gantt Chart + Export Excel • Responsive với Tailwind CSS + Mermaid • Cập nhật: 21/12/2025</p>
-    </footer>
+    <!-- Footer -->
+    <div class="text-center text-gray-500 py-4">
+      <p>© 2026 TazaGroup - Kế hoạch KPI SEO Toàn Diện</p>
+      <p class="text-sm mt-1">Dựa trên phân tích phantichmoinhat.md - Chiến lược AI-First SEO</p>
+    </div>
   </div>
 
+  <script>
+    let currentTab = 'overview';
+    const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+
+    function showTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('[id^="btn-"]').forEach(btn => btn.classList.remove('tab-active'));
+      document.getElementById(`btn-${tab}`).classList.add('tab-active');
+      
+      const content = document.getElementById('tab-content');
+      
+      if (tab === 'overview') {
+        content.innerHTML = renderOverview();
+      } else if (tab === 'gantt') {
+        content.innerHTML = renderGantt();
+        setTimeout(() => mermaid.run(), 100);
+      } else if (tab === 'ai') {
+        content.innerHTML = renderAIKPIs();
+      } else if (tab === 'nhansu') {
+        content.innerHTML = renderNhanSu();
+      } else {
+        content.innerHTML = renderSiteTable(tab);
+      }
+    }
+
+    function renderOverview() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">📊 Tổng Quan KPI 2026 - 5 Website</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-3 text-left">Website</th>
+                <th class="border p-3 text-left">Mô Tả</th>
+                <th class="border p-3 text-center">Truy Cập/Năm</th>
+                <th class="border p-3 text-center">Lead/Năm</th>
+                <th class="border p-3 text-center">TB/Tháng</th>
+                <th class="border p-3 text-left">Trọng Tâm</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${Object.keys(DATA).map(key => {
+                const site = DATA[key];
+                const sum = SUMMARY[key];
+                return `
+                  <tr class="hover:bg-gray-50">
+                    <td class="border p-3 font-semibold" style="color:${site.color}">${site.name}</td>
+                    <td class="border p-3 text-sm">${site.desc}</td>
+                    <td class="border p-3 text-center font-bold">${sum.traffic}</td>
+                    <td class="border p-3 text-center font-bold text-green-600">${sum.leads}</td>
+                    <td class="border p-3 text-center text-blue-600">${sum.avgMonth}</td>
+                    <td class="border p-3 text-sm">${sum.focus}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">🎯 Xu Hướng SEO 2026</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          ${TRENDS_2026.map(trend => `
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <span class="text-blue-600">✓</span> ${trend}
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSiteTable(key) {
+      const site = DATA[key];
+      return `
+        <div class="mb-4">
+          <h2 class="text-2xl font-bold" style="color:${site.color}">${site.name}</h2>
+          <p class="text-gray-600">${site.desc}</p>
+          <p class="text-sm mt-2"><strong>Trọng tâm:</strong> ${site.focus}</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                ${site.headers.map(h => `<th class="border p-2 text-left whitespace-nowrap">${h}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${site.rows.map((row, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50">
+                  ${row.map((cell, j) => `
+                    <td class="border p-2 ${j === 0 ? 'font-semibold' : ''} ${j === 2 ? 'text-green-600 font-bold' : ''}">${cell}</td>
+                  `).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderGantt() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">📊 Gantt Chart KPI SEO 2026</h2>
+        <div class="mermaid">
+gantt
+    title Kế Hoạch KPI SEO 2026 - TazaGroup
+    dateFormat YYYY-MM-DD
+    
+    section Kiểm Tra
+    Kiểm tra kỹ thuật + Nghiên cứu từ khóa    :2026-01-01, 59d
+    
+    section Clinic
+    Case study peel/phục hồi              :2026-03-01, 306d
+    Chiến dịch HIFU 199K, Triệt lông 499K :2026-03-01, 306d
+    
+    section Timona
+    Nội dung hướng nghiệp & khóa học      :2026-03-01, 214d
+    Mùa tuyển sinh (ưu đãi trả góp)       :2026-03-01, 214d
+    
+    section Hderma
+    Sản phẩm routine & cảm nhận           :2026-03-01, 306d
+    Chiến dịch Bundle & Tết               :crit, 2026-10-01, 92d
+    
+    section Elasome
+    Nội dung Exosome M1-M5 B2B            :2026-04-01, 275d
+    Hợp tác clinic/spa B2B                :2026-07-01, 184d
+    
+    section AI SEO
+    Xây dựng entity & Theo dõi trích dẫn  :2026-01-01, 365d
+    Kiểm tra lead ảnh hưởng AI            :crit, 2026-05-01, 245d
+    
+    section Báo Cáo
+    Báo cáo Q1                            :milestone, 2026-03-31, 0d
+    Báo cáo Q2                            :milestone, 2026-06-30, 0d
+    Báo cáo Q3                            :milestone, 2026-09-30, 0d
+    Báo cáo năm & Kế hoạch 2027           :milestone, 2026-12-31, 0d
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4">📋 Chi Tiết Gantt</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                ${GANTT_DATA[0].map(h => `<th class="border p-2">${h}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${GANTT_DATA.slice(1).map((row, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  ${row.map(cell => `<td class="border p-2">${cell}</td>`).join('')}
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderAIKPIs() {
+      return `
+        <h2 class="text-2xl font-bold mb-4">🤖 Chỉ Số KPI Thời Đại AI</h2>
+        <p class="text-gray-600 mb-6">Các chỉ số mới quan trọng cho SEO trong kỷ nguyên AI (AIO, SGE, Perplexity...)</p>
+        
+        <div class="overflow-x-auto mb-8">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+                <th class="border p-3 text-left">Chỉ số</th>
+                <th class="border p-3 text-left">Mục tiêu 2026</th>
+                <th class="border p-3 text-left">Công cụ đo</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${AI_KPIS.map((kpi, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-3 font-semibold">${kpi.name}</td>
+                  <td class="border p-3 text-green-600">${kpi.target}</td>
+                  <td class="border p-3 text-gray-600">${kpi.tool}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <h4 class="font-bold text-yellow-800">⚠️ Lưu ý quan trọng</h4>
+          <ul class="mt-2 text-yellow-700 space-y-1">
+            <li>• Kiểm tra lead ảnh hưởng AI bắt đầu từ T5/2026 (bước đột phá)</li>
+            <li>• Tỷ lệ trích dẫn cần theo dõi thủ công hoặc công cụ tùy chỉnh</li>
+            <li>• Điểm nhúng (Embedding) > 0.7 đảm bảo nội dung được AI trích xuất</li>
+            <li>• Hiện diện không click: tối ưu featured snippets, FAQ schema</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function renderNhanSu() {
+      const formatMoney = (num) => num.toLocaleString('vi-VN') + 'đ';
+      return `
+        <h2 class="text-2xl font-bold mb-4">👥 Phương Án Nhân Sự & Chi Phí SEO 2026</h2>
+        <p class="text-gray-600 mb-2">Mô hình: <strong class="text-blue-600">${NHAN_SU.moHinh}</strong></p>
+        
+        <!-- So sánh tiết kiệm -->
+        <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-lg mb-6 shadow-lg">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h3 class="font-bold text-lg">🎯 TIẾT KIỆM ${NHAN_SU.soSanh.tietKiem.phanTram}% SO VỚI PHƯƠNG ÁN CŨ</h3>
+              <p class="text-sm opacity-90">Nhờ tận dụng AI draft + Free tools + CTV tinh gọn</p>
+            </div>
+            <div class="text-right">
+              <p class="text-3xl font-bold">~${formatMoney(NHAN_SU.soSanh.tietKiem.nam)}/năm</p>
+              <p class="text-sm opacity-80">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiNam)} → ${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiNam)}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chiến lược AI-First -->
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+          <h3 class="font-bold text-purple-800 mb-3">🤖 ${NHAN_SU.aiStrategy.title}</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="font-semibold text-sm mb-2">📋 Quy trình:</h4>
+              <ol class="text-sm space-y-1">
+                ${NHAN_SU.aiStrategy.steps.map((s, i) => `<li>${i+1}. ${s}</li>`).join('')}
+              </ol>
+            </div>
+            <div>
+              <h4 class="font-semibold text-sm mb-2">✅ Lợi ích:</h4>
+              <ul class="text-sm space-y-1">
+                ${NHAN_SU.aiStrategy.benefits.map(b => `<li>• ${b}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Sơ đồ tổ chức -->
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6 border">
+          <h3 class="font-bold text-lg mb-4 text-center">📊 Mô Hình Tổ Chức Tinh Gọn</h3>
+          <div class="text-center">
+            <div class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold mb-4">
+              SEO MANAGER (Full-time)<br>
+              <span class="text-sm font-normal">Chiến lược | Technical | AI Tools | QC</span>
+            </div>
+            <div class="flex justify-center gap-4 flex-wrap">
+              ${NHAN_SU.ctv.map((ctv, i) => `
+                <div class="bg-white px-4 py-3 rounded-lg shadow border text-sm">
+                  <div class="font-semibold text-gray-800">${ctv.viTri}</div>
+                  <div class="text-gray-500 text-xs">${ctv.loai}</div>
+                  <div class="text-green-600 text-xs font-semibold mt-1">~${formatMoney(ctv.chiPhi.tb)}/tháng</div>
+                </div>
+              `).join('')}
+              <div class="bg-purple-100 px-4 py-3 rounded-lg shadow border text-sm">
+                <div class="font-semibold text-purple-800">🤖 AI Tools</div>
+                <div class="text-purple-600 text-xs">ChatGPT/Claude</div>
+                <div class="text-purple-600 text-xs font-semibold mt-1">Draft 60-80%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- SEO Manager -->
+        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+          <div class="bg-blue-600 text-white px-4 py-3">
+            <h3 class="font-bold">👤 ${NHAN_SU.manager.viTri}</h3>
+          </div>
+          <div class="p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h4 class="font-semibold mb-2">📋 Yêu cầu:</h4>
+                <ul class="text-sm space-y-1">
+                  ${NHAN_SU.manager.yeuCau.map(y => `<li>• ${y}</li>`).join('')}
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-2">✅ Công việc chính:</h4>
+                <ul class="text-sm space-y-1">
+                  ${NHAN_SU.manager.congViec.map(c => `<li>• ${c}</li>`).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bảng CTV -->
+        <h3 class="text-xl font-bold mb-4">👥 Chi Tiết CTV (Tinh Gọn)</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Vị trí</th>
+                <th class="border p-2 text-left">Loại</th>
+                <th class="border p-2 text-left">Output</th>
+                <th class="border p-2 text-left">Đơn giá</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.ctv.map((ctv, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${ctv.viTri}</td>
+                  <td class="border p-2">${ctv.loai}</td>
+                  <td class="border p-2">${ctv.output}</td>
+                  <td class="border p-2">${ctv.gia}</td>
+                  <td class="border p-2 text-right text-green-600 font-semibold">${formatMoney(ctv.chiPhi.thap)} - ${formatMoney(ctv.chiPhi.cao)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+            <tfoot>
+              <tr class="bg-blue-50 font-bold">
+                <td class="border p-2" colspan="4">TỔNG CHI PHÍ CTV/THÁNG (trung bình)</td>
+                <td class="border p-2 text-right text-blue-600">~${formatMoney(NHAN_SU.tongChiPhi.ctvThang.tb)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <!-- Công cụ SEO - FREE -->
+        <h3 class="text-xl font-bold mb-4">🛠️ Công Cụ SEO (Ưu tiên FREE)</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Công cụ</th>
+                <th class="border p-2 text-left">Mục đích</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.tools.map((tool, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${tool.name}</td>
+                  <td class="border p-2">${tool.mucDich}</td>
+                  <td class="border p-2 text-right ${tool.gia === 0 ? 'text-green-600 font-bold' : 'text-orange-600'}">${tool.gia === 0 ? 'MIỄN PHÍ' : formatMoney(tool.gia)}</td>
+                </tr>
+              `).join('')}
+              <tr class="bg-yellow-50">
+                <td class="border p-2 font-semibold">${NHAN_SU.toolsPremium[0].name}</td>
+                <td class="border p-2">${NHAN_SU.toolsPremium[0].mucDich}</td>
+                <td class="border p-2 text-right text-yellow-700">~${formatMoney(NHAN_SU.toolsPremium[0].gia)}/năm</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="bg-green-50 font-bold">
+                <td class="border p-2" colspan="2">TỔNG CHI PHÍ TOOLS/THÁNG</td>
+                <td class="border p-2 text-right text-green-600">~${formatMoney(NHAN_SU.tongChiPhi.toolsThang)} + Free tools</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        <!-- Chi phí theo quý -->
+        <h3 class="text-xl font-bold mb-4">📅 Phân Bổ Chi Phí Theo Quý</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Quý</th>
+                <th class="border p-2 text-left">Trọng tâm</th>
+                <th class="border p-2 text-left">CTV cần</th>
+                <th class="border p-2 text-left">Ghi chú</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.chiPhiTheoQuy.map((q, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-bold">${q.quy}</td>
+                  <td class="border p-2">${q.trongTam}</td>
+                  <td class="border p-2">${q.ctvCan}</td>
+                  <td class="border p-2 text-gray-500 text-xs">${q.ghiChu}</td>
+                  <td class="border p-2 text-right text-green-600">${formatMoney(q.chiPhi.thap)} - ${formatMoney(q.chiPhi.cao)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Phân bổ theo website + AI -->
+        <h3 class="text-xl font-bold mb-4">🌐 Phân Bổ Theo Website (AI-Assisted)</h3>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Website</th>
+                <th class="border p-2 text-left">Output</th>
+                <th class="border p-2 text-left">Phụ trách</th>
+                <th class="border p-2 text-center">AI Hỗ Trợ</th>
+                <th class="border p-2 text-right">Chi phí/tháng</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${NHAN_SU.phanBoWebsite.map((w, i) => `
+                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+                  <td class="border p-2 font-semibold">${w.site}</td>
+                  <td class="border p-2">${w.output}</td>
+                  <td class="border p-2">${w.ctv}</td>
+                  <td class="border p-2 text-center"><span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">${w.aiHoTro}</span></td>
+                  <td class="border p-2 text-right ${w.chiPhi > 0 ? 'text-green-600' : 'text-gray-400'}">${w.chiPhi > 0 ? '~' + formatMoney(w.chiPhi) : 'Miễn phí'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Tổng chi phí - Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow">
+            <h4 class="font-bold">💰 CTV/Tháng</h4>
+            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.ctvThang.tb)}</p>
+            <p class="text-xs opacity-80">(${formatMoney(NHAN_SU.tongChiPhi.ctvThang.thap)} - ${formatMoney(NHAN_SU.tongChiPhi.ctvThang.cao)})</p>
+          </div>
+          <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg shadow">
+            <h4 class="font-bold">🛠️ Tools/Tháng</h4>
+            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.toolsThang)}</p>
+            <p class="text-xs opacity-80">ChatGPT + Free tools</p>
+          </div>
+          <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-lg shadow">
+            <h4 class="font-bold">📊 TỔNG/THÁNG</h4>
+            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.tongThang.tb)}</p>
+            <p class="text-xs opacity-80">(không lương Manager)</p>
+          </div>
+          <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-lg shadow">
+            <h4 class="font-bold">📅 TỔNG/NĂM</h4>
+            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.tongNam.tb)}</p>
+            <p class="text-xs opacity-80">≈ 6 triệu/tháng</p>
+          </div>
+        </div>
+        
+        <!-- So sánh chi tiết -->
+        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
+          <div class="bg-gray-800 text-white px-4 py-3">
+            <h3 class="font-bold">📊 So Sánh Phương Án Cũ vs Mới</h3>
+          </div>
+          <div class="p-4">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b">
+                  <th class="p-2 text-left">Hạng mục</th>
+                  <th class="p-2 text-right text-red-600">Phương án cũ</th>
+                  <th class="p-2 text-right text-green-600">Phương án mới</th>
+                  <th class="p-2 text-right">Tiết kiệm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b">
+                  <td class="p-2">Chi phí/tháng</td>
+                  <td class="p-2 text-right text-red-600">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiThang)}</td>
+                  <td class="p-2 text-right text-green-600 font-bold">${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiThang)}</td>
+                  <td class="p-2 text-right text-blue-600">-${formatMoney(NHAN_SU.soSanh.tietKiem.thang)}</td>
+                </tr>
+                <tr class="border-b">
+                  <td class="p-2">Chi phí/năm</td>
+                  <td class="p-2 text-right text-red-600">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiNam)}</td>
+                  <td class="p-2 text-right text-green-600 font-bold">${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiNam)}</td>
+                  <td class="p-2 text-right text-blue-600 font-bold">-${formatMoney(NHAN_SU.soSanh.tietKiem.nam)}</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-bold">% Tiết kiệm</td>
+                  <td class="p-2"></td>
+                  <td class="p-2"></td>
+                  <td class="p-2 text-right text-green-600 font-bold text-lg">${NHAN_SU.soSanh.tietKiem.phanTram}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Ưu điểm -->
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-6">
+          <h4 class="font-bold text-green-800">✅ Ưu Điểm Phương Án Tối Ưu AI</h4>
+          <ul class="mt-2 text-green-700 grid grid-cols-1 md:grid-cols-2 gap-2">
+            <li>• <strong>Tiết kiệm 60%</strong> - ~108M/năm so với phương án cũ</li>
+            <li>• <strong>AI draft 60-80%</strong> - CTV chỉ cần edit & optimize</li>
+            <li>• <strong>Free tools</strong> - GSC, Ubersuggest, Screaming Frog</li>
+            <li>• <strong>CTV tinh gọn</strong> - 1-2 CTV thay vì 4</li>
+            <li>• <strong>Linh hoạt</strong> - Thuê thêm khi cao điểm Q2-Q3</li>
+            <li>• <strong>Manager đa năng</strong> - Có thể tự viết với AI</li>
+          </ul>
+        </div>
+        
+        <!-- Lưu ý -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <h4 class="font-bold text-yellow-800">⚠️ Điều Kiện Áp Dụng</h4>
+          <ul class="mt-2 text-yellow-700 space-y-1">
+            <li>• SEO Manager <strong>phải thành thạo AI tools</strong> (ChatGPT, Claude)</li>
+            <li>• CTV cần kỹ năng <strong>edit & optimize</strong> chứ không chỉ viết</li>
+            <li>• Thuê Ahrefs/Semrush <strong>1-2 tháng/năm</strong> khi cần audit sâu</li>
+            <li>• Q2-Q3 có thể cần <strong>tăng CTV tạm thời</strong> (cao điểm tuyển sinh)</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    // Khởi tạo biểu đồ
+    function initCharts() {
+      // Biểu đồ lượt truy cập
+      new Chart(document.getElementById('trafficChart'), {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            { label: 'Timona', data: [10000,10500,12000,14000,16000,18000,20000,22000,23000,24000,24500,25000], borderColor: '#1e40af', tension: 0.3 },
+            { label: 'Clinic', data: [1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300], borderColor: '#dc2626', tension: 0.3 },
+            { label: 'Hderma', data: [200,220,250,280,310,340,370,400,430,460,480,500], borderColor: '#059669', tension: 0.3 }
+          ]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+
+      // Biểu đồ leads
+      new Chart(document.getElementById('leadsChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Clinic', 'Timona', 'Hderma', 'Elasome', 'Group'],
+          datasets: [{
+            label: 'Lead/Năm 2026',
+            data: [630, 3660, 114, 14, 94],
+            backgroundColor: ['#dc2626', '#1e40af', '#059669', '#7c3aed', '#64748b']
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+    }
+
+    // Hàm xuất Excel
+    function exportAllToExcel() {
+      const wb = XLSX.utils.book_new();
+      
+      // Sheet tổng quan
+      const overview = [
+        ['BẢNG KPI SEO 2026 - TAZAGROUP'],
+        [''],
+        ['Website', 'Mô Tả', 'Truy Cập/Năm', 'Lead/Năm', 'TB/Tháng', 'Trọng Tâm'],
+        ...Object.keys(DATA).map(key => [
+          DATA[key].name,
+          DATA[key].desc,
+          SUMMARY[key].traffic,
+          SUMMARY[key].leads,
+          SUMMARY[key].avgMonth,
+          SUMMARY[key].focus
+        ])
+      ];
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(overview), 'Tổng Quan');
+      
+      // Sheet cho từng website
+      Object.keys(DATA).forEach(key => {
+        const site = DATA[key];
+        const data = [site.headers, ...site.rows];
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name.replace('.com', '').replace('.vn', ''));
+      });
+      
+      // Sheet Gantt
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
+      
+      // Sheet KPI AI
+      const aiData = [
+        ['Chỉ số', 'Mục tiêu 2026', 'Công cụ'],
+        ...AI_KPIS.map(k => [k.name, k.target, k.tool])
+      ];
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aiData), 'KPI Thời Đại AI');
+      
+      XLSX.writeFile(wb, 'KPI_SEO_2026_TazaGroup.xlsx');
+    }
+
+    function exportGanttToExcel() {
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
+      XLSX.writeFile(wb, 'Gantt_SEO_2026.xlsx');
+    }
+
+    function exportCurrentTab() {
+      const wb = XLSX.utils.book_new();
+      
+      if (currentTab === 'overview' || currentTab === 'ai') {
+        exportAllToExcel();
+        return;
+      } else if (currentTab === 'gantt') {
+        exportGanttToExcel();
+        return;
+      } else {
+        const site = DATA[currentTab];
+        const data = [site.headers, ...site.rows];
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name);
+        XLSX.writeFile(wb, `KPI_${site.name}_2026.xlsx`);
+      }
+    }
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', () => {
+      showTab('overview');
+      initCharts();
+    });
+  </script>
 </body>
 </html>
