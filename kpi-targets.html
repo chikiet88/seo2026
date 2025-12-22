@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉ Số KPI Cần Đạt 2026 - TazaGroup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="data-vi.js"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+    }
+    .kpi-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+  <div class="max-w-7xl mx-auto p-4">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 text-white p-8 rounded-2xl mb-8 shadow-xl">
+      <div class="flex justify-between items-start flex-wrap gap-4">
+        <div>
+          <h1 class="text-4xl font-bold">🎯 Chỉ Số KPI Cần Đạt 2026</h1>
+          <p class="mt-3 text-xl opacity-90">Mục tiêu SEO toàn diện cho 5 website TazaGroup</p>
+          <p class="mt-1 opacity-75">📅 Cập nhật: 22/12/2025</p>
+        </div>
+        <div class="flex gap-3 no-print">
+          <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+            🖨️ In Báo Cáo
+          </button>
+          <a href="index.html" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+            📊 Xem Chi Tiết →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tổng Quan Nhanh -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        📊 Tổng Quan Mục Tiêu Năm 2026
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-gradient-to-br from-green-400 to-green-600 text-white p-6 rounded-xl text-center">
+          <p class="text-4xl font-bold">~4.512</p>
+          <p class="text-lg mt-1 opacity-90">Tổng Lead/Năm</p>
+          <p class="text-sm opacity-75 mt-2">5 website</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-6 rounded-xl text-center">
+          <p class="text-4xl font-bold">~235K</p>
+          <p class="text-lg mt-1 opacity-90">Lượt Truy Cập</p>
+          <p class="text-sm opacity-75 mt-2">Tổng 5 site</p>
+        </div>
+        <div class="bg-gradient-to-br from-purple-400 to-purple-600 text-white p-6 rounded-xl text-center">
+          <p class="text-4xl font-bold">700+</p>
+          <p class="text-lg mt-1 opacity-90">Từ Khóa Top 10</p>
+          <p class="text-sm opacity-75 mt-2">Google VN</p>
+        </div>
+        <div class="bg-gradient-to-br from-orange-400 to-red-500 text-white p-6 rounded-xl text-center">
+          <p class="text-4xl font-bold">>20%</p>
+          <p class="text-lg mt-1 opacity-90">AI Visibility</p>
+          <p class="text-sm opacity-75 mt-2">Thị phần ngành</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Chính Theo Website -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        🏢 KPI Theo Từng Website
+      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        
+        <!-- TazaSkinClinic -->
+        <div class="kpi-card bg-gradient-to-br from-red-50 to-red-100 border-l-4 border-red-500 rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">🏥</span>
+            <div>
+              <h3 class="font-bold text-red-600 text-xl">TazaSkinClinic.com</h3>
+              <p class="text-sm text-gray-600">Viện Da Liễu & Thẩm Mỹ</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Đặt lịch/Năm:</span>
+              <span class="font-bold text-xl text-red-600">~630</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Trung bình/Tháng:</span>
+              <span class="font-semibold text-red-500">~53</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lượt truy cập/Năm:</span>
+              <span class="font-semibold">~20.000</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Từ khóa Top 1-10:</span>
+              <span class="font-semibold">30 → 85</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Tỷ lệ chuyển đổi:</span>
+              <span class="font-semibold text-green-600">3,15%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-red-200">
+            <p class="text-sm text-gray-600"><strong>Focus:</strong> Peel an toàn, Phục hồi sinh học, Trẻ hóa không xâm lấn</p>
+          </div>
+        </div>
+
+        <!-- Timona -->
+        <div class="kpi-card bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-700 rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">🎓</span>
+            <div>
+              <h3 class="font-bold text-blue-700 text-xl">Timona.edu.vn</h3>
+              <p class="text-sm text-gray-600">Học Viện Thẩm Mỹ Quốc Tế</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Đăng ký/Năm:</span>
+              <span class="font-bold text-xl text-blue-700">~3.660</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Trung bình/Tháng:</span>
+              <span class="font-semibold text-blue-600">~305</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lượt truy cập/Năm:</span>
+              <span class="font-semibold">~204.000</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Từ khóa Top 1-10:</span>
+              <span class="font-semibold">280 → 460</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Tỷ lệ chuyển đổi:</span>
+              <span class="font-semibold text-green-600">1,79%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-blue-200">
+            <p class="text-sm text-gray-600"><strong>Focus:</strong> Tuyển sinh ITEC, 100% việc làm, Hợp tác 25 BV Hàn Quốc</p>
+          </div>
+        </div>
+
+        <!-- Hderma -->
+        <div class="kpi-card bg-gradient-to-br from-green-50 to-green-100 border-l-4 border-green-600 rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">💊</span>
+            <div>
+              <h3 class="font-bold text-green-600 text-xl">Hderma.vn</h3>
+              <p class="text-sm text-gray-600">Dược Mỹ Phẩm Chuẩn FDA</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Đơn hàng/Năm:</span>
+              <span class="font-bold text-xl text-green-600">~114</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Trung bình/Tháng:</span>
+              <span class="font-semibold text-green-500">~10</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lượt truy cập/Năm:</span>
+              <span class="font-semibold">~4.220</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Từ khóa Top 1-10:</span>
+              <span class="font-semibold">5 → 80</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Tỷ lệ chuyển đổi:</span>
+              <span class="font-semibold text-green-600">2,70%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-green-200">
+            <p class="text-sm text-gray-600"><strong>Focus:</strong> Sản phẩm FDA, Phục hồi cấp tế bào, Hợp tác BV Da Liễu</p>
+          </div>
+        </div>
+
+        <!-- Elasome -->
+        <div class="kpi-card bg-gradient-to-br from-purple-50 to-purple-100 border-l-4 border-purple-600 rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">🧬</span>
+            <div>
+              <h3 class="font-bold text-purple-600 text-xl">Elasome.com</h3>
+              <p class="text-sm text-gray-600">Phân Phối Exosome B2B</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lead B2B/Năm:</span>
+              <span class="font-bold text-xl text-purple-600">~14</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Trung bình/Tháng:</span>
+              <span class="font-semibold text-purple-500">~1,2</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lượt truy cập/Năm:</span>
+              <span class="font-semibold">~397</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Từ khóa Top 1-10:</span>
+              <span class="font-semibold">3 → 95</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Tỷ lệ chuyển đổi:</span>
+              <span class="font-semibold text-green-600">3,53%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-purple-200">
+            <p class="text-sm text-gray-600"><strong>Focus:</strong> M1-M5 Exosome, Kiểm định lâm sàng, Hỗ trợ Clinic/Spa</p>
+          </div>
+        </div>
+
+        <!-- TazaGroup -->
+        <div class="kpi-card bg-gradient-to-br from-gray-50 to-gray-100 border-l-4 border-gray-500 rounded-xl p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-3xl">🏢</span>
+            <div>
+              <h3 class="font-bold text-gray-600 text-xl">TazaGroup.vn</h3>
+              <p class="text-sm text-gray-600">Tập Đoàn Mẹ - Tuyển Dụng</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lead TD/ĐT/Năm:</span>
+              <span class="font-bold text-xl text-gray-600">~94</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Trung bình/Tháng:</span>
+              <span class="font-semibold text-gray-500">~8</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Lượt truy cập/Năm:</span>
+              <span class="font-semibold">~6.800</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Từ khóa Top 1-10:</span>
+              <span class="font-semibold">10 → 21</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-600">Tỷ lệ chuyển đổi:</span>
+              <span class="font-semibold text-green-600">1,38%</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <p class="text-sm text-gray-600"><strong>Focus:</strong> Đồng bộ 4 nhánh, Hợp tác ĐH Y Dược Cần Thơ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Thời Đại AI -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        🤖 Chỉ Số KPI Thời Đại AI
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+              <th class="p-4 text-left rounded-tl-lg">Chỉ Số</th>
+              <th class="p-4 text-center">Mục Tiêu Cần Đạt</th>
+              <th class="p-4 text-center">Công Cụ Đo Lường</th>
+              <th class="p-4 text-center rounded-tr-lg">Mô Tả</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b hover:bg-blue-50">
+              <td class="p-4 font-semibold">
+                <span class="text-blue-600">📡</span> Hiển thị AI / Thị phần tiếng nói
+              </td>
+              <td class="p-4 text-center">
+                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">>20% truy vấn ngành</span>
+              </td>
+              <td class="p-4 text-center">Semrush</td>
+              <td class="p-4 text-sm text-gray-600">Tần suất xuất hiện trong kết quả AI Overview</td>
+            </tr>
+            <tr class="border-b hover:bg-purple-50">
+              <td class="p-4 font-semibold">
+                <span class="text-purple-600">🔗</span> Tỷ lệ trích dẫn
+              </td>
+              <td class="p-4 text-center">
+                <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-bold">>15% từ khóa dịch vụ</span>
+              </td>
+              <td class="p-4 text-center">Theo dõi tùy chỉnh</td>
+              <td class="p-4 text-sm text-gray-600">Được AI trích dẫn khi trả lời câu hỏi</td>
+            </tr>
+            <tr class="border-b hover:bg-green-50">
+              <td class="p-4 font-semibold">
+                <span class="text-green-600">📊</span> Điểm liên quan nhúng
+              </td>
+              <td class="p-4 text-center">
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold">>0,7 nội dung chính</span>
+              </td>
+              <td class="p-4 text-center">OpenAI API</td>
+              <td class="p-4 text-sm text-gray-600">Độ liên quan embedding của nội dung với truy vấn</td>
+            </tr>
+            <tr class="border-b hover:bg-orange-50">
+              <td class="p-4 font-semibold">
+                <span class="text-orange-600">🎯</span> Hiện diện không click
+              </td>
+              <td class="p-4 text-center">
+                <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full font-bold">>30%</span>
+              </td>
+              <td class="p-4 text-center">GSC + Semrush</td>
+              <td class="p-4 text-sm text-gray-600">Impression không cần click (brand awareness)</td>
+            </tr>
+            <tr class="hover:bg-red-50">
+              <td class="p-4 font-semibold">
+                <span class="text-red-600">💰</span> Chuyển đổi ảnh hưởng AI
+              </td>
+              <td class="p-4 text-center">
+                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full font-bold">10-20% tổng lead</span>
+              </td>
+              <td class="p-4 text-center">GA4 + CRM</td>
+              <td class="p-4 text-sm text-gray-600">Lead đến từ nguồn AI (ChatGPT, Bard, Perplexity)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mục Tiêu Theo Quý -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        📅 Mục Tiêu Theo Quý
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Q1 -->
+        <div class="bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-xl p-5 border-t-4 border-cyan-500">
+          <h3 class="font-bold text-cyan-700 text-lg mb-3">Q1: Nền Tảng</h3>
+          <p class="text-sm text-gray-600 mb-3">Tháng 1-3</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-500">✓</span>
+              <span>Technical audit 5 website</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-500">✓</span>
+              <span>Keyword research đầy đủ</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-500">✓</span>
+              <span>Schema + Mobile optimize</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-500">✓</span>
+              <span>Entity building bắt đầu</span>
+            </li>
+          </ul>
+          <div class="mt-4 pt-3 border-t border-cyan-200">
+            <p class="text-sm"><strong>Lead mục tiêu:</strong> ~800</p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5 border-t-4 border-green-500">
+          <h3 class="font-bold text-green-700 text-lg mb-3">Q2: Tăng Trưởng</h3>
+          <p class="text-sm text-gray-600 mb-3">Tháng 4-6</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Cao điểm tuyển sinh Timona</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Campaign HIFU/Peel mùa hè</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Link building đẩy mạnh</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-500">✓</span>
+              <span>AI lead tracking bắt đầu</span>
+            </li>
+          </ul>
+          <div class="mt-4 pt-3 border-t border-green-200">
+            <p class="text-sm"><strong>Lead mục tiêu:</strong> ~1.400</p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 border-t-4 border-orange-500">
+          <h3 class="font-bold text-orange-700 text-lg mb-3">Q3: Cao Điểm</h3>
+          <p class="text-sm text-gray-600 mb-3">Tháng 7-9</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <span class="text-orange-500">✓</span>
+              <span>Đỉnh tuyển sinh Timona</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-orange-500">✓</span>
+              <span>B2B Elasome đẩy mạnh</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-orange-500">✓</span>
+              <span>Partnership mở rộng</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-orange-500">✓</span>
+              <span>Semantic density tối ưu</span>
+            </li>
+          </ul>
+          <div class="mt-4 pt-3 border-t border-orange-200">
+            <p class="text-sm"><strong>Lead mục tiêu:</strong> ~1.400</p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-5 border-t-4 border-red-500">
+          <h3 class="font-bold text-red-700 text-lg mb-3">Q4: Tết & Báo Cáo</h3>
+          <p class="text-sm text-gray-600 mb-3">Tháng 10-12</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start gap-2">
+              <span class="text-red-500">✓</span>
+              <span>Campaign Tết tất cả site</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-500">✓</span>
+              <span>Bundle quà Hderma</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-500">✓</span>
+              <span>Báo cáo tổng kết năm</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-500">✓</span>
+              <span>Kế hoạch 2027</span>
+            </li>
+          </ul>
+          <div class="mt-4 pt-3 border-t border-red-200">
+            <p class="text-sm"><strong>Lead mục tiêu:</strong> ~912</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Chi Tiết Từng Tháng -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 page-break">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        📅 KPI Chi Tiết Từng Tháng - 5 Website
+      </h2>
+      
+      <!-- Tabs chọn website -->
+      <div class="flex flex-wrap gap-2 mb-6 border-b pb-4">
+        <button onclick="showMonthlyKPI('all')" id="btn-all" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+          📊 Tổng Hợp
+        </button>
+        <button onclick="showMonthlyKPI('clinic')" id="btn-monthly-clinic" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-700">
+          🏥 TazaSkinClinic
+        </button>
+        <button onclick="showMonthlyKPI('timona')" id="btn-monthly-timona" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-700">
+          🎓 Timona
+        </button>
+        <button onclick="showMonthlyKPI('hderma')" id="btn-monthly-hderma" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-700">
+          💊 Hderma
+        </button>
+        <button onclick="showMonthlyKPI('elasome')" id="btn-monthly-elasome" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-700">
+          🧬 Elasome
+        </button>
+        <button onclick="showMonthlyKPI('group')" id="btn-monthly-group" class="monthly-tab px-4 py-2 rounded-lg font-medium bg-gray-100 hover:bg-gray-200 text-gray-700">
+          🏢 TazaGroup
+        </button>
+      </div>
+
+      <!-- Nội dung bảng KPI tháng -->
+      <div id="monthly-kpi-content">
+        <!-- Sẽ được render bởi JavaScript -->
+      </div>
+
+      <!-- Biểu đồ xu hướng -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-gray-50 rounded-xl p-4">
+          <h4 class="font-bold text-gray-700 mb-4">📈 Xu Hướng Lead</h4>
+          <canvas id="monthlyLeadsChart" height="200"></canvas>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-4">
+          <h4 class="font-bold text-gray-700 mb-4">🤖 AI Visibility %</h4>
+          <canvas id="monthlyAiVisChart" height="200"></canvas>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-4">
+          <h4 class="font-bold text-gray-700 mb-4">💰 AI Lead</h4>
+          <canvas id="monthlyAiLeadsChart" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bảng Tổng Hợp KPI -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 page-break">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        📋 Bảng Tổng Hợp Chỉ Số KPI Cần Đạt
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-gray-800 text-white">
+              <th class="p-4 text-left">Website</th>
+              <th class="p-4 text-center">Lượt Truy Cập/Năm</th>
+              <th class="p-4 text-center">Lead/Chuyển Đổi/Năm</th>
+              <th class="p-4 text-center">TB Lead/Tháng</th>
+              <th class="p-4 text-center">Từ Khóa Top 10</th>
+              <th class="p-4 text-center">Tỷ Lệ CV</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b hover:bg-red-50">
+              <td class="p-4 font-semibold">
+                <span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+                TazaSkinClinic.com
+              </td>
+              <td class="p-4 text-center font-semibold">~20.000</td>
+              <td class="p-4 text-center font-bold text-red-600">~630 đặt lịch</td>
+              <td class="p-4 text-center">~53</td>
+              <td class="p-4 text-center">30 → 85</td>
+              <td class="p-4 text-center text-green-600">3,15%</td>
+            </tr>
+            <tr class="border-b hover:bg-blue-50">
+              <td class="p-4 font-semibold">
+                <span class="inline-block w-3 h-3 rounded-full bg-blue-700 mr-2"></span>
+                Timona.edu.vn
+              </td>
+              <td class="p-4 text-center font-semibold">~204.000</td>
+              <td class="p-4 text-center font-bold text-blue-700">~3.660 đăng ký</td>
+              <td class="p-4 text-center">~305</td>
+              <td class="p-4 text-center">280 → 460</td>
+              <td class="p-4 text-center text-green-600">1,79%</td>
+            </tr>
+            <tr class="border-b hover:bg-green-50">
+              <td class="p-4 font-semibold">
+                <span class="inline-block w-3 h-3 rounded-full bg-green-600 mr-2"></span>
+                Hderma.vn
+              </td>
+              <td class="p-4 text-center font-semibold">~4.220</td>
+              <td class="p-4 text-center font-bold text-green-600">~114 đơn hàng</td>
+              <td class="p-4 text-center">~10</td>
+              <td class="p-4 text-center">5 → 80</td>
+              <td class="p-4 text-center text-green-600">2,70%</td>
+            </tr>
+            <tr class="border-b hover:bg-purple-50">
+              <td class="p-4 font-semibold">
+                <span class="inline-block w-3 h-3 rounded-full bg-purple-600 mr-2"></span>
+                Elasome.com
+              </td>
+              <td class="p-4 text-center font-semibold">~397</td>
+              <td class="p-4 text-center font-bold text-purple-600">~14 lead B2B</td>
+              <td class="p-4 text-center">~1,2</td>
+              <td class="p-4 text-center">3 → 95</td>
+              <td class="p-4 text-center text-green-600">3,53%</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-50">
+              <td class="p-4 font-semibold">
+                <span class="inline-block w-3 h-3 rounded-full bg-gray-500 mr-2"></span>
+                TazaGroup.vn
+              </td>
+              <td class="p-4 text-center font-semibold">~6.800</td>
+              <td class="p-4 text-center font-bold text-gray-600">~94 lead</td>
+              <td class="p-4 text-center">~8</td>
+              <td class="p-4 text-center">10 → 21</td>
+              <td class="p-4 text-center text-green-600">1,38%</td>
+            </tr>
+            <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold">
+              <td class="p-4">🎯 TỔNG CỘNG</td>
+              <td class="p-4 text-center">~235.417</td>
+              <td class="p-4 text-center">~4.512</td>
+              <td class="p-4 text-center">~376</td>
+              <td class="p-4 text-center">328 → 741</td>
+              <td class="p-4 text-center">1,92%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Chi Phí & ROI -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        💰 Ngân Sách & ROI Dự Kiến
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
+          <h3 class="font-bold text-green-700 text-lg mb-4">Chi Phí/Năm</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span class="text-gray-600">SEO Manager:</span>
+              <span class="font-semibold">~180 triệu</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">CTV + Tools:</span>
+              <span class="font-semibold">~72 triệu</span>
+            </div>
+            <hr class="border-green-200">
+            <div class="flex justify-between text-lg font-bold text-green-700">
+              <span>Tổng:</span>
+              <span>~252 triệu</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+          <h3 class="font-bold text-blue-700 text-lg mb-4">Doanh Thu Tiềm Năng</h3>
+          <div class="space-y-3">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Clinic (630 × 2tr):</span>
+              <span class="font-semibold">~1,26 tỷ</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Timona (3660 × 15tr):</span>
+              <span class="font-semibold">~54,9 tỷ</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Hderma + Elasome:</span>
+              <span class="font-semibold">~500 triệu</span>
+            </div>
+            <hr class="border-blue-200">
+            <div class="flex justify-between text-lg font-bold text-blue-700">
+              <span>Tổng tiềm năng:</span>
+              <span>>56 tỷ</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+          <h3 class="font-bold text-purple-700 text-lg mb-4">ROI Dự Kiến</h3>
+          <div class="text-center">
+            <p class="text-6xl font-bold text-purple-600">220x</p>
+            <p class="text-gray-600 mt-2">Return on Investment</p>
+            <p class="text-sm text-gray-500 mt-4">
+              Với chi phí ~252 triệu/năm<br>
+              Doanh thu tiềm năng >56 tỷ
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-gray-500 py-6">
+      <p class="text-lg">© 2026 TazaGroup - Kế Hoạch KPI SEO Toàn Diện</p>
+      <p class="text-sm mt-2">🎯 Chiến lược AI-First SEO • Tối ưu cho 5 website • Mục tiêu ~4.500 lead/năm</p>
+      <div class="mt-4 flex justify-center gap-4 no-print">
+        <a href="index.html" class="text-blue-600 hover:underline">📊 Dashboard Chi Tiết</a>
+        <span>|</span>
+        <a href="gantt-detail-vi.html" class="text-blue-600 hover:underline">🗓️ Gantt Chart</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dữ liệu KPI chi tiết từng tháng (bao gồm AI metrics)
+    const monthlyData = {
+      clinic: {
+        name: "TazaSkinClinic.com", icon: "🏥", color: "#dc2626", bgColor: "red", unit: "đặt lịch",
+        months: [
+          { month: "T1", traffic: 1200, leads: 25, keywords: 30, aiVisibility: 5, citation: 2, aiLeads: 2 },
+          { month: "T2", traffic: 1300, leads: 30, keywords: 35, aiVisibility: 7, citation: 3, aiLeads: 3 },
+          { month: "T3", traffic: 1400, leads: 35, keywords: 40, aiVisibility: 9, citation: 4, aiLeads: 4 },
+          { month: "T4", traffic: 1500, leads: 40, keywords: 45, aiVisibility: 11, citation: 5, aiLeads: 5 },
+          { month: "T5", traffic: 1600, leads: 45, keywords: 50, aiVisibility: 13, citation: 7, aiLeads: 6 },
+          { month: "T6", traffic: 1700, leads: 50, keywords: 55, aiVisibility: 15, citation: 8, aiLeads: 7 },
+          { month: "T7", traffic: 1800, leads: 55, keywords: 60, aiVisibility: 17, citation: 10, aiLeads: 8 },
+          { month: "T8", traffic: 1900, leads: 60, keywords: 65, aiVisibility: 18, citation: 11, aiLeads: 9 },
+          { month: "T9", traffic: 2000, leads: 65, keywords: 70, aiVisibility: 19, citation: 13, aiLeads: 10 },
+          { month: "T10", traffic: 2100, leads: 70, keywords: 75, aiVisibility: 20, citation: 14, aiLeads: 11 },
+          { month: "T11", traffic: 2200, leads: 75, keywords: 80, aiVisibility: 21, citation: 15, aiLeads: 12 },
+          { month: "T12", traffic: 2300, leads: 80, keywords: 85, aiVisibility: 22, citation: 16, aiLeads: 13 }
+        ]
+      },
+      timona: {
+        name: "Timona.edu.vn", icon: "🎓", color: "#1e40af", bgColor: "blue", unit: "đăng ký",
+        months: [
+          { month: "T1", traffic: 10000, leads: 100, keywords: 280, aiVisibility: 8, citation: 5, aiLeads: 10 },
+          { month: "T2", traffic: 10500, leads: 120, keywords: 300, aiVisibility: 10, citation: 6, aiLeads: 14 },
+          { month: "T3", traffic: 12000, leads: 180, keywords: 327, aiVisibility: 12, citation: 8, aiLeads: 22 },
+          { month: "T4", traffic: 14000, leads: 250, keywords: 340, aiVisibility: 14, citation: 10, aiLeads: 35 },
+          { month: "T5", traffic: 16000, leads: 320, keywords: 355, aiVisibility: 16, citation: 12, aiLeads: 48 },
+          { month: "T6", traffic: 18000, leads: 360, keywords: 370, aiVisibility: 18, citation: 13, aiLeads: 54 },
+          { month: "T7", traffic: 20000, leads: 380, keywords: 385, aiVisibility: 19, citation: 14, aiLeads: 57 },
+          { month: "T8", traffic: 22000, leads: 400, keywords: 400, aiVisibility: 20, citation: 15, aiLeads: 60 },
+          { month: "T9", traffic: 23000, leads: 420, keywords: 415, aiVisibility: 21, citation: 16, aiLeads: 63 },
+          { month: "T10", traffic: 24000, leads: 400, keywords: 430, aiVisibility: 22, citation: 17, aiLeads: 60 },
+          { month: "T11", traffic: 24500, leads: 380, keywords: 445, aiVisibility: 23, citation: 18, aiLeads: 57 },
+          { month: "T12", traffic: 25000, leads: 350, keywords: 460, aiVisibility: 25, citation: 20, aiLeads: 52 }
+        ]
+      },
+      hderma: {
+        name: "Hderma.vn", icon: "💊", color: "#059669", bgColor: "green", unit: "đơn hàng",
+        months: [
+          { month: "T1", traffic: 200, leads: 4, keywords: 5, aiVisibility: 3, citation: 1, aiLeads: 0.4 },
+          { month: "T2", traffic: 220, leads: 5, keywords: 7, aiVisibility: 5, citation: 2, aiLeads: 0.6 },
+          { month: "T3", traffic: 250, leads: 6, keywords: 10, aiVisibility: 7, citation: 3, aiLeads: 0.8 },
+          { month: "T4", traffic: 280, leads: 7, keywords: 13, aiVisibility: 9, citation: 4, aiLeads: 1 },
+          { month: "T5", traffic: 310, leads: 8, keywords: 17, aiVisibility: 11, citation: 5, aiLeads: 1.2 },
+          { month: "T6", traffic: 340, leads: 9, keywords: 22, aiVisibility: 13, citation: 7, aiLeads: 1.4 },
+          { month: "T7", traffic: 370, leads: 10, keywords: 28, aiVisibility: 15, citation: 8, aiLeads: 1.5 },
+          { month: "T8", traffic: 400, leads: 11, keywords: 35, aiVisibility: 17, citation: 10, aiLeads: 1.7 },
+          { month: "T9", traffic: 430, leads: 12, keywords: 43, aiVisibility: 18, citation: 11, aiLeads: 1.8 },
+          { month: "T10", traffic: 460, leads: 13, keywords: 53, aiVisibility: 19, citation: 13, aiLeads: 2 },
+          { month: "T11", traffic: 480, leads: 14, keywords: 65, aiVisibility: 20, citation: 14, aiLeads: 2.1 },
+          { month: "T12", traffic: 500, leads: 15, keywords: 80, aiVisibility: 22, citation: 15, aiLeads: 2.3 }
+        ]
+      },
+      elasome: {
+        name: "Elasome.com", icon: "🧬", color: "#7c3aed", bgColor: "purple", unit: "lead B2B",
+        months: [
+          { month: "T1", traffic: 10, leads: 0.1, keywords: 3, aiVisibility: 2, citation: 1, aiLeads: 0 },
+          { month: "T2", traffic: 12, leads: 0.2, keywords: 5, aiVisibility: 4, citation: 2, aiLeads: 0 },
+          { month: "T3", traffic: 15, leads: 0.3, keywords: 7, aiVisibility: 6, citation: 3, aiLeads: 0 },
+          { month: "T4", traffic: 20, leads: 0.5, keywords: 10, aiVisibility: 8, citation: 5, aiLeads: 0.1 },
+          { month: "T5", traffic: 25, leads: 0.8, keywords: 14, aiVisibility: 10, citation: 6, aiLeads: 0.1 },
+          { month: "T6", traffic: 30, leads: 1, keywords: 19, aiVisibility: 12, citation: 8, aiLeads: 0.15 },
+          { month: "T7", traffic: 35, leads: 1.2, keywords: 25, aiVisibility: 14, citation: 9, aiLeads: 0.2 },
+          { month: "T8", traffic: 40, leads: 1.5, keywords: 33, aiVisibility: 16, citation: 11, aiLeads: 0.25 },
+          { month: "T9", traffic: 45, leads: 1.8, keywords: 43, aiVisibility: 18, citation: 12, aiLeads: 0.3 },
+          { month: "T10", traffic: 50, leads: 2, keywords: 56, aiVisibility: 20, citation: 14, aiLeads: 0.35 },
+          { month: "T11", traffic: 55, leads: 2.2, keywords: 73, aiVisibility: 22, citation: 15, aiLeads: 0.4 },
+          { month: "T12", traffic: 60, leads: 2.5, keywords: 95, aiVisibility: 25, citation: 17, aiLeads: 0.5 }
+        ]
+      },
+      group: {
+        name: "TazaGroup.vn", icon: "🏢", color: "#64748b", bgColor: "gray", unit: "lead",
+        months: [
+          { month: "T1", traffic: 500, leads: 5, keywords: 10, aiVisibility: 5, citation: 2, aiLeads: 0.5 },
+          { month: "T2", traffic: 510, leads: 5.5, keywords: 11, aiVisibility: 7, citation: 3, aiLeads: 0.6 },
+          { month: "T3", traffic: 520, leads: 6, keywords: 12, aiVisibility: 9, citation: 4, aiLeads: 0.7 },
+          { month: "T4", traffic: 530, leads: 6.5, keywords: 13, aiVisibility: 11, citation: 5, aiLeads: 0.8 },
+          { month: "T5", traffic: 540, leads: 7, keywords: 14, aiVisibility: 13, citation: 6, aiLeads: 0.9 },
+          { month: "T6", traffic: 550, leads: 7.5, keywords: 15, aiVisibility: 14, citation: 7, aiLeads: 1 },
+          { month: "T7", traffic: 560, leads: 8, keywords: 16, aiVisibility: 15, citation: 8, aiLeads: 1.1 },
+          { month: "T8", traffic: 570, leads: 8.5, keywords: 17, aiVisibility: 16, citation: 9, aiLeads: 1.2 },
+          { month: "T9", traffic: 580, leads: 9, keywords: 18, aiVisibility: 17, citation: 10, aiLeads: 1.3 },
+          { month: "T10", traffic: 590, leads: 9.5, keywords: 19, aiVisibility: 18, citation: 11, aiLeads: 1.4 },
+          { month: "T11", traffic: 600, leads: 10, keywords: 20, aiVisibility: 19, citation: 12, aiLeads: 1.5 },
+          { month: "T12", traffic: 610, leads: 10.5, keywords: 21, aiVisibility: 20, citation: 13, aiLeads: 1.6 }
+        ]
+      }
+    };
+
+    let currentMonthlyView = 'all';
+    let leadsChart, aiVisChart, aiLeadsChart;
+
+    function showMonthlyKPI(view) {
+      currentMonthlyView = view;
+      document.querySelectorAll('.monthly-tab').forEach(btn => {
+        btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-700');
+      });
+      const activeBtn = view === 'all' ? document.getElementById('btn-all') : document.getElementById(`btn-monthly-${view}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-gray-100', 'text-gray-700');
+        activeBtn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+      }
+      renderMonthlyTable(view);
+      renderMonthlyCharts(view);
+    }
+
+    function renderMonthlyTable(view) {
+      const container = document.getElementById('monthly-kpi-content');
+      
+      if (view === 'all') {
+        container.innerHTML = renderAllSitesTable();
+      } else {
+        container.innerHTML = renderSingleSiteTable(view);
+      }
+    }
+
+    function renderAllSitesTable() {
+      const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+      const sites = ['clinic', 'timona', 'hderma', 'elasome', 'group'];
+      
+      let html = `
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-800 text-white">
+                <th class="p-3 text-left sticky left-0 bg-gray-800 z-10">Website</th>
+                <th class="p-3 text-center">Chỉ số</th>
+                ${months.map(m => `<th class="p-2 text-center">${m}</th>`).join('')}
+                <th class="p-3 text-center bg-gray-700">Tổng</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      sites.forEach((site, idx) => {
+        const data = monthlyData[site];
+        const totalTraffic = data.months.reduce((sum, m) => sum + m.traffic, 0);
+        const totalLeads = data.months.reduce((sum, m) => sum + m.leads, 0);
+        const totalAiLeads = data.months.reduce((sum, m) => sum + m.aiLeads, 0);
+        const avgAiVisibility = data.months[11].aiVisibility;
+        const avgCitation = data.months[11].citation;
+        const bgClass = idx % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+        
+        html += `
+          <tr class="${bgClass} border-b">
+            <td class="p-3 font-semibold sticky left-0 ${bgClass} z-10" rowspan="4">
+              <span class="text-lg">${data.icon}</span> ${data.name.split('.')[0]}
+            </td>
+            <td class="p-2 text-center text-xs text-gray-500">Traffic</td>
+            ${data.months.map(m => `<td class="p-2 text-center text-xs">${m.traffic.toLocaleString()}</td>`).join('')}
+            <td class="p-2 text-center font-semibold bg-gray-100">${totalTraffic.toLocaleString()}</td>
+          </tr>
+          <tr class="${bgClass} border-b">
+            <td class="p-2 text-center text-xs font-medium" style="color: ${data.color}">${data.unit}</td>
+            ${data.months.map(m => `<td class="p-2 text-center font-medium" style="color: ${data.color}">${m.leads}</td>`).join('')}
+            <td class="p-2 text-center font-bold bg-gray-100" style="color: ${data.color}">${totalLeads.toFixed(1)}</td>
+          </tr>
+          <tr class="${bgClass} border-b">
+            <td class="p-2 text-center text-xs text-purple-600">🤖 AI Vis%</td>
+            ${data.months.map(m => `<td class="p-2 text-center text-xs text-purple-600">${m.aiVisibility}%</td>`).join('')}
+            <td class="p-2 text-center font-semibold bg-purple-50 text-purple-700">${avgAiVisibility}%</td>
+          </tr>
+          <tr class="${bgClass} border-b">
+            <td class="p-2 text-center text-xs text-pink-600">🤖 AI Lead</td>
+            ${data.months.map(m => `<td class="p-2 text-center text-xs text-pink-600">${m.aiLeads} <span class="text-gray-400">(${m.leads > 0 ? ((m.aiLeads/m.leads)*100).toFixed(0) : 0}%)</span></td>`).join('')}
+            <td class="p-2 text-center font-semibold bg-pink-50 text-pink-700">${totalAiLeads.toFixed(1)} (${((totalAiLeads/totalLeads)*100).toFixed(1)}%)</td>
+          </tr>
+        `;
+      });
+      
+      // Total row
+      const totalByMonth = months.map((_, i) => ({
+        traffic: sites.reduce((sum, site) => sum + monthlyData[site].months[i].traffic, 0),
+        leads: sites.reduce((sum, site) => sum + monthlyData[site].months[i].leads, 0),
+        aiLeads: sites.reduce((sum, site) => sum + monthlyData[site].months[i].aiLeads, 0)
+      }));
+      const grandTotalTraffic = totalByMonth.reduce((sum, m) => sum + m.traffic, 0);
+      const grandTotalLeads = totalByMonth.reduce((sum, m) => sum + m.leads, 0);
+      const grandTotalAiLeads = totalByMonth.reduce((sum, m) => sum + m.aiLeads, 0);
+      
+      html += `
+        <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold">
+          <td class="p-3 sticky left-0 bg-blue-600 z-10" rowspan="3">🎯 TỔNG</td>
+          <td class="p-2 text-center text-xs">Lead</td>
+          ${totalByMonth.map(m => `<td class="p-2 text-center">${m.leads.toFixed(1)}</td>`).join('')}
+          <td class="p-2 text-center bg-blue-700">${grandTotalLeads.toFixed(1)}</td>
+        </tr>
+        <tr class="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold">
+          <td class="p-2 text-center text-xs">🤖 AI Vis%</td>
+          ${totalByMonth.map((m, i) => `<td class="p-2 text-center">${Math.round(sites.reduce((sum, site) => sum + monthlyData[site].months[i].aiVisibility, 0) / sites.length)}%</td>`).join('')}
+          <td class="p-2 text-center bg-purple-700">>20%</td>
+        </tr>
+        <tr class="bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold">
+          <td class="p-2 text-center text-xs">🤖 AI Lead</td>
+          ${totalByMonth.map(m => `<td class="p-2 text-center">${m.aiLeads.toFixed(1)} (${((m.aiLeads/m.leads)*100).toFixed(0)}%)</td>`).join('')}
+          <td class="p-2 text-center bg-pink-700">${grandTotalAiLeads.toFixed(1)} (${((grandTotalAiLeads/grandTotalLeads)*100).toFixed(1)}%)</td>
+        </tr>
+      `;
+      
+      html += '</tbody></table></div>';
+      
+      // Thêm tổng hợp AI metrics
+      html += `
+        <div class="mt-6 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-200">
+          <h4 class="font-bold text-purple-700 mb-3">🤖 Tổng Hợp KPI AI Năm 2026</h4>
+          <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-purple-600">${grandTotalAiLeads.toFixed(0)}</p>
+              <p class="text-xs text-gray-500">Lead từ AI/năm</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-pink-600">${((grandTotalAiLeads/grandTotalLeads)*100).toFixed(1)}%</p>
+              <p class="text-xs text-gray-500">% Lead từ AI</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-blue-600">>20%</p>
+              <p class="text-xs text-gray-500">AI Visibility (T12)</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-green-600">>15%</p>
+              <p class="text-xs text-gray-500">Citation Rate (T12)</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-orange-600">>0.7</p>
+              <p class="text-xs text-gray-500">Embedding Score</p>
+            </div>
+            <div class="bg-white rounded-lg p-3 text-center shadow-sm">
+              <p class="text-2xl font-bold text-cyan-600">>30%</p>
+              <p class="text-xs text-gray-500">Zero-click Presence</p>
+            </div>
+          </div>
+        </div>
+      `;
+      return html;
+    }
+
+    function renderSingleSiteTable(site) {
+      const data = monthlyData[site];
+      const totalTraffic = data.months.reduce((sum, m) => sum + m.traffic, 0);
+      const totalLeads = data.months.reduce((sum, m) => sum + m.leads, 0);
+      const totalAiLeads = data.months.reduce((sum, m) => sum + m.aiLeads, 0);
+      const totalKeywords = data.months[data.months.length - 1].keywords;
+      const finalAiVisibility = data.months[11].aiVisibility;
+      const finalCitation = data.months[11].citation;
+      
+      let html = `
+        <div class="mb-4 p-4 rounded-xl bg-${data.bgColor}-50 border-l-4 border-${data.bgColor}-500">
+          <h3 class="text-xl font-bold flex items-center gap-2" style="color: ${data.color}">
+            ${data.icon} ${data.name}
+          </h3>
+          <p class="text-gray-600 text-sm mt-1">Mục tiêu: ${totalLeads.toFixed(0)} ${data.unit}/năm • TB ${(totalLeads/12).toFixed(1)} ${data.unit}/tháng • 🤖 AI Lead: ${totalAiLeads.toFixed(1)}/năm</p>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr style="background: ${data.color}; color: white;">
+                <th class="p-3 text-left">Tháng</th>
+                <th class="p-3 text-center">Traffic</th>
+                <th class="p-3 text-center">${data.unit.charAt(0).toUpperCase() + data.unit.slice(1)}</th>
+                <th class="p-3 text-center">KW Top10</th>
+                <th class="p-3 text-center">🤖 AI Vis%</th>
+                <th class="p-3 text-center">🔗 Citation%</th>
+                <th class="p-3 text-center">🤖 AI Lead</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+      
+      data.months.forEach((m, idx) => {
+        const aiLeadPercent = m.leads > 0 ? ((m.aiLeads/m.leads)*100).toFixed(0) : 0;
+        html += `
+          <tr class="border-b hover:bg-${data.bgColor}-50">
+            <td class="p-3 font-semibold">${m.month}</td>
+            <td class="p-3 text-center">${m.traffic.toLocaleString()}</td>
+            <td class="p-3 text-center font-bold" style="color: ${data.color}">${m.leads}</td>
+            <td class="p-3 text-center">${m.keywords}</td>
+            <td class="p-3 text-center text-purple-600">${m.aiVisibility}%</td>
+            <td class="p-3 text-center text-blue-600">${m.citation}%</td>
+            <td class="p-3 text-center font-semibold text-pink-600">${m.aiLeads} <span class="text-xs text-gray-400">(${aiLeadPercent}%)</span></td>
+          </tr>
+        `;
+      });
+      
+      const avgCvRate = ((totalLeads / totalTraffic) * 100).toFixed(2);
+      const aiLeadPercent = ((totalAiLeads/totalLeads)*100).toFixed(1);
+      html += `
+        <tr style="background: ${data.color}; color: white;" class="font-bold">
+          <td class="p-3">TỔNG</td>
+          <td class="p-3 text-center">${totalTraffic.toLocaleString()}</td>
+          <td class="p-3 text-center">${totalLeads.toFixed(1)}</td>
+          <td class="p-3 text-center">${totalKeywords}</td>
+          <td class="p-3 text-center">${finalAiVisibility}%</td>
+          <td class="p-3 text-center">${finalCitation}%</td>
+          <td class="p-3 text-center">${totalAiLeads.toFixed(1)} (${aiLeadPercent}%)</td>
+        </tr>
+      `;
+      
+      html += '</tbody></table></div>';
+      
+      html += `
+        <div class="mt-6 grid grid-cols-2 md:grid-cols-6 gap-3">
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold" style="color: ${data.color}">${totalLeads.toFixed(0)}</p>
+            <p class="text-xs text-gray-500">${data.unit}/năm</p>
+          </div>
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-blue-600">${totalTraffic.toLocaleString()}</p>
+            <p class="text-xs text-gray-500">lượt truy cập</p>
+          </div>
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-purple-600">${finalAiVisibility}%</p>
+            <p class="text-xs text-gray-500">AI Visibility</p>
+          </div>
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-cyan-600">${finalCitation}%</p>
+            <p class="text-xs text-gray-500">Citation Rate</p>
+          </div>
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-pink-600">${totalAiLeads.toFixed(1)}</p>
+            <p class="text-xs text-gray-500">AI Lead/năm</p>
+          </div>
+          <div class="bg-white border rounded-lg p-3 text-center">
+            <p class="text-xl font-bold text-green-600">${((totalAiLeads/totalLeads)*100).toFixed(1)}%</p>
+            <p class="text-xs text-gray-500">% Lead từ AI</p>
+          </div>
+        </div>
+      `;
+      
+      return html;
+    }
+
+    function renderMonthlyCharts(view) {
+      const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+      const sites = ['clinic', 'timona', 'hderma', 'elasome', 'group'];
+      
+      if (leadsChart) leadsChart.destroy();
+      if (aiVisChart) aiVisChart.destroy();
+      if (aiLeadsChart) aiLeadsChart.destroy();
+      
+      let leadsDatasets, aiVisDatasets, aiLeadsDatasets;
+      
+      if (view === 'all') {
+        leadsDatasets = sites.map(site => ({
+          label: monthlyData[site].name.split('.')[0],
+          data: monthlyData[site].months.map(m => m.leads),
+          borderColor: monthlyData[site].color,
+          backgroundColor: monthlyData[site].color + '40',
+          tension: 0.3
+        }));
+        aiVisDatasets = sites.map(site => ({
+          label: monthlyData[site].name.split('.')[0],
+          data: monthlyData[site].months.map(m => m.aiVisibility),
+          borderColor: monthlyData[site].color,
+          tension: 0.3, fill: false
+        }));
+        aiLeadsDatasets = sites.map(site => ({
+          label: monthlyData[site].name.split('.')[0],
+          data: monthlyData[site].months.map(m => m.aiLeads),
+          borderColor: monthlyData[site].color,
+          backgroundColor: monthlyData[site].color + '60',
+          tension: 0.3
+        }));
+      } else {
+        const data = monthlyData[view];
+        leadsDatasets = [{ label: data.unit, data: data.months.map(m => m.leads), borderColor: data.color, backgroundColor: data.color + '60', borderWidth: 2 }];
+        aiVisDatasets = [{ label: 'AI Visibility %', data: data.months.map(m => m.aiVisibility), borderColor: '#8b5cf6', backgroundColor: '#8b5cf640', tension: 0.3, fill: true }];
+        aiLeadsDatasets = [{ label: 'AI Lead', data: data.months.map(m => m.aiLeads), borderColor: '#ec4899', backgroundColor: '#ec489960', borderWidth: 2 }];
+      }
+      
+      const chartOpts = { responsive: true, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }, scales: { y: { beginAtZero: true } } };
+      
+      leadsChart = new Chart(document.getElementById('monthlyLeadsChart').getContext('2d'), {
+        type: view === 'all' ? 'line' : 'bar', data: { labels: months, datasets: leadsDatasets }, options: chartOpts
+      });
+      aiVisChart = new Chart(document.getElementById('monthlyAiVisChart').getContext('2d'), {
+        type: 'line', data: { labels: months, datasets: aiVisDatasets }, options: chartOpts
+      });
+      aiLeadsChart = new Chart(document.getElementById('monthlyAiLeadsChart').getContext('2d'), {
+        type: view === 'all' ? 'line' : 'bar', data: { labels: months, datasets: aiLeadsDatasets }, options: chartOpts
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() { showMonthlyKPI('all'); });
+    console.log('KPI Targets Page loaded');
+  </script>
+</body>
+</html>
