@@ -16,26 +16,26 @@ app.use(cors());
 app.use(express.json());
 
 // ===============================================
-// CẤU HÌNH - Thay đổi theo thông tin của bạn
+// CẤU HÌNH - Đọc từ environment variables
 // ===============================================
 const CONFIG = {
-  // Service Account credentials
+  // Service Account credentials từ .env
   credentials: {
     type: 'service_account',
-    project_id: 'silver-theme-482004-b0',
-    private_key_id: 'dd9d86c133e5aeb6ace4a705400028fdeba39edd',
-    private_key: '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqCpXRw9Ge7JrX\nbjr3P9KheCeUxm20YlTlSP47wDALTRLwJ1ft2Br6T8sJxkx4iUMsnbrMX7LgkOmp\nEaxWpNNUYys6SqIABTpB8H08qhPwAeb71Vmn61wwBL8yquKWl9r7AsYXqcY8tsnc\nDuTZVkhdL/oB95eyAeJBfaQ1lDr6vvBKz4jFeTHlJ9CE1IBqmapwfWPIr8eI799j\nAb0STgpFv/vh0Wrki8oCdnsQK7ReqofQWpm8JAFv92VJoW8p+lGZUoFISLQNnsSV\nXADxkGYd3U3TnDGWcRshuODXgIJZBqDwgsQBss4YZPBqCwpAhSusoWa9ZJakr4EJ\nEl7MzMklAgMBAAECggEAAb8ga9UAQGAmH66yV1t7TTef5x95/VTXPLsDtYG+B0Ja\n6UbrgyC+94booH3ox4ItbktjzE6dVpYrzZXwuGZyr0FiLnPuzGOWsMUIxvM+R4RV\nfDe5od0Wh328/bG9/cBV5Px8eWi/2wbLoFbc0z4CJJw7YVggNu6zBWuGIMYYLFQp\nIIJdx2x9CLJ/MpPegk7BgQ2ogYqAYytRNXSdcKvYSb21fyl2hjG67tvM7lr2ggPE\nBfsCrrgZJ/2FkIG/6pzAZkoDsq7JLHyBDvEWFhpR6vm9XgFbnFsSM7RPvdOMRQEf\nXrH0myBMDER89BchwMefOEUjK+p57Dk7pQN0gqD1AQKBgQDee4Kv1LD4FSBrnQI7\nzbnjXwBi/Vmeeh0cA8xoe7HE6irkq+HJHvfL5nhXZduhVqbxMLoM5TWCv8p9Pr4T\nEh4AXnC8YVBDTXnbg9FpO2zt4nVencljf3p2v/6cbP+BKN7vMKVJEe7iDuEwBUgO\nbIqDrZcRF3941iRk7J07dVK2pQKBgQDDqJOJGHv+SieBZi4DIqLgLUBS7MymC7QB\ngmOTWruY3NHImkj+P+93xOFhZ0t/3eM/womrrsR05Mc4ht7jh5pEyqpAW9pjdq4d\nkcWG+FhSiLxK1LMyV5t6EIe1gCJGghXuie4ZO9xSP3BmPAm21rBPLPu3LDVrX7FA\npvkG6ifAgQKBgBFaoP8GICe5viWmwZ3Ylj9eEbGnAW6TJ+Ifibo8q8koWuAraBlA\nCSQmfgyTLWaQU8VMf7axylLAkxLh6gGi0CRHOZP4I0KcsHym85a5w+1qVK1ksWjJ\ncMwCfeHFvshcX8dYjAv/Ehsf/gC46L33SXar+7ShmJfcXEpjCoCwzhrhAoGBAK1z\n3c808H8/WARkBDhtVT0tgI/DM62kRGDuKb5xOkvKvwN6m2kiXvWriS5jd1AU8igN\nGyUjGzCRvHdFQYUuKrn/fKzvgQyaIsM9/oGn2gzZASvJok7n0YKF8vkZbclZ+31r\ns7OVGL2lVcycPvRjIQwf0crSG01kGOw62huiK7mBAoGAPpGfWqZ3UOAK+uFuJCKh\nONn4GAkp/OICUjQ03gT+a0A+/mo57H2WqNsVNSZV2XH8qNNutFBJ2ZgosrxWY7yq\nhLDkdELEmKbCYusM77NG3zjH+hbbYNZpjqDwTcGyqgF/aFDfAe4NIv3xWLRWf6AD\nc+vpp2OC2mrGOWzaSOl7mf0=\n-----END PRIVATE KEY-----\n',
-    client_email: 'ga-dashboard-service@silver-theme-482004-b0.iam.gserviceaccount.com',
-    client_id: '117395569536590109151',
+    project_id: process.env.GA_PROJECT_ID,
+    private_key_id: process.env.GA_PRIVATE_KEY_ID,
+    private_key: process.env.GA_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    client_email: process.env.GA_CLIENT_EMAIL,
+    client_id: process.env.GA_CLIENT_ID,
   },
   
   // GA4 Property IDs cho 5 website
   properties: {
-    clinic: '354761183',     // TazaSkinClinic.com (Traffic)
-    timona: '354372781',     // Timona.edu.vn (Traffic Timona)
-    hderma: '501388109',     // Hderma.vn
-    elasome: '501465412',    // Elasome.com
-    group: '406087702'       // TazaGroup.vn (Traffice)
+    clinic: process.env.GA_PROPERTY_CLINIC || '354761183',
+    timona: process.env.GA_PROPERTY_TIMONA || '354372781',
+    hderma: process.env.GA_PROPERTY_HDERMA || '501388109',
+    elasome: process.env.GA_PROPERTY_ELASOME || '501465412',
+    group: process.env.GA_PROPERTY_GROUP || '406087702'
   },
   
   // Site names
@@ -47,7 +47,7 @@ const CONFIG = {
     group: 'TazaGroup.vn'
   },
   
-  port: 3001
+  port: parseInt(process.env.PORT) || 3001
 };
 
 // ===============================================
