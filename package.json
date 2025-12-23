@@ -1,0 +1,43 @@
+{
+  "name": "kpiseo-ga-backend",
+  "version": "1.0.0",
+  "description": "Backend API proxy for Google Analytics Data API - TazaGroup KPI Dashboard",
+  "main": "ga-backend-prisma.js",
+  "type": "module",
+  "scripts": {
+    "start": "bun run ga-backend-prisma.js",
+    "start:node": "node ga-backend.js",
+    "dev": "bun run cli.js",
+    "dev:watch": "bun --watch ga-backend-prisma.js",
+    "dev:node": "nodemon ga-backend.js",
+    "kill": "lsof -ti:3001 | xargs kill -9 2>/dev/null || echo 'Port 3001 is free'",
+    "restart": "bun run kill && bun run start",
+    "db:migrate": "bunx prisma migrate dev",
+    "db:generate": "bunx prisma generate",
+    "db:studio": "bunx prisma studio",
+    "db:push": "bunx prisma db push",
+    "db:reset": "bunx prisma migrate reset"
+  },
+  "keywords": [
+    "google-analytics",
+    "ga4",
+    "kpi",
+    "seo",
+    "dashboard",
+    "bun",
+    "prisma",
+    "sqlite"
+  ],
+  "author": "TazaGroup",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "cors": "^2.8.5",
+    "express": "^4.22.1",
+    "googleapis": "^129.0.0",
+    "prisma": "5.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

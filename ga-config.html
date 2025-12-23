@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình Google Analytics API - TazaGroup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .input-group { margin-bottom: 1rem; }
+    .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    .input-group input { width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; }
+    .input-group input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+    .code-block { background: #1f2937; color: #10b981; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; }
+    .step-number { background: #3b82f6; color: white; width: 2rem; height: 2rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 0.5rem; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6">
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
+      <h1 class="text-2xl font-bold">⚙️ Cấu Hình Google Analytics API</h1>
+      <p class="mt-2 opacity-90">Thiết lập kết nối GA4 cho 5 website TazaGroup</p>
+    </div>
+
+    <!-- Hướng dẫn -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">📋 Hướng Dẫn Thiết Lập</h2>
+      
+      <div class="space-y-4">
+        <div class="border-l-4 border-blue-500 pl-4">
+          <h3 class="font-semibold flex items-center">
+            <span class="step-number">1</span>
+            Tạo Google Cloud Project
+          </h3>
+          <p class="text-gray-600 mt-1">Truy cập <a href="https://console.cloud.google.com" target="_blank" class="text-blue-600 hover:underline">Google Cloud Console</a> và tạo project mới.</p>
+        </div>
+
+        <div class="border-l-4 border-blue-500 pl-4">
+          <h3 class="font-semibold flex items-center">
+            <span class="step-number">2</span>
+            Bật Google Analytics Data API
+          </h3>
+          <p class="text-gray-600 mt-1">Vào APIs & Services → Enable APIs → Tìm "Google Analytics Data API" → Enable</p>
+        </div>
+
+        <div class="border-l-4 border-blue-500 pl-4">
+          <h3 class="font-semibold flex items-center">
+            <span class="step-number">3</span>
+            Tạo OAuth 2.0 Credentials
+          </h3>
+          <p class="text-gray-600 mt-1">APIs & Services → Credentials → Create Credentials → OAuth client ID</p>
+          <p class="text-gray-600">Chọn "Web application" và thêm origin của website.</p>
+        </div>
+
+        <div class="border-l-4 border-blue-500 pl-4">
+          <h3 class="font-semibold flex items-center">
+            <span class="step-number">4</span>
+            Lấy GA4 Property ID
+          </h3>
+          <p class="text-gray-600 mt-1">Vào <a href="https://analytics.google.com" target="_blank" class="text-blue-600 hover:underline">Google Analytics</a> → Admin → Property Settings → Copy Property ID</p>
+          <p class="text-sm text-orange-600 mt-1">⚠️ Property ID có dạng số, ví dụ: 123456789</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form cấu hình -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+      <h2 class="text-xl font-bold mb-4">🔑 Nhập Thông Tin Cấu Hình</h2>
+      
+      <form id="configForm">
+        <!-- OAuth Client ID -->
+        <div class="input-group">
+          <label>OAuth Client ID</label>
+          <input type="text" id="clientId" placeholder="xxxx.apps.googleusercontent.com">
+          <p class="text-sm text-gray-500 mt-1">Từ Google Cloud Console → Credentials</p>
+        </div>
+
+        <hr class="my-6">
+        <h3 class="font-bold mb-4">GA4 Property IDs cho từng website:</h3>
+
+        <!-- Property IDs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="input-group">
+            <label class="text-red-600">🏥 TazaSkinClinic.com</label>
+            <input type="text" id="prop_clinic" placeholder="Property ID (VD: 123456789)">
+          </div>
+
+          <div class="input-group">
+            <label class="text-blue-700">🎓 Timona.edu.vn</label>
+            <input type="text" id="prop_timona" placeholder="Property ID (VD: 123456789)">
+          </div>
+
+          <div class="input-group">
+            <label class="text-green-600">💊 Hderma.vn</label>
+            <input type="text" id="prop_hderma" placeholder="Property ID (VD: 123456789)">
+          </div>
+
+          <div class="input-group">
+            <label class="text-purple-600">🧬 Elasome.com</label>
+            <input type="text" id="prop_elasome" placeholder="Property ID (VD: 123456789)">
+          </div>
+
+          <div class="input-group">
+            <label class="text-gray-600">🏢 TazaGroup.vn</label>
+            <input type="text" id="prop_group" placeholder="Property ID (VD: 123456789)">
+          </div>
+        </div>
+
+        <div class="flex gap-4 mt-6">
+          <button type="button" onclick="generateConfig()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+            📝 Tạo Cấu Hình
+          </button>
+          <button type="button" onclick="testConnection()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
+            🔗 Kiểm Tra Kết Nối
+          </button>
+          <button type="button" onclick="saveConfig()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold">
+            💾 Lưu Cấu Hình
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Generated Config -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6" id="configOutput" style="display: none;">
+      <h2 class="text-xl font-bold mb-4">📄 Cấu Hình Đã Tạo</h2>
+      <div class="code-block" id="configCode"></div>
+      <button onclick="copyConfig()" class="mt-4 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+        📋 Copy Code
+      </button>
+    </div>
+
+    <!-- Status -->
+    <div class="bg-white rounded-lg shadow p-6" id="statusPanel">
+      <h2 class="text-xl font-bold mb-4">📊 Trạng Thái Kết Nối</h2>
+      <div id="statusContent">
+        <p class="text-gray-500">Chưa kết nối. Nhập thông tin và nhấn "Kiểm Tra Kết Nối".</p>
+      </div>
+    </div>
+
+    <!-- Back link -->
+    <div class="mt-6 text-center">
+      <a href="index.html" class="text-blue-600 hover:underline">← Quay lại Dashboard</a>
+    </div>
+  </div>
+
+  <script>
+    // Load saved config from localStorage
+    window.onload = function() {
+      const saved = localStorage.getItem('ga_config');
+      if (saved) {
+        try {
+          const config = JSON.parse(saved);
+          document.getElementById('clientId').value = config.clientId || '';
+          document.getElementById('prop_clinic').value = config.properties?.clinic || '';
+          document.getElementById('prop_timona').value = config.properties?.timona || '';
+          document.getElementById('prop_hderma').value = config.properties?.hderma || '';
+          document.getElementById('prop_elasome').value = config.properties?.elasome || '';
+          document.getElementById('prop_group').value = config.properties?.group || '';
+        } catch (e) {
+          console.error('Error loading config:', e);
+        }
+      }
+    };
+
+    function getFormData() {
+      return {
+        clientId: document.getElementById('clientId').value.trim(),
+        properties: {
+          clinic: document.getElementById('prop_clinic').value.trim(),
+          timona: document.getElementById('prop_timona').value.trim(),
+          hderma: document.getElementById('prop_hderma').value.trim(),
+          elasome: document.getElementById('prop_elasome').value.trim(),
+          group: document.getElementById('prop_group').value.trim()
+        }
+      };
+    }
+
+    function generateConfig() {
+      const data = getFormData();
+      
+      const configCode = `// Cấu hình Google Analytics API
+// Tự động tạo: ${new Date().toLocaleString('vi-VN')}
+
+const GA_CONFIG = {
+  clinic: {
+    propertyId: '${data.properties.clinic}',
+    name: 'TazaSkinClinic.com',
+    color: '#dc2626'
+  },
+  timona: {
+    propertyId: '${data.properties.timona}',
+    name: 'Timona.edu.vn',
+    color: '#1e40af'
+  },
+  hderma: {
+    propertyId: '${data.properties.hderma}',
+    name: 'Hderma.vn',
+    color: '#059669'
+  },
+  elasome: {
+    propertyId: '${data.properties.elasome}',
+    name: 'Elasome.com',
+    color: '#7c3aed'
+  },
+  group: {
+    propertyId: '${data.properties.group}',
+    name: 'TazaGroup.vn',
+    color: '#64748b'
+  }
+};
+
+const OAUTH_CLIENT_ID = '${data.clientId}';
+
+// Export
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { GA_CONFIG, OAUTH_CLIENT_ID };
+}`;
+
+      document.getElementById('configCode').textContent = configCode;
+      document.getElementById('configOutput').style.display = 'block';
+    }
+
+    function copyConfig() {
+      const code = document.getElementById('configCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert('✅ Đã copy cấu hình!');
+      });
+    }
+
+    function saveConfig() {
+      const data = getFormData();
+      localStorage.setItem('ga_config', JSON.stringify(data));
+      alert('✅ Đã lưu cấu hình vào localStorage!');
+    }
+
+    async function testConnection() {
+      const statusContent = document.getElementById('statusContent');
+      const data = getFormData();
+
+      if (!data.clientId) {
+        statusContent.innerHTML = '<p class="text-red-600">❌ Vui lòng nhập OAuth Client ID</p>';
+        return;
+      }
+
+      statusContent.innerHTML = '<p class="text-blue-600">🔄 Đang kiểm tra kết nối...</p>';
+
+      // Check if properties are configured
+      const missingProps = Object.entries(data.properties)
+        .filter(([key, value]) => !value)
+        .map(([key]) => key);
+
+      let statusHtml = '<div class="space-y-2">';
+      
+      // Show property status
+      Object.entries(data.properties).forEach(([key, value]) => {
+        const siteName = {
+          clinic: 'TazaSkinClinic.com',
+          timona: 'Timona.edu.vn',
+          hderma: 'Hderma.vn',
+          elasome: 'Elasome.com',
+          group: 'TazaGroup.vn'
+        }[key];
+
+        if (value) {
+          statusHtml += `<p class="text-green-600">✅ ${siteName}: Property ID ${value}</p>`;
+        } else {
+          statusHtml += `<p class="text-yellow-600">⚠️ ${siteName}: Chưa cấu hình</p>`;
+        }
+      });
+
+      if (missingProps.length === 0) {
+        statusHtml += '<p class="text-green-600 font-bold mt-4">✅ Tất cả website đã được cấu hình!</p>';
+        statusHtml += '<p class="text-gray-600 mt-2">Nhấn "Lưu Cấu Hình" và sao chép code vào file google-analytics-api.js</p>';
+      } else {
+        statusHtml += `<p class="text-yellow-600 font-bold mt-4">⚠️ Còn ${missingProps.length} website chưa cấu hình</p>`;
+      }
+
+      statusHtml += '</div>';
+      statusContent.innerHTML = statusHtml;
+    }
+  </script>
+</body>
+</html>

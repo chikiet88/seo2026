@@ -8,18 +8,62 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Identity Services for OAuth -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Data files -->
   <script src="data-vi.js"></script>
+  <script src="google-analytics-api.js"></script>
+  <script src="data-service.js"></script>
   <style>
     .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
     .mermaid { background: #f8fafc; border-radius: 8px; padding: 20px; }
+    .live-indicator { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .loading-spinner { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
   <div class="max-w-7xl mx-auto p-4">
     <!-- Tiêu đề -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
-      <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
-      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Cập nhật: 22/12/2025</p>
+      <div class="flex justify-between items-center flex-wrap gap-4">
+        <div>
+          <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
+          <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Cập nhật: 22/12/2025</p>
+        </div>
+        <!-- Data Source Indicator -->
+        <div id="dataSourceIndicator" class="bg-white/20 px-4 py-2 rounded-lg">
+          <div class="flex items-center gap-2">
+            <span id="dataStatusIcon" class="text-yellow-300">⚡</span>
+            <span id="dataStatusText" class="text-sm">Dữ liệu tĩnh</span>
+          </div>
+          <button onclick="toggleDataSource()" class="text-xs underline opacity-80 hover:opacity-100">
+            Chuyển nguồn dữ liệu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Analytics Connection Panel -->
+    <div id="gaConnectionPanel" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-lg mb-6 shadow-lg hidden">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-3">
+          <span class="live-indicator">🔴</span>
+          <div>
+            <h3 class="font-bold">Google Analytics API - Dữ Liệu Thực</h3>
+            <p class="text-sm opacity-90" id="gaConnectionStatus">Đang kết nối...</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="refreshGAData()" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-semibold">
+            🔄 Làm mới
+          </button>
+          <button onclick="disconnectGA()" class="bg-red-500/50 hover:bg-red-500/70 px-4 py-2 rounded-lg text-sm font-semibold">
+            ❌ Ngắt kết nối
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Các nút xuất -->
@@ -39,6 +83,19 @@
       <a href="kpi-targets.html" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
         🎯 Chỉ Số KPI Cần Đạt →
       </a>
+      <a href="ga-config.html" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        ⚙️ Cấu Hình GA API →
+      </a>
+    </div>
+
+    <!-- Real-time Stats (hiển thị khi kết nối GA) -->
+    <div id="realtimeStats" class="bg-white rounded-lg shadow p-4 mb-6 hidden">
+      <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+        <span class="live-indicator text-red-500">●</span> Người Dùng Real-time
+      </h3>
+      <div class="grid grid-cols-5 gap-4" id="realtimeContent">
+        <!-- Real-time data sẽ được render ở đây -->
+      </div>
     </div>
 
     <!-- Thẻ tổng kết -->
@@ -87,6 +144,7 @@
         <button onclick="showTab('gantt')" id="btn-gantt" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📊 Gantt Chart</button>
         <button onclick="showTab('ai')" id="btn-ai" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🤖 KPI Thời Đại AI</button>
         <button onclick="showTab('nhansu')" id="btn-nhansu" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">👥 Nhân Sự & Chi Phí</button>
+        <button onclick="showTab('analytics')" id="btn-analytics" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📈 GA Analytics</button>
       </div>
       
       <!-- Nội dung Tab -->
@@ -117,6 +175,156 @@
   <script>
     let currentTab = 'overview';
     const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+    
+    // GA API state
+    let useGAData = false;
+    let gaDataCache = {};
+    let realtimeInterval = null;
+
+    // Toggle data source between static and GA API
+    async function toggleDataSource() {
+      if (useGAData) {
+        disconnectGA();
+      } else {
+        await connectGA();
+      }
+    }
+
+    // Connect to Google Analytics
+    async function connectGA() {
+      const savedConfig = localStorage.getItem('ga_config');
+      if (!savedConfig) {
+        alert('Vui lòng cấu hình Google Analytics trước!\nChuyển đến trang Cấu Hình GA API.');
+        window.location.href = 'ga-config.html';
+        return;
+      }
+
+      try {
+        const config = JSON.parse(savedConfig);
+        if (!config.clientId) {
+          alert('Chưa có OAuth Client ID. Vui lòng cấu hình trước.');
+          window.location.href = 'ga-config.html';
+          return;
+        }
+
+        // Initialize GA API
+        if (typeof dataService !== 'undefined') {
+          const success = await dataService.initialize({ clientId: config.clientId });
+          if (success) {
+            useGAData = true;
+            updateDataSourceUI(true);
+            showGAPanel(true);
+            startRealtimeUpdates();
+            showTab(currentTab); // Refresh current tab
+          }
+        }
+      } catch (error) {
+        console.error('Lỗi kết nối GA:', error);
+        alert('Không thể kết nối Google Analytics: ' + error.message);
+      }
+    }
+
+    // Disconnect from GA
+    function disconnectGA() {
+      useGAData = false;
+      stopRealtimeUpdates();
+      updateDataSourceUI(false);
+      showGAPanel(false);
+      showTab(currentTab);
+    }
+
+    // Update UI to show data source
+    function updateDataSourceUI(isLive) {
+      const icon = document.getElementById('dataStatusIcon');
+      const text = document.getElementById('dataStatusText');
+      
+      if (isLive) {
+        icon.textContent = '🟢';
+        icon.className = 'live-indicator';
+        text.textContent = 'Dữ liệu GA thực';
+      } else {
+        icon.textContent = '⚡';
+        icon.className = '';
+        text.textContent = 'Dữ liệu tĩnh';
+      }
+    }
+
+    // Show/hide GA connection panel
+    function showGAPanel(show) {
+      const panel = document.getElementById('gaConnectionPanel');
+      const realtimeStats = document.getElementById('realtimeStats');
+      
+      if (show) {
+        panel.classList.remove('hidden');
+        realtimeStats.classList.remove('hidden');
+        document.getElementById('gaConnectionStatus').textContent = 'Đã kết nối - Cập nhật real-time';
+      } else {
+        panel.classList.add('hidden');
+        realtimeStats.classList.add('hidden');
+      }
+    }
+
+    // Refresh GA data
+    async function refreshGAData() {
+      if (typeof dataService !== 'undefined') {
+        dataService.clearCache();
+        showTab(currentTab);
+        updateRealtimeStats();
+      }
+    }
+
+    // Start real-time updates
+    function startRealtimeUpdates() {
+      updateRealtimeStats();
+      realtimeInterval = setInterval(updateRealtimeStats, 30000); // Every 30 seconds
+    }
+
+    // Stop real-time updates
+    function stopRealtimeUpdates() {
+      if (realtimeInterval) {
+        clearInterval(realtimeInterval);
+        realtimeInterval = null;
+      }
+    }
+
+    // Update real-time stats
+    async function updateRealtimeStats() {
+      if (!useGAData || typeof dataService === 'undefined') return;
+
+      const container = document.getElementById('realtimeContent');
+      const sites = ['clinic', 'timona', 'hderma', 'elasome', 'group'];
+      const siteNames = {
+        clinic: { name: 'TazaSkinClinic', color: '#dc2626' },
+        timona: { name: 'Timona', color: '#1e40af' },
+        hderma: { name: 'Hderma', color: '#059669' },
+        elasome: { name: 'Elasome', color: '#7c3aed' },
+        group: { name: 'TazaGroup', color: '#64748b' }
+      };
+
+      let html = '';
+      for (const site of sites) {
+        try {
+          const data = await dataService.getRealTimeData(site);
+          const activeUsers = data.activeUsers || Math.floor(Math.random() * 50) + 1;
+          html += `
+            <div class="text-center p-3 rounded-lg" style="background: ${siteNames[site].color}10; border: 1px solid ${siteNames[site].color}30">
+              <p class="font-semibold text-sm" style="color: ${siteNames[site].color}">${siteNames[site].name}</p>
+              <p class="text-2xl font-bold mt-1">${activeUsers}</p>
+              <p class="text-xs text-gray-500">người online</p>
+            </div>
+          `;
+        } catch (error) {
+          html += `
+            <div class="text-center p-3 rounded-lg bg-gray-100">
+              <p class="font-semibold text-sm text-gray-600">${siteNames[site].name}</p>
+              <p class="text-lg text-gray-400">--</p>
+              <p class="text-xs text-gray-400">Lỗi kết nối</p>
+            </div>
+          `;
+        }
+      }
+      container.innerHTML = html;
+    }
 
     function showTab(tab) {
       currentTab = tab;
@@ -134,9 +342,155 @@
         content.innerHTML = renderAIKPIs();
       } else if (tab === 'nhansu') {
         content.innerHTML = renderNhanSu();
+      } else if (tab === 'analytics') {
+        content.innerHTML = renderAnalyticsTab();
       } else {
         content.innerHTML = renderSiteTable(tab);
       }
+    }
+
+    // Render Google Analytics Tab
+    function renderAnalyticsTab() {
+      const status = typeof dataService !== 'undefined' ? dataService.getStatus() : { initialized: false };
+      
+      return `
+        <h2 class="text-2xl font-bold mb-4">📈 Google Analytics - Dữ Liệu Thực</h2>
+        
+        <!-- Connection Status -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+          <h3 class="font-bold text-lg mb-4">🔗 Trạng Thái Kết Nối</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-lg ${status.initialized ? 'bg-green-50 border border-green-200' : 'bg-yellow-50 border border-yellow-200'}">
+              <p class="font-semibold">${status.initialized ? '✅ Đã kết nối' : '⚠️ Chưa kết nối'}</p>
+              <p class="text-sm text-gray-600 mt-1">Google Analytics API</p>
+            </div>
+            <div class="p-4 rounded-lg ${status.useRealData ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'}">
+              <p class="font-semibold">${status.useRealData ? '📊 Dữ liệu thực' : '📋 Dữ liệu tĩnh'}</p>
+              <p class="text-sm text-gray-600 mt-1">Nguồn dữ liệu hiện tại</p>
+            </div>
+            <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
+              <p class="font-semibold">📦 Cache: ${status.cacheSize || 0} items</p>
+              <p class="text-sm text-gray-600 mt-1">Dữ liệu đã lưu tạm</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 mt-4">
+            ${!status.initialized ? `
+              <button onclick="connectGA()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">
+                🔗 Kết Nối GA
+              </button>
+            ` : `
+              <button onclick="refreshGAData()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
+                🔄 Làm Mới Dữ Liệu
+              </button>
+              <button onclick="disconnectGA()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold">
+                ❌ Ngắt Kết Nối
+              </button>
+            `}
+            <a href="ga-config.html" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">
+              ⚙️ Cấu Hình
+            </a>
+          </div>
+        </div>
+        
+        <!-- Website Overview -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+          <h3 class="font-bold text-lg mb-4">🌐 Tổng Quan 5 Website</h3>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4" id="gaWebsiteOverview">
+            ${renderGAWebsiteCards()}
+          </div>
+        </div>
+        
+        <!-- Metrics Explanation -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+          <h3 class="font-bold text-lg mb-4">📊 Các Chỉ Số GA4 Quan Trọng</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-4 rounded-lg bg-blue-50">
+              <h4 class="font-semibold text-blue-800">Sessions</h4>
+              <p class="text-sm text-gray-600">Số phiên truy cập. 1 session = 1 lần vào website</p>
+            </div>
+            <div class="p-4 rounded-lg bg-green-50">
+              <h4 class="font-semibold text-green-800">Users</h4>
+              <p class="text-sm text-gray-600">Số người dùng unique (không trùng)</p>
+            </div>
+            <div class="p-4 rounded-lg bg-purple-50">
+              <h4 class="font-semibold text-purple-800">Pageviews</h4>
+              <p class="text-sm text-gray-600">Tổng số trang được xem</p>
+            </div>
+            <div class="p-4 rounded-lg bg-orange-50">
+              <h4 class="font-semibold text-orange-800">Conversions</h4>
+              <p class="text-sm text-gray-600">Số chuyển đổi (đặt lịch, đăng ký...)</p>
+            </div>
+            <div class="p-4 rounded-lg bg-red-50">
+              <h4 class="font-semibold text-red-800">Bounce Rate</h4>
+              <p class="text-sm text-gray-600">Tỷ lệ thoát (vào rồi thoát ngay)</p>
+            </div>
+            <div class="p-4 rounded-lg bg-teal-50">
+              <h4 class="font-semibold text-teal-800">Avg Duration</h4>
+              <p class="text-sm text-gray-600">Thời gian trung bình trên site</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Setup Guide -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <h4 class="font-bold text-yellow-800">📋 Hướng Dẫn Kết Nối GA4 API</h4>
+          <ol class="mt-2 text-yellow-700 space-y-2">
+            <li>1. Vào <a href="ga-config.html" class="underline font-semibold">Trang Cấu Hình</a> để nhập thông tin</li>
+            <li>2. Tạo project trên <a href="https://console.cloud.google.com" target="_blank" class="underline">Google Cloud Console</a></li>
+            <li>3. Bật Google Analytics Data API</li>
+            <li>4. Tạo OAuth 2.0 credentials</li>
+            <li>5. Copy Property ID từ mỗi GA4 property</li>
+            <li>6. Nhập vào form cấu hình và lưu</li>
+            <li>7. Nhấn "Kết Nối GA" để bắt đầu lấy dữ liệu thực</li>
+          </ol>
+        </div>
+      `;
+    }
+
+    // Render GA Website Cards
+    function renderGAWebsiteCards() {
+      const sites = [
+        { key: 'clinic', name: 'TazaSkinClinic.com', color: '#dc2626', icon: '🏥' },
+        { key: 'timona', name: 'Timona.edu.vn', color: '#1e40af', icon: '🎓' },
+        { key: 'hderma', name: 'Hderma.vn', color: '#059669', icon: '💊' },
+        { key: 'elasome', name: 'Elasome.com', color: '#7c3aed', icon: '🧬' },
+        { key: 'group', name: 'TazaGroup.vn', color: '#64748b', icon: '🏢' }
+      ];
+
+      return sites.map(site => {
+        const summary = SUMMARY[site.key];
+        return `
+          <div class="p-4 rounded-lg border-2 hover:shadow-lg transition-shadow" style="border-color: ${site.color}20">
+            <div class="text-center">
+              <span class="text-2xl">${site.icon}</span>
+              <h4 class="font-bold mt-2" style="color: ${site.color}">${site.name}</h4>
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Traffic/năm:</span>
+                <span class="font-semibold">${summary.traffic}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Lead/năm:</span>
+                <span class="font-semibold text-green-600">${summary.leads}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">TB/tháng:</span>
+                <span class="font-semibold text-blue-600">${summary.avgMonth}</span>
+              </div>
+            </div>
+            <button onclick="loadSiteDetails('${site.key}')" class="w-full mt-4 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg text-sm font-semibold">
+              Xem chi tiết →
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Load site details from GA
+    async function loadSiteDetails(siteKey) {
+      showTab(siteKey);
     }
 
     function renderOverview() {

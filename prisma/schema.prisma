@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./ga-analytics.db"
+}
+
+// Snapshot lưu trữ dữ liệu tổng hợp của tất cả websites
+model Snapshot {
+  id          String   @id @default(uuid())
+  dateRange   String   // "1month", "3months", "1year", "custom"
+  startDate   String   // YYYY-MM-DD
+  endDate     String   // YYYY-MM-DD
+  timestamp   DateTime @default(now())
+  description String?  // Ghi chú (tùy chọn)
+  
+  // Relation với SiteData
+  siteData    SiteData[]
+}
+
+// Dữ liệu chi tiết của từng website trong snapshot
+model SiteData {
+  id           String   @id @default(uuid())
+  siteKey      String   // "clinic", "timona", "hderma", "elasome", "group"
+  siteName     String   // Tên đầy đủ website
+  sessions     Int      @default(0)
+  users        Int      @default(0)
+  pageviews    Int      @default(0)
+  conversions  Int      @default(0)
+  bounceRate   Float    @default(0)
+  avgDuration  Float    @default(0)
+  error        String?  // Lỗi nếu có
+  
+  // Foreign key
+  snapshotId   String
+  snapshot     Snapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+  
+  @@index([siteKey])
+  @@index([snapshotId])
+}
+
+// Lưu dữ liệu theo dõi hàng ngày
+model DailyMetric {
+  id          String   @id @default(uuid())
+  siteKey     String
+  date        String   // YYYY-MM-DD
+  sessions    Int      @default(0)
+  users       Int      @default(0)
+  pageviews   Int      @default(0)
+  conversions Int      @default(0)
+  bounceRate  Float    @default(0)
+  avgDuration Float    @default(0)
+  createdAt   DateTime @default(now())
+  
+  @@unique([siteKey, date])
+  @@index([siteKey])
+  @@index([date])
+}
+
+// Lưu traffic sources
+model TrafficSource {
+  id          String   @id @default(uuid())
+  siteKey     String
+  dateRange   String   // "1month", "3months", "1year"
+  startDate   String
+  endDate     String
+  source      String   // "google", "direct", "facebook"...
+  medium      String   // "organic", "cpc", "referral"...
+  sessions    Int      @default(0)
+  users       Int      @default(0)
+  createdAt   DateTime @default(now())
+  
+  @@index([siteKey, dateRange])
+}

@@ -1,0 +1,132 @@
+{
+  "snapshots": [
+    {
+      "id": "1766463889358",
+      "label": "Báo cáo 23/12/2025",
+      "dateRange": {
+        "startDate": "365daysAgo",
+        "endDate": "today"
+      },
+      "data": {
+        "clinic": {
+          "sessions": 28598,
+          "users": 22200,
+          "pageviews": 47656,
+          "conversions": 0,
+          "bounceRate": 0.516469683194629,
+          "avgDuration": 121.18589427519409
+        },
+        "timona": {
+          "sessions": 103364,
+          "users": 82164,
+          "pageviews": 136465,
+          "conversions": 756,
+          "bounceRate": 0.5172013466971093,
+          "avgDuration": 134.10684766007506
+        },
+        "hderma": {
+          "sessions": 3209,
+          "users": 1874,
+          "pageviews": 7411,
+          "conversions": 2,
+          "bounceRate": 0.43533811156123403,
+          "avgDuration": 169.7782909722655
+        },
+        "elasome": {
+          "sessions": 925,
+          "users": 677,
+          "pageviews": 1627,
+          "conversions": 0,
+          "bounceRate": 0.5232432432432432,
+          "avgDuration": 180.02593416216217
+        },
+        "group": {
+          "sessions": 5909,
+          "users": 4846,
+          "pageviews": 12076,
+          "conversions": 0,
+          "bounceRate": 0.5078693518361821,
+          "avgDuration": 106.8213678894906
+        }
+      },
+      "createdAt": "2025-12-23T04:24:49.358Z"
+    }
+  ],
+  "history": {
+    "clinic": [
+      {
+        "date": "2025-12-23T04:24:49.358Z",
+        "dateRange": {
+          "startDate": "365daysAgo",
+          "endDate": "today"
+        },
+        "sessions": 28598,
+        "users": 22200,
+        "pageviews": 47656,
+        "conversions": 0,
+        "bounceRate": 0.516469683194629,
+        "avgDuration": 121.18589427519409
+      }
+    ],
+    "timona": [
+      {
+        "date": "2025-12-23T04:24:49.358Z",
+        "dateRange": {
+          "startDate": "365daysAgo",
+          "endDate": "today"
+        },
+        "sessions": 103364,
+        "users": 82164,
+        "pageviews": 136465,
+        "conversions": 756,
+        "bounceRate": 0.5172013466971093,
+        "avgDuration": 134.10684766007506
+      }
+    ],
+    "hderma": [
+      {
+        "date": "2025-12-23T04:24:49.358Z",
+        "dateRange": {
+          "startDate": "365daysAgo",
+          "endDate": "today"
+        },
+        "sessions": 3209,
+        "users": 1874,
+        "pageviews": 7411,
+        "conversions": 2,
+        "bounceRate": 0.43533811156123403,
+        "avgDuration": 169.7782909722655
+      }
+    ],
+    "elasome": [
+      {
+        "date": "2025-12-23T04:24:49.358Z",
+        "dateRange": {
+          "startDate": "365daysAgo",
+          "endDate": "today"
+        },
+        "sessions": 925,
+        "users": 677,
+        "pageviews": 1627,
+        "conversions": 0,
+        "bounceRate": 0.5232432432432432,
+        "avgDuration": 180.02593416216217
+      }
+    ],
+    "group": [
+      {
+        "date": "2025-12-23T04:24:49.358Z",
+        "dateRange": {
+          "startDate": "365daysAgo",
+          "endDate": "today"
+        },
+        "sessions": 5909,
+        "users": 4846,
+        "pageviews": 12076,
+        "conversions": 0,
+        "bounceRate": 0.5078693518361821,
+        "avgDuration": 106.8213678894906
+      }
+    ]
+  }
+}

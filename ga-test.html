@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GA API Dashboard - TazaGroup</title>
+    <style>
+        :root {
+            --primary: #4285f4;
+            --success: #34a853;
+            --warning: #fbbc04;
+            --danger: #ea4335;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --gray: #5f6368;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Date Range Selector */
+        .date-range-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .date-range-bar h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-range-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .date-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .date-btn:hover {
+            border-color: var(--primary);
+            background: #e8f0fe;
+        }
+
+        .date-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        .custom-date-range {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-top: 15px;
+            border-top: 1px solid var(--light);
+        }
+
+        .date-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-input-group label {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .date-input-group input {
+            padding: 10px 15px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .date-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .status-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--gray);
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.connected {
+            background: var(--success);
+        }
+
+        .status-dot.error {
+            background: var(--danger);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-text {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .server-url {
+            color: var(--gray);
+            font-family: monospace;
+            background: var(--light);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title .icon {
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3367d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2d9249;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d33426;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .btn-lg {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Overview Cards */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .overview-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .overview-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .overview-card.active {
+            border-color: var(--primary);
+        }
+
+        .overview-card .site-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .overview-card .site-logo {
+            font-size: 2rem;
+        }
+
+        .overview-card .site-title {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .overview-card .site-url {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .overview-card .metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .overview-card .metric {
+            text-align: center;
+            padding: 8px;
+            background: var(--light);
+            border-radius: 8px;
+        }
+
+        .overview-card .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .overview-card .metric-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        .overview-card .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .overview-card .status-badge.ok {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .overview-card .status-badge.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .overview-card .status-badge.loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-box.organic {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .stat-box.direct {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+        }
+
+        .stat-box.social {
+            background: linear-gradient(135deg, #e91e63 0%, #ff5722 100%);
+        }
+
+        .stat-box.referral {
+            background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .refresh-time {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .current-site-badge {
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .data-display {
+            background: var(--dark);
+            border-radius: 12px;
+            padding: 20px;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* Snapshot List */
+        .snapshot-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .snapshot-info {
+            flex: 1;
+        }
+
+        .snapshot-label {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .snapshot-date {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .snapshot-range {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-family: monospace;
+        }
+
+        .snapshot-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            opacity: 0.8;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: var(--light);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 GA Analytics Dashboard</h1>
+            <p>Google Analytics Data API - TazaGroup 5 Website</p>
+        </header>
+
+        <!-- Date Range Selector -->
+        <div class="date-range-bar">
+            <h3>📅 Chọn khoảng thời gian</h3>
+            <div class="date-range-options">
+                <button class="date-btn" data-range="7daysAgo" onclick="selectDateRange('7daysAgo', 'today', this)">7 ngày</button>
+                <button class="date-btn active" data-range="30daysAgo" onclick="selectDateRange('30daysAgo', 'today', this)">1 tháng</button>
+                <button class="date-btn" data-range="90daysAgo" onclick="selectDateRange('90daysAgo', 'today', this)">3 tháng</button>
+                <button class="date-btn" data-range="365daysAgo" onclick="selectDateRange('365daysAgo', 'today', this)">1 năm</button>
+                <button class="date-btn" data-range="custom" onclick="toggleCustomDate()">Tùy chỉnh</button>
+            </div>
+            <div class="custom-date-range" id="customDateRange" style="display: none;">
+                <div class="date-input-group">
+                    <label>Từ:</label>
+                    <input type="date" id="startDate" onchange="applyCustomDate()">
+                </div>
+                <div class="date-input-group">
+                    <label>Đến:</label>
+                    <input type="date" id="endDate" onchange="applyCustomDate()">
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="applyCustomDate()">Áp dụng</button>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-indicator">
+                <div class="status-dot" id="statusDot"></div>
+                <span class="status-text" id="statusText">Đang kiểm tra...</span>
+            </div>
+            <div class="server-url">http://localhost:3001</div>
+            <span class="current-site-badge" id="currentSiteBadge">Elasome</span>
+            <button class="btn btn-success" onclick="saveSnapshot()">
+                💾 Lưu Snapshot
+            </button>
+            <button class="btn btn-primary" onclick="refreshAll()">
+                🔄 Refresh
+            </button>
+        </div>
+
+        <!-- Overview Cards for 5 Websites -->
+        <div class="overview-grid" id="overviewGrid">
+            <!-- Cards will be rendered here -->
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="card full-width">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('realtime')">📊 Dữ liệu Real-time</button>
+                <button class="tab" onclick="switchTab('snapshots')">💾 Snapshots đã lưu</button>
+                <button class="tab" onclick="switchTab('analysis')">📈 Phân tích</button>
+            </div>
+
+            <!-- Tab: Realtime Data -->
+            <div class="tab-content active" id="tab-realtime">
+                <div class="grid">
+                    <!-- Traffic Stats -->
+                    <div>
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="icon">📊</span>
+                                Traffic Sources
+                            </h2>
+                            <span class="refresh-time" id="sourcesTime">-</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-box organic">
+                                <div class="stat-value" id="organicSessions">-</div>
+                                <div class="stat-label">Organic Search</div>
+                            </div>
+                            <div class="stat-box direct">
+                                <div class="stat-value" id="directSessions">-</div>
+                                <div class="stat-label">Direct</div>
+                            </div>
+                            <div class="stat-box social">
+                                <div class="stat-value" id="socialSessions">-</div>
+                                <div class="stat-label">Organic Social</div>
+                            </div>
+                            <div class="stat-box referral">
+                                <div class="stat-value" id="referralSessions">-</div>
+                                <div class="stat-label">Referral</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Pages -->
+                    <div>
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <span class="icon">📄</span>
+                                Top Pages
+                            </h2>
+                            <button class="btn btn-primary btn-sm" onclick="loadPages()">Refresh</button>
+                        </div>
+                        <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Trang</th>
+                                        <th>Views</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pagesTable">
+                                    <tr>
+                                        <td colspan="3" class="loading">
+                                            <div class="spinner"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Raw Response -->
+                <div style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <span class="icon">💻</span>
+                            Raw API Response
+                        </h2>
+                        <select id="endpointSelect" onchange="loadRawData()" class="btn btn-primary btn-sm" style="padding: 8px 12px;">
+                            <option value="sources" selected>Traffic Sources</option>
+                            <option value="pages">Top Pages</option>
+                            <option value="devices">Devices</option>
+                            <option value="all">All Sites Overview</option>
+                        </select>
+                    </div>
+                    <div class="data-display" id="rawData">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Tab: Snapshots -->
+            <div class="tab-content" id="tab-snapshots">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span class="icon">💾</span>
+                        Snapshots đã lưu (<span id="snapshotCount">0</span>)
+                    </h2>
+                    <button class="btn btn-danger btn-sm" onclick="clearAllData()">🗑️ Xóa tất cả</button>
+                </div>
+                <div id="snapshotList">
+                    <p style="text-align: center; color: var(--gray); padding: 40px;">
+                        Chưa có snapshot nào. Nhấn "Lưu Snapshot" để lưu dữ liệu hiện tại.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab: Analysis -->
+            <div class="tab-content" id="tab-analysis">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span class="icon">📈</span>
+                        Phân tích & Tổng hợp
+                    </h2>
+                    <button class="btn btn-primary btn-sm" onclick="loadAnalysis()">Refresh</button>
+                </div>
+                <div id="analysisContent">
+                    <p style="text-align: center; color: var(--gray); padding: 40px;">
+                        Lưu ít nhất 2 snapshots để xem phân tích tăng trưởng.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 TazaGroup - Google Analytics Data API v1beta</p>
+        </footer>
+    </div>
+
+    <!-- Save Snapshot Modal -->
+    <div class="modal" id="saveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">💾 Lưu Snapshot</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="saveModalAlert"></div>
+            <div class="form-group">
+                <label>Tên Snapshot:</label>
+                <input type="text" id="snapshotLabel" placeholder="VD: Báo cáo tháng 12/2025">
+            </div>
+            <div class="form-group">
+                <label>Khoảng thời gian:</label>
+                <p id="snapshotDateRange" style="font-family: monospace; color: var(--primary);"></p>
+            </div>
+            <button class="btn btn-success btn-lg" onclick="confirmSaveSnapshot()" style="width: 100%;">
+                💾 Lưu vào Database
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+        
+        // 5 Website Configuration
+        const SITES = {
+            clinic: {
+                key: 'clinic',
+                name: 'TazaSkinClinic',
+                domain: 'tazaskinclinic.com',
+                icon: '🏥',
+                propertyId: '354761183'
+            },
+            timona: {
+                key: 'timona',
+                name: 'Timona',
+                domain: 'timona.edu.vn',
+                icon: '🎓',
+                propertyId: '354372781'
+            },
+            hderma: {
+                key: 'hderma',
+                name: 'Hderma',
+                domain: 'hderma.vn',
+                icon: '💊',
+                propertyId: '501388109'
+            },
+            elasome: {
+                key: 'elasome',
+                name: 'Elasome',
+                domain: 'elasome.com',
+                icon: '🧬',
+                propertyId: '501465412'
+            },
+            group: {
+                key: 'group',
+                name: 'TazaGroup',
+                domain: 'tazagroup.vn',
+                icon: '🏢',
+                propertyId: '406087702'
+            }
+        };
+
+        let currentSite = 'elasome';
+        let currentDateRange = { startDate: '30daysAgo', endDate: 'today' };
+        let siteData = {};
+
+        // Date Range Functions
+        function selectDateRange(startDate, endDate, btn) {
+            currentDateRange = { startDate, endDate };
+            
+            document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            
+            document.getElementById('customDateRange').style.display = 'none';
+            
+            refreshAll();
+        }
+
+        function toggleCustomDate() {
+            const customDiv = document.getElementById('customDateRange');
+            customDiv.style.display = customDiv.style.display === 'none' ? 'flex' : 'none';
+            
+            document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-range="custom"]').classList.add('active');
+            
+            // Set default dates
+            const today = new Date();
+            const monthAgo = new Date();
+            monthAgo.setMonth(monthAgo.getMonth() - 1);
+            
+            document.getElementById('endDate').value = today.toISOString().split('T')[0];
+            document.getElementById('startDate').value = monthAgo.toISOString().split('T')[0];
+        }
+
+        function applyCustomDate() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (startDate && endDate) {
+                currentDateRange = { startDate, endDate };
+                refreshAll();
+            }
+        }
+
+        // Render overview cards
+        function renderOverviewCards() {
+            const grid = document.getElementById('overviewGrid');
+            grid.innerHTML = Object.values(SITES).map(site => `
+                <div class="overview-card ${site.key === currentSite ? 'active' : ''}" 
+                     onclick="selectSite('${site.key}')" 
+                     id="card-${site.key}">
+                    <div class="site-header">
+                        <span class="site-logo">${site.icon}</span>
+                        <div>
+                            <div class="site-title">${site.name}</div>
+                            <div class="site-url">${site.domain}</div>
+                        </div>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="metric-value" id="metric-sessions-${site.key}">-</div>
+                            <div class="metric-label">Sessions</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="metric-users-${site.key}">-</div>
+                            <div class="metric-label">Users</div>
+                        </div>
+                    </div>
+                    <span class="status-badge loading" id="badge-${site.key}">Đang kiểm tra...</span>
+                </div>
+            `).join('');
+        }
+
+        // Select site
+        function selectSite(siteKey) {
+            currentSite = siteKey;
+            
+            document.querySelectorAll('.overview-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(`card-${siteKey}`).classList.add('active');
+            document.getElementById('currentSiteBadge').textContent = SITES[siteKey].name;
+            
+            loadSiteData();
+        }
+
+        // Check server health
+        async function checkHealth() {
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/health`);
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    statusDot.className = 'status-dot connected';
+                    statusText.textContent = `✅ Server hoạt động - ${new Date(data.timestamp).toLocaleTimeString('vi-VN')}`;
+                    return true;
+                }
+            } catch (error) {
+                statusDot.className = 'status-dot error';
+                statusText.textContent = '❌ Không thể kết nối server';
+            }
+            return false;
+        }
+
+        // Load all sites data
+        async function loadAllSitesData() {
+            const { startDate, endDate } = currentDateRange;
+            
+            for (const siteKey of Object.keys(SITES)) {
+                const badge = document.getElementById(`badge-${siteKey}`);
+                
+                try {
+                    const response = await fetch(`${API_BASE}/api/analytics/${siteKey}/sources?startDate=${startDate}&endDate=${endDate}`);
+                    const data = await response.json();
+                    
+                    if (response.ok && !data.error) {
+                        siteData[siteKey] = data;
+                        
+                        const totalSessions = data.sources?.reduce((sum, s) => sum + s.sessions, 0) || 0;
+                        const totalUsers = data.sources?.reduce((sum, s) => sum + s.users, 0) || 0;
+                        
+                        document.getElementById(`metric-sessions-${siteKey}`).textContent = totalSessions.toLocaleString();
+                        document.getElementById(`metric-users-${siteKey}`).textContent = totalUsers.toLocaleString();
+                        
+                        badge.className = 'status-badge ok';
+                        badge.textContent = '✓ OK';
+                    } else {
+                        throw new Error(data.error || 'Failed');
+                    }
+                } catch (error) {
+                    badge.className = 'status-badge error';
+                    badge.textContent = '✗ Lỗi';
+                    document.getElementById(`metric-sessions-${siteKey}`).textContent = '-';
+                    document.getElementById(`metric-users-${siteKey}`).textContent = '-';
+                }
+            }
+        }
+
+        // Load current site data
+        async function loadSiteData() {
+            const { startDate, endDate } = currentDateRange;
+            
+            try {
+                // Load sources
+                const sourcesRes = await fetch(`${API_BASE}/api/analytics/${currentSite}/sources?startDate=${startDate}&endDate=${endDate}`);
+                const sourcesData = await sourcesRes.json();
+                
+                if (sourcesData.sources) {
+                    updateTrafficStats(sourcesData);
+                }
+                
+                // Load pages
+                const pagesRes = await fetch(`${API_BASE}/api/analytics/${currentSite}/pages?startDate=${startDate}&endDate=${endDate}`);
+                const pagesData = await pagesRes.json();
+                
+                if (pagesData.pages) {
+                    updatePagesTable(pagesData);
+                }
+                
+            } catch (error) {
+                console.error('Error loading site data:', error);
+            }
+            
+            loadRawData();
+        }
+
+        // Update traffic stats
+        function updateTrafficStats(data) {
+            const sources = data.sources || [];
+            
+            const organic = sources.find(s => s.channel === 'Organic Search');
+            const direct = sources.find(s => s.channel === 'Direct');
+            const social = sources.find(s => s.channel === 'Organic Social');
+            const referral = sources.find(s => s.channel === 'Referral');
+            
+            document.getElementById('organicSessions').textContent = organic ? organic.sessions.toLocaleString() : '0';
+            document.getElementById('directSessions').textContent = direct ? direct.sessions.toLocaleString() : '0';
+            document.getElementById('socialSessions').textContent = social ? social.sessions.toLocaleString() : '0';
+            document.getElementById('referralSessions').textContent = referral ? referral.sessions.toLocaleString() : '0';
+            
+            document.getElementById('sourcesTime').textContent = 
+                `${currentDateRange.startDate} → ${currentDateRange.endDate}`;
+        }
+
+        // Update pages table
+        function updatePagesTable(data) {
+            const tbody = document.getElementById('pagesTable');
+            const pages = data.pages || [];
+            
+            if (pages.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Không có dữ liệu</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = pages.slice(0, 10).map((page, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td><code style="font-size: 0.8rem;">${page.path.substring(0, 40)}${page.path.length > 40 ? '...' : ''}</code></td>
+                    <td><strong>${page.pageviews.toLocaleString()}</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        // Load raw data
+        async function loadRawData() {
+            const select = document.getElementById('endpointSelect');
+            const rawDataEl = document.getElementById('rawData');
+            const endpoint = select.value;
+            const { startDate, endDate } = currentDateRange;
+            
+            rawDataEl.textContent = 'Loading...';
+            
+            const endpoints = {
+                sources: `/api/analytics/${currentSite}/sources?startDate=${startDate}&endDate=${endDate}`,
+                pages: `/api/analytics/${currentSite}/pages?startDate=${startDate}&endDate=${endDate}`,
+                devices: `/api/analytics/${currentSite}/devices?startDate=${startDate}&endDate=${endDate}`,
+                all: `/api/analytics/all?startDate=${startDate}&endDate=${endDate}`
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}${endpoints[endpoint]}`);
+                const data = await response.json();
+                rawDataEl.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                rawDataEl.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Load pages
+        async function loadPages() {
+            const { startDate, endDate } = currentDateRange;
+            const pagesRes = await fetch(`${API_BASE}/api/analytics/${currentSite}/pages?startDate=${startDate}&endDate=${endDate}`);
+            const pagesData = await pagesRes.json();
+            if (pagesData.pages) updatePagesTable(pagesData);
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            if (tabName === 'snapshots') loadSnapshots();
+            if (tabName === 'analysis') loadAnalysis();
+        }
+
+        // Save Snapshot
+        function saveSnapshot() {
+            document.getElementById('snapshotLabel').value = `Báo cáo ${new Date().toLocaleDateString('vi-VN')}`;
+            document.getElementById('snapshotDateRange').textContent = 
+                `${currentDateRange.startDate} → ${currentDateRange.endDate}`;
+            document.getElementById('saveModalAlert').innerHTML = '';
+            document.getElementById('saveModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('saveModal').classList.remove('show');
+        }
+
+        async function confirmSaveSnapshot() {
+            const label = document.getElementById('snapshotLabel').value;
+            const alertDiv = document.getElementById('saveModalAlert');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/snapshot`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ...currentDateRange,
+                        label
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alertDiv.innerHTML = '<div class="alert alert-success">✅ Đã lưu snapshot thành công!</div>';
+                    setTimeout(() => {
+                        closeModal();
+                        loadSnapshots();
+                    }, 1500);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                alertDiv.innerHTML = `<div class="alert alert-error">❌ Lỗi: ${error.message}</div>`;
+            }
+        }
+
+        // Load Snapshots
+        async function loadSnapshots() {
+            const listDiv = document.getElementById('snapshotList');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/snapshots`);
+                const data = await response.json();
+                
+                document.getElementById('snapshotCount').textContent = data.total;
+                
+                if (data.snapshots.length === 0) {
+                    listDiv.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 40px;">Chưa có snapshot nào.</p>';
+                    return;
+                }
+                
+                listDiv.innerHTML = data.snapshots.map(s => `
+                    <div class="snapshot-item">
+                        <div class="snapshot-info">
+                            <div class="snapshot-label">${s.label}</div>
+                            <div class="snapshot-date">${new Date(s.createdAt).toLocaleString('vi-VN')}</div>
+                            <div class="snapshot-range">${s.dateRange.startDate} → ${s.dateRange.endDate}</div>
+                        </div>
+                        <div class="snapshot-actions">
+                            <button class="btn btn-primary btn-sm" onclick="viewSnapshot('${s.id}')">👁️ Xem</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteSnapshot('${s.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                listDiv.innerHTML = `<p style="color: var(--danger);">Lỗi: ${error.message}</p>`;
+            }
+        }
+
+        // View Snapshot
+        function viewSnapshot(id) {
+            // Find and display snapshot data
+            fetch(`${API_BASE}/api/snapshots`)
+                .then(res => res.json())
+                .then(data => {
+                    const snapshot = data.snapshots.find(s => s.id === id);
+                    if (snapshot) {
+                        alert(JSON.stringify(snapshot.data, null, 2));
+                    }
+                });
+        }
+
+        // Delete Snapshot
+        async function deleteSnapshot(id) {
+            if (!confirm('Bạn có chắc muốn xóa snapshot này?')) return;
+            
+            try {
+                await fetch(`${API_BASE}/api/snapshot/${id}`, { method: 'DELETE' });
+                loadSnapshots();
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        }
+
+        // Clear all data
+        async function clearAllData() {
+            if (!confirm('Bạn có chắc muốn xóa TẤT CẢ dữ liệu đã lưu?')) return;
+            
+            try {
+                await fetch(`${API_BASE}/api/data/clear`, { method: 'DELETE' });
+                loadSnapshots();
+                loadAnalysis();
+                alert('✅ Đã xóa tất cả dữ liệu!');
+            } catch (error) {
+                alert('Lỗi: ' + error.message);
+            }
+        }
+
+        // Load Analysis
+        async function loadAnalysis() {
+            const contentDiv = document.getElementById('analysisContent');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/analytics/summary`);
+                const data = await response.json();
+                
+                if (Object.keys(data.summary).length === 0) {
+                    contentDiv.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 40px;">Lưu ít nhất 2 snapshots để xem phân tích.</p>';
+                    return;
+                }
+                
+                let html = '<div class="table-container"><table><thead><tr>';
+                html += '<th>Website</th><th>Sessions</th><th>Users</th><th>Pageviews</th><th>Tăng trưởng</th>';
+                html += '</tr></thead><tbody>';
+                
+                for (const [siteKey, info] of Object.entries(data.summary)) {
+                    const site = SITES[siteKey];
+                    const growth = info.growth;
+                    
+                    html += `<tr>
+                        <td><strong>${site?.icon || ''} ${site?.name || siteKey}</strong></td>
+                        <td>${info.current?.sessions?.toLocaleString() || '-'}</td>
+                        <td>${info.current?.users?.toLocaleString() || '-'}</td>
+                        <td>${info.current?.pageviews?.toLocaleString() || '-'}</td>
+                        <td>${growth ? `
+                            <span style="color: ${parseFloat(growth.sessions) >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                                ${parseFloat(growth.sessions) >= 0 ? '↑' : '↓'} ${Math.abs(growth.sessions)}%
+                            </span>
+                        ` : '-'}</td>
+                    </tr>`;
+                }
+                
+                html += '</tbody></table></div>';
+                
+                if (data.lastUpdate) {
+                    html += `<p style="text-align: right; color: var(--gray); margin-top: 15px;">
+                        Cập nhật lần cuối: ${new Date(data.lastUpdate).toLocaleString('vi-VN')}
+                    </p>`;
+                }
+                
+                contentDiv.innerHTML = html;
+            } catch (error) {
+                contentDiv.innerHTML = `<p style="color: var(--danger);">Lỗi: ${error.message}</p>`;
+            }
+        }
+
+        // Refresh all
+        async function refreshAll() {
+            await checkHealth();
+            renderOverviewCards();
+            await loadAllSitesData();
+            await loadSiteData();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderOverviewCards();
+            checkHealth();
+            loadAllSitesData();
+            setTimeout(loadSiteData, 500);
+        });
+
+        // Close modal on outside click
+        document.getElementById('saveModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) closeModal();
+        });
+    </script>
+</body>
+</html>
