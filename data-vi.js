@@ -1,24 +1,35 @@
-// KPI SEO 2026 - Dữ liệu từ phantichmoinhat.md (22/12/2025) - TIẾNG VIỆT
+// KPI SEO 2026 - Dữ liệu cập nhật từ Google Analytics (23/12/2025) - TIẾNG VIỆT
+// Baseline 2025: Sessions/Users/Pageviews từ GA 365 ngày thực tế
+const GA_BASELINE_2025 = {
+  clinic: { sessions: 28598, users: 22200, pageviews: 47656, conversions: 30, bounceRate: 51.6, avgDuration: 121 },
+  timona: { sessions: 103364, users: 82164, pageviews: 136465, conversions: 30, bounceRate: 51.7, avgDuration: 134 },
+  hderma: { sessions: 3209, users: 1874, pageviews: 7411, conversions: 2, bounceRate: 43.5, avgDuration: 170 },
+  elasome: { sessions: 925, users: 677, pageviews: 1627, conversions: 0, bounceRate: 52.3, avgDuration: 180 },
+  group: { sessions: 5909, users: 4846, pageviews: 12076, conversions: 0, bounceRate: 50.8, avgDuration: 107 }
+};
+
 const DATA = {
   clinic: {
     name: "TazaSkinClinic.com",
     desc: "Hệ thống viện da liễu & thẩm mỹ (>500K khách, 10+ năm)",
     color: "#dc2626",
     focus: "Peel an toàn, Phục hồi sinh học, Trẻ hóa không xâm lấn",
+    baseline2025: { sessions: 28598, users: 22200, avgMonth: 2383, conversions: 30 },
+    target2026: { sessions: 45000, growth: "57%", conversionsTarget: 675 },
     headers: ["Tháng", "Lượt truy cập", "Đặt lịch", "Từ khóa Top 1-10", "Tổng quan", "Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4"],
     rows: [
-      ["T1", "1.200", 25, 30, "Kiểm tra & nền tảng", "Kiểm tra kỹ thuật di động", "Bài viết Acnes Peel", "Thiết lập AI tư vấn da", "Schema chi nhánh"],
-      ["T2", "1.300", 30, 35, "Chuẩn bị mùa hè", "Nội dung peel không bong", "HIFU không xâm lấn", "Xây dựng entity chi nhánh", "Trích dẫn peel TPHCM"],
-      ["T3", "1.400", 35, 40, "Chiến dịch mùa hè", "Ưu đãi HIFU 199K", "Video trước-sau", "Kiểm tra ngữ nghĩa", "Báo cáo Q1"],
-      ["T4", "1.500", 40, 45, "Tăng trưởng", "Bài laser Whitening Plus", "Nội dung PRP", "Cá nhân hóa AI", "Câu hỏi thường gặp"],
-      ["T5", "1.600", 45, 50, "Mùa cao điểm", "Chiến dịch triệt lông 499K", "Kiểm tra AI lead", "Liên kết ngược y khoa", "Kiểm tra chuyển đổi"],
-      ["T6", "1.700", 50, 55, "Cao điểm", "Trị hôi nách Laser Nano", "Hợp tác đại học", "Kiểm tra trích xuất", "Điều chỉnh giữa năm"],
-      ["T7", "1.800", 55, 60, "Duy trì", "Giảm béo HIFU Body", "Collagen nguyên bào", "Liên kết nội bộ", "Thị phần tiếng nói"],
-      ["T8", "1.900", 60, 65, "Tăng mạnh", "Chiến dịch trẻ hóa Q3", "Video cảm nhận", "Điểm liên quan", "Đánh giá lead"],
-      ["T9", "2.000", 65, 70, "Cao điểm Q3", "Ưu đãi cuối hè", "Hội thảo da liễu", "Điểm ngữ nghĩa", "Báo cáo Q3"],
-      ["T10", "2.100", 70, 75, "Trước Tết", "Chiến dịch giảm béo Tết", "Mở rộng trích dẫn", "Thử nghiệm A/B form", "Báo cáo chuyển đổi"],
-      ["T11", "2.200", 75, 80, "Tăng Tết", "Entity mạng xã hội", "Làm mới nội dung AIO", "Theo dõi lead", "Kiểm tra cuối năm"],
-      ["T12", "2.300", 80, 85, "Tổng ~630 đặt lịch", "Chiến dịch Tết VIP", "Báo cáo chỉ số AI", "Sao lưu dữ liệu", "Kế hoạch 2027"]
+      ["T1", "3.200", 40, 35, "Kiểm tra & nền tảng", "Kiểm tra kỹ thuật di động", "Bài viết Acnes Peel", "Thiết lập AI tư vấn da", "Schema chi nhánh"],
+      ["T2", "3.400", 45, 40, "Chuẩn bị mùa hè", "Nội dung peel không bong", "HIFU không xâm lấn", "Xây dựng entity chi nhánh", "Trích dẫn peel TPHCM"],
+      ["T3", "3.600", 50, 45, "Chiến dịch mùa hè", "Ưu đãi HIFU 199K", "Video trước-sau", "Kiểm tra ngữ nghĩa", "Báo cáo Q1"],
+      ["T4", "3.800", 55, 50, "Tăng trưởng", "Bài laser Whitening Plus", "Nội dung PRP", "Cá nhân hóa AI", "Câu hỏi thường gặp"],
+      ["T5", "4.000", 60, 55, "Mùa cao điểm", "Chiến dịch triệt lông 499K", "Kiểm tra AI lead", "Liên kết ngược y khoa", "Kiểm tra chuyển đổi"],
+      ["T6", "4.200", 65, 60, "Cao điểm", "Trị hôi nách Laser Nano", "Hợp tác đại học", "Kiểm tra trích xuất", "Điều chỉnh giữa năm"],
+      ["T7", "4.000", 55, 65, "Duy trì", "Giảm béo HIFU Body", "Collagen nguyên bào", "Liên kết nội bộ", "Thị phần tiếng nói"],
+      ["T8", "4.000", 55, 70, "Tăng mạnh", "Chiến dịch trẻ hóa Q3", "Video cảm nhận", "Điểm liên quan", "Đánh giá lead"],
+      ["T9", "3.800", 50, 75, "Cao điểm Q3", "Ưu đãi cuối hè", "Hội thảo da liễu", "Điểm ngữ nghĩa", "Báo cáo Q3"],
+      ["T10", "3.600", 50, 80, "Trước Tết", "Chiến dịch giảm béo Tết", "Mở rộng trích dẫn", "Thử nghiệm A/B form", "Báo cáo chuyển đổi"],
+      ["T11", "3.800", 60, 85, "Tăng Tết", "Entity mạng xã hội", "Làm mới nội dung AIO", "Theo dõi lead", "Kiểm tra cuối năm"],
+      ["T12", "4.200", 90, 90, "Tổng ~675 đặt lịch", "Chiến dịch Tết VIP", "Báo cáo chỉ số AI", "Sao lưu dữ liệu", "Kế hoạch 2027"]
     ]
   },
   timona: {
@@ -26,20 +37,22 @@ const DATA = {
     desc: "Học viện thẩm mỹ quốc tế (>10K học viên/năm, ITEC 45 nước)",
     color: "#1e40af",
     focus: "Tuyển sinh, 100% việc làm, Hợp tác 25 BV Hàn Quốc",
+    baseline2025: { sessions: 103364, users: 82164, avgMonth: 8614, conversions: 30 },
+    target2026: { sessions: 155000, growth: "50%", conversionsTarget: 775 },
     headers: ["Tháng", "Lượt truy cập", "Đăng ký", "Từ khóa Top 1-10", "Tổng quan", "Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4"],
     rows: [
-      ["T1", "10.000", 100, 280, "Mùa thấp điểm", "Kiểm tra từ khóa hướng nghiệp", "Video PBL thực hành", "Điểm nhúng", "Thử 50 truy vấn AI"],
-      ["T2", "10.500", 120, 300, "Chuẩn bị tuyển sinh", "Làm mới '16 tuổi học nghề'", "Xây dựng entity ITEC", "PDF lộ trình tải về", "Tỷ lệ trích dẫn"],
-      ["T3", "12.000", 180, 327, "Bắt đầu cao điểm", "So sánh nghề vs đại học", "A/B CTA đăng ký", "AI tư vấn khóa học", "Báo cáo hiển thị"],
-      ["T4", "14.000", 250, 340, "Cao điểm tuyển sinh", "Câu chuyện học viên", "Tiếp thị người ảnh hưởng", "Schema khóa học", "Trích xuất nội dung"],
-      ["T5", "16.000", 320, 355, "Đỉnh mùa", "Ưu đãi trả góp", "Kiểm tra AI lead", "Tối ưu di động AIO", "Phân tích cảm xúc AI"],
-      ["T6", "18.000", 360, 370, "Duy trì cao", "Hội thảo hợp tác Hàn Quốc", "Nội dung tu nghiệp", "Tỷ lệ chuyển đổi", "Điều chỉnh giữa năm"],
-      ["T7", "20.000", 380, 385, "Sau đỉnh", "Lộ trình combo chủ spa", "Liên kết ngược giáo dục", "Độ liên quan nhúng", "Hiện diện không click"],
-      ["T8", "22.000", 400, 400, "Tăng cuối mùa", "Sự kiện tốt nghiệp", "Tối ưu FAQ AI", "Đánh giá học viên", "Thị phần tiếng nói"],
-      ["T9", "23.000", 420, 415, "Đỉnh cuối", "Tổng kết Asia Beauty", "Infographic nghề hot", "Mật độ ngữ nghĩa", "Chuẩn bị Q4"],
-      ["T10", "24.000", 400, 430, "Giảm nhẹ", "Chuẩn bị năm mới", "Từ khóa trích dẫn", "Kiểm tra liên kết nội bộ", "Báo cáo chuyển đổi"],
-      ["T11", "24.500", 380, 445, "Mùa thấp", "Entity LinkedIn/Reddit", "Làm mới nội dung AIO", "Chuyển đổi ảnh hưởng", "Chuẩn bị báo cáo"],
-      ["T12", "25.000", 350, 460, "Tổng ~3.660 đăng ký", "Chiến dịch Tết hướng nghiệp", "Báo cáo KPI AI", "Sao lưu & tài liệu", "Kế hoạch 2027"]
+      ["T1", "10.500", 45, 300, "Mùa thấp điểm", "Kiểm tra từ khóa hướng nghiệp", "Video PBL thực hành", "Điểm nhúng", "Thử 50 truy vấn AI"],
+      ["T2", "11.000", 50, 320, "Chuẩn bị tuyển sinh", "Làm mới '16 tuổi học nghề'", "Xây dựng entity ITEC", "PDF lộ trình tải về", "Tỷ lệ trích dẫn"],
+      ["T3", "12.500", 60, 340, "Bắt đầu cao điểm", "So sánh nghề vs đại học", "A/B CTA đăng ký", "AI tư vấn khóa học", "Báo cáo hiển thị"],
+      ["T4", "13.500", 75, 360, "Cao điểm tuyển sinh", "Câu chuyện học viên", "Tiếp thị người ảnh hưởng", "Schema khóa học", "Trích xuất nội dung"],
+      ["T5", "14.500", 90, 380, "Đỉnh mùa", "Ưu đãi trả góp", "Kiểm tra AI lead", "Tối ưu di động AIO", "Phân tích cảm xúc AI"],
+      ["T6", "15.000", 85, 400, "Duy trì cao", "Hội thảo hợp tác Hàn Quốc", "Nội dung tu nghiệp", "Tỷ lệ chuyển đổi", "Điều chỉnh giữa năm"],
+      ["T7", "14.000", 70, 420, "Sau đỉnh", "Lộ trình combo chủ spa", "Liên kết ngược giáo dục", "Độ liên quan nhúng", "Hiện diện không click"],
+      ["T8", "13.500", 60, 440, "Tăng cuối mùa", "Sự kiện tốt nghiệp", "Tối ưu FAQ AI", "Đánh giá học viên", "Thị phần tiếng nói"],
+      ["T9", "13.000", 55, 460, "Đỉnh cuối", "Tổng kết Asia Beauty", "Infographic nghề hot", "Mật độ ngữ nghĩa", "Chuẩn bị Q4"],
+      ["T10", "12.500", 50, 480, "Giảm nhẹ", "Chuẩn bị năm mới", "Từ khóa trích dẫn", "Kiểm tra liên kết nội bộ", "Báo cáo chuyển đổi"],
+      ["T11", "12.000", 55, 500, "Mùa thấp", "Entity LinkedIn/Reddit", "Làm mới nội dung AIO", "Chuyển đổi ảnh hưởng", "Chuẩn bị báo cáo"],
+      ["T12", "13.000", 80, 520, "Tổng ~775 đăng ký", "Chiến dịch Tết hướng nghiệp", "Báo cáo KPI AI", "Sao lưu & tài liệu", "Kế hoạch 2027"]
     ]
   },
   hderma: {
@@ -47,20 +60,22 @@ const DATA = {
     desc: "Dược mỹ phẩm chuẩn y khoa FDA (thảo dược tự nhiên)",
     color: "#059669",
     focus: "Sản phẩm FDA, Phục hồi cấp tế bào, Hợp tác BV Da Liễu",
+    baseline2025: { sessions: 3209, users: 1874, avgMonth: 267, conversions: 2 },
+    target2026: { sessions: 6400, growth: "100%", conversionsTarget: 160 },
     headers: ["Tháng", "Lượt truy cập", "Đơn hàng", "Từ khóa Top 1-10", "Tổng quan", "Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4"],
     rows: [
-      ["T1", "200", 4, 5, "Xây dựng nền tảng", "Schema sản phẩm", "Routine T.606 Shining", "Nhúng kem dưỡng", "Kiểm tra AIO"],
-      ["T2", "220", 5, 7, "Tăng nhẹ tự nhiên", "Bundle D.701 Mask", "Đánh giá chuyên gia", "Tối ưu di động", "Trích dẫn Hderma serum"],
-      ["T3", "250", 6, 10, "Mùa chăm da", "Infographic ốc sên", "Popup ưu đãi thành viên", "Người ảnh hưởng nhỏ", "Mật độ ngữ nghĩa"],
-      ["T4", "280", 7, 13, "Ổn định tăng trưởng", "Chiến dịch routine sáng/tối", "Dữ liệu có cấu trúc", "AI tư vấn da", "FAQ không click"],
-      ["T5", "310", 8, 17, "Mùa hè skincare", "Làm mới D.350 Snail", "Theo dõi giỏ hàng", "Tối ưu FAQ", "Kiểm tra chuyển đổi"],
-      ["T6", "340", 9, 22, "Cao điểm skincare", "Bundle hè BHA D.504", "Mở rộng entity Hderma", "Kiểm tra trích xuất", "Điều chỉnh giữa năm"],
-      ["T7", "370", 10, 28, "Duy trì đà", "Video cảm nhận người dùng", "Liên kết ngược diễn đàn", "Điểm liên quan", "Phân tích cảm xúc"],
-      ["T8", "400", 11, 35, "Tăng trưởng ổn định", "Chiến dịch T.240 Acne", "Tối ưu liên kết nội bộ", "Thị phần tiếng nói", "Đánh giá lead"],
-      ["T9", "430", 12, 43, "Cao điểm Q3", "Ưu đãi cuối quý", "Tổng kết hội thảo Exosome", "Điểm ngữ nghĩa", "Chuẩn bị Q4"],
-      ["T10", "460", 13, 53, "Trước lễ", "Bundle quà Tết", "Mở rộng từ khóa trích dẫn", "Thử nghiệm A/B di động", "Báo cáo chuyển đổi"],
-      ["T11", "480", 14, 65, "Tăng mạnh gần Tết", "Mở rộng entity xã hội", "Làm mới nội dung AIO", "Theo dõi lead ảnh hưởng", "Kiểm tra cuối năm"],
-      ["T12", "500", 15, 80, "Tổng ~114 đơn/năm", "Banner chiến dịch Tết", "Báo cáo chỉ số AI", "Sao lưu dữ liệu", "Kế hoạch 2027"]
+      ["T1", "400", 8, 8, "Xây dựng nền tảng", "Schema sản phẩm", "Routine T.606 Shining", "Nhúng kem dưỡng", "Kiểm tra AIO"],
+      ["T2", "450", 10, 12, "Tăng nhẹ tự nhiên", "Bundle D.701 Mask", "Đánh giá chuyên gia", "Tối ưu di động", "Trích dẫn Hderma serum"],
+      ["T3", "480", 11, 16, "Mùa chăm da", "Infographic ốc sên", "Popup ưu đãi thành viên", "Người ảnh hưởng nhỏ", "Mật độ ngữ nghĩa"],
+      ["T4", "520", 12, 22, "Ổn định tăng trưởng", "Chiến dịch routine sáng/tối", "Dữ liệu có cấu trúc", "AI tư vấn da", "FAQ không click"],
+      ["T5", "560", 14, 28, "Mùa hè skincare", "Làm mới D.350 Snail", "Theo dõi giỏ hàng", "Tối ưu FAQ", "Kiểm tra chuyển đổi"],
+      ["T6", "600", 15, 35, "Cao điểm skincare", "Bundle hè BHA D.504", "Mở rộng entity Hderma", "Kiểm tra trích xuất", "Điều chỉnh giữa năm"],
+      ["T7", "620", 14, 42, "Duy trì đà", "Video cảm nhận người dùng", "Liên kết ngược diễn đàn", "Điểm liên quan", "Phân tích cảm xúc"],
+      ["T8", "650", 15, 50, "Tăng trưởng ổn định", "Chiến dịch T.240 Acne", "Tối ưu liên kết nội bộ", "Thị phần tiếng nói", "Đánh giá lead"],
+      ["T9", "680", 14, 58, "Cao điểm Q3", "Ưu đãi cuối quý", "Tổng kết hội thảo Exosome", "Điểm ngữ nghĩa", "Chuẩn bị Q4"],
+      ["T10", "720", 15, 68, "Trước lễ", "Bundle quà Tết", "Mở rộng từ khóa trích dẫn", "Thử nghiệm A/B di động", "Báo cáo chuyển đổi"],
+      ["T11", "760", 16, 78, "Tăng mạnh gần Tết", "Mở rộng entity xã hội", "Làm mới nội dung AIO", "Theo dõi lead ảnh hưởng", "Kiểm tra cuối năm"],
+      ["T12", "800", 16, 90, "Tổng ~160 đơn/năm", "Banner chiến dịch Tết", "Báo cáo chỉ số AI", "Sao lưu dữ liệu", "Kế hoạch 2027"]
     ]
   },
   elasome: {
@@ -68,20 +83,22 @@ const DATA = {
     desc: "Phân phối độc quyền Exosome Hàn Quốc (B2B)",
     color: "#7c3aed",
     focus: "M1-M5 Exosome, Kiểm định lâm sàng, Hỗ trợ Clinic/Spa",
+    baseline2025: { sessions: 925, users: 677, avgMonth: 77, conversions: 0 },
+    target2026: { sessions: 2400, growth: "160%", conversionsTarget: 36 },
     headers: ["Tháng", "Lượt truy cập", "Lead B2B", "Từ khóa Top 1-10", "Tổng quan", "Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4"],
     rows: [
-      ["T1", "10", "0,1", 3, "Nền tảng B2B ngách", "Nội dung M1 Glossy MTS", "PDF whitepaper lead", "Nhúng exosome", "Kiểm tra AIO"],
-      ["T2", "12", "0,2", 5, "Tăng chậm ổn định", "Case M2 Reju Focus 20 tỷ", "Hợp tác hội thảo", "Nội dung lâm sàng dài", "Xây dựng entity Elasome"],
-      ["T3", "15", "0,3", 7, "Tăng nhận diện", "Infographic M3 Melax 2-in-1", "Thiết lập FAQ không click", "Tiếp cận clinic", "Mật độ ngữ nghĩa"],
-      ["T4", "20", "0,5", 10, "Kéo B2B", "Dữ liệu lâm sàng có cấu trúc", "Trích dẫn 'exosome VN'", "Tối ưu form lead", "Báo cáo giữa quý"],
-      ["T5", "25", "0,8", 14, "Tăng lead chất lượng", "Nội dung M4 Exo Powder", "Kiểm tra lead ảnh hưởng", "Tần suất trích xuất", "Điều chỉnh chiến lược"],
-      ["T6", "30", "1", 19, "Ổn định pipeline", "Tổng kết K.A.T 2025", "Liên kết ngược diễn đàn y", "Điểm liên quan", "Báo cáo Q2"],
-      ["T7", "35", "1,2", 25, "Duy trì tăng trưởng", "Nội dung M5 Aqua Focus HA", "Kiểm tra cảm xúc AI", "Liên kết nội bộ", "Thị phần tiếng nói"],
-      ["T8", "40", "1,5", 33, "Tăng hợp tác", "Đẩy mạnh hợp tác clinic", "Tối ưu FAQ B2B", "Video BS cảm nhận", "Đánh giá chất lượng lead"],
-      ["T9", "45", "1,8", 43, "Cao điểm B2B Q3", "Chiến dịch cuối quý", "Cập nhật infographic M1-M5", "Điểm ngữ nghĩa", "Chuẩn bị Q3"],
-      ["T10", "50", "2", 56, "Đỉnh mùa B2B", "Gói ưu đãi B2B", "Mở rộng kiểm tra trích dẫn", "A/B form lead", "Báo cáo chuyển đổi"],
-      ["T11", "55", "2,2", 73, "Tăng cuối năm", "Xây dựng entity ngành", "Làm mới nội dung AIO", "Theo dõi tất cả lead B2B", "Kiểm tra cuối năm"],
-      ["T12", "60", "2,5", 95, "Tổng ~14 lead B2B", "Banner khuyến mãi cuối năm", "Báo cáo chỉ số AI", "Sao lưu & tài liệu", "Kế hoạch 2027"]
+      ["T1", "150", 2, 5, "Nền tảng B2B ngách", "Nội dung M1 Glossy MTS", "PDF whitepaper lead", "Nhúng exosome", "Kiểm tra AIO"],
+      ["T2", "170", 2, 8, "Tăng chậm ổn định", "Case M2 Reju Focus 20 tỷ", "Hợp tác hội thảo", "Nội dung lâm sàng dài", "Xây dựng entity Elasome"],
+      ["T3", "190", 2, 12, "Tăng nhận diện", "Infographic M3 Melax 2-in-1", "Thiết lập FAQ không click", "Tiếp cận clinic", "Mật độ ngữ nghĩa"],
+      ["T4", "210", 3, 18, "Kéo B2B", "Dữ liệu lâm sàng có cấu trúc", "Trích dẫn 'exosome VN'", "Tối ưu form lead", "Báo cáo giữa quý"],
+      ["T5", "220", 3, 25, "Tăng lead chất lượng", "Nội dung M4 Exo Powder", "Kiểm tra lead ảnh hưởng", "Tần suất trích xuất", "Điều chỉnh chiến lược"],
+      ["T6", "240", 3, 33, "Ổn định pipeline", "Tổng kết K.A.T 2025", "Liên kết ngược diễn đàn y", "Điểm liên quan", "Báo cáo Q2"],
+      ["T7", "260", 3, 42, "Duy trì tăng trưởng", "Nội dung M5 Aqua Focus HA", "Kiểm tra cảm xúc AI", "Liên kết nội bộ", "Thị phần tiếng nói"],
+      ["T8", "280", 3, 52, "Tăng hợp tác", "Đẩy mạnh hợp tác clinic", "Tối ưu FAQ B2B", "Video BS cảm nhận", "Đánh giá chất lượng lead"],
+      ["T9", "300", 4, 65, "Cao điểm B2B Q3", "Chiến dịch cuối quý", "Cập nhật infographic M1-M5", "Điểm ngữ nghĩa", "Chuẩn bị Q3"],
+      ["T10", "320", 4, 80, "Đỉnh mùa B2B", "Gói ưu đãi B2B", "Mở rộng kiểm tra trích dẫn", "A/B form lead", "Báo cáo chuyển đổi"],
+      ["T11", "340", 4, 95, "Tăng cuối năm", "Xây dựng entity ngành", "Làm mới nội dung AIO", "Theo dõi tất cả lead B2B", "Kiểm tra cuối năm"],
+      ["T12", "360", 5, 115, "Tổng ~36 lead B2B", "Banner khuyến mãi cuối năm", "Báo cáo chỉ số AI", "Sao lưu & tài liệu", "Kế hoạch 2027"]
     ]
   },
   group: {
@@ -89,20 +106,22 @@ const DATA = {
     desc: "Tập đoàn mẹ - Trưng bày & Tuyển dụng",
     color: "#64748b",
     focus: "Đồng bộ 4 nhánh, Hợp tác ĐH Y Dược Cần Thơ",
+    baseline2025: { sessions: 5909, users: 4846, avgMonth: 492, conversions: 0 },
+    target2026: { sessions: 9000, growth: "52%", conversionsTarget: 135 },
     headers: ["Tháng", "Lượt truy cập", "Lead TD/ĐT", "Từ khóa Top 1-10", "Tổng quan", "Tuần 1", "Tuần 2", "Tuần 3", "Tuần 4"],
     rows: [
-      ["T1", "500", 5, 10, "Duy trì thương hiệu", "Kiểm tra entity tập đoàn", "Nội dung hệ sinh thái 4 nhánh", "Nhúng", "Hiển thị"],
-      ["T2", "510", "5,5", 11, "Tăng nhẹ", "Nội dung hợp tác đại học", "Đánh giá môi trường", "Di động", "Trích dẫn"],
-      ["T3", "520", 6, 12, "Ổn định", "Infographic hệ sinh thái", "Tuyển dụng sale spa", "Hợp tác", "Mật độ"],
-      ["T4", "530", "6,5", 13, "Duy trì", "Chiến dịch tuyển dụng Q2", "Dữ liệu có cấu trúc Tổ chức", "Hỗ trợ chat", "Không click"],
-      ["T5", "540", 7, 14, "Tăng", "Làm mới trang tuyển dụng", "Theo dõi lead ảnh hưởng", "FAQ tuyển dụng", "Chuyển đổi"],
-      ["T6", "550", "7,5", 15, "Đỉnh tuyển dụng", "Sự kiện hợp tác ĐH Y Dược", "Mở rộng entity", "Trích xuất", "Điều chỉnh"],
-      ["T7", "560", 8, 16, "Duy trì", "Cảm nhận nhân viên", "Liên kết ngược doanh nghiệp", "Liên quan", "Cảm xúc"],
-      ["T8", "570", "8,5", 17, "Tăng", "Chiến dịch tuyển dụng Q3", "Liên kết nội bộ", "Thị phần tiếng nói", "Đánh giá"],
-      ["T9", "580", 9, 18, "Cao điểm", "Ưu đãi tuyển dụng cuối năm", "Infographic thành tựu", "Ngữ nghĩa", "Chuẩn bị"],
-      ["T10", "590", "9,5", 19, "Đỉnh", "Bundle quyền lợi đối tác", "Trích dẫn tập đoàn", "A/B", "Báo cáo"],
-      ["T11", "600", 10, 20, "Tăng", "Mở rộng entity xã hội", "Làm mới nội dung", "Theo dõi", "Kiểm tra"],
-      ["T12", "610", "10,5", 21, "Tổng ~94 lead", "Tổng kết khuyến mãi cuối năm", "Báo cáo tổng kết", "Sao lưu", "Kế hoạch 2027"]
+      ["T1", "650", 8, 14, "Duy trì thương hiệu", "Kiểm tra entity tập đoàn", "Nội dung hệ sinh thái 4 nhánh", "Nhúng", "Hiển thị"],
+      ["T2", "700", 9, 16, "Tăng nhẹ", "Nội dung hợp tác đại học", "Đánh giá môi trường", "Di động", "Trích dẫn"],
+      ["T3", "750", 10, 18, "Ổn định", "Infographic hệ sinh thái", "Tuyển dụng sale spa", "Hợp tác", "Mật độ"],
+      ["T4", "780", 11, 20, "Duy trì", "Chiến dịch tuyển dụng Q2", "Dữ liệu có cấu trúc Tổ chức", "Hỗ trợ chat", "Không click"],
+      ["T5", "800", 12, 22, "Tăng", "Làm mới trang tuyển dụng", "Theo dõi lead ảnh hưởng", "FAQ tuyển dụng", "Chuyển đổi"],
+      ["T6", "820", 12, 24, "Đỉnh tuyển dụng", "Sự kiện hợp tác ĐH Y Dược", "Mở rộng entity", "Trích xuất", "Điều chỉnh"],
+      ["T7", "800", 11, 26, "Duy trì", "Cảm nhận nhân viên", "Liên kết ngược doanh nghiệp", "Liên quan", "Cảm xúc"],
+      ["T8", "820", 11, 28, "Tăng", "Chiến dịch tuyển dụng Q3", "Liên kết nội bộ", "Thị phần tiếng nói", "Đánh giá"],
+      ["T9", "850", 12, 30, "Cao điểm", "Ưu đãi tuyển dụng cuối năm", "Infographic thành tựu", "Ngữ nghĩa", "Chuẩn bị"],
+      ["T10", "880", 12, 32, "Đỉnh", "Bundle quyền lợi đối tác", "Trích dẫn tập đoàn", "A/B", "Báo cáo"],
+      ["T11", "920", 13, 34, "Tăng", "Mở rộng entity xã hội", "Làm mới nội dung", "Theo dõi", "Kiểm tra"],
+      ["T12", "980", 14, 36, "Tổng ~135 lead", "Tổng kết khuyến mãi cuối năm", "Báo cáo tổng kết", "Sao lưu", "Kế hoạch 2027"]
     ]
   }
 };
@@ -127,13 +146,33 @@ const GANTT_DATA = [
   ["Báo cáo", "Báo cáo năm & Kế hoạch 2027", "2026-12-31", "2026-12-31", "Mốc quan trọng"]
 ];
 
-// Dữ liệu tổng kết
+// Dữ liệu tổng kết - Cập nhật từ GA thực tế 2025 + Target 2026
 const SUMMARY = {
-  clinic: { traffic: "~20.000", leads: "~630", avgMonth: "~53", focus: "Peel/Phục hồi/Trẻ hóa" },
-  timona: { traffic: "~204.000", leads: "~3.660", avgMonth: "~305", focus: "Tuyển sinh ITEC" },
-  hderma: { traffic: "~4.220", leads: "~114", avgMonth: "~10", focus: "Dược mỹ phẩm FDA" },
-  elasome: { traffic: "~397", leads: "~14", avgMonth: "~1,2", focus: "Exosome B2B" },
-  group: { traffic: "~6.800", leads: "~94", avgMonth: "~8", focus: "Tập đoàn/Tuyển dụng" }
+  clinic: { 
+    traffic2025: "28.598", traffic2026: "~45.000", growth: "+57%",
+    leads2025: "30", leads2026: "~675", avgMonth: "~56", 
+    focus: "Peel/Phục hồi/Trẻ hóa" 
+  },
+  timona: { 
+    traffic2025: "103.364", traffic2026: "~155.000", growth: "+50%",
+    leads2025: "30", leads2026: "~775", avgMonth: "~65", 
+    focus: "Tuyển sinh ITEC" 
+  },
+  hderma: { 
+    traffic2025: "3.209", traffic2026: "~6.400", growth: "+100%",
+    leads2025: "2", leads2026: "~160", avgMonth: "~13", 
+    focus: "Dược mỹ phẩm FDA" 
+  },
+  elasome: { 
+    traffic2025: "925", traffic2026: "~2.400", growth: "+160%",
+    leads2025: "0", leads2026: "~36", avgMonth: "~3", 
+    focus: "Exosome B2B" 
+  },
+  group: { 
+    traffic2025: "5.909", traffic2026: "~9.000", growth: "+52%",
+    leads2025: "0", leads2026: "~135", avgMonth: "~11", 
+    focus: "Tập đoàn/Tuyển dụng" 
+  }
 };
 
 // KPI thời đại AI mới

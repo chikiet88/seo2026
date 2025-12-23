@@ -19,7 +19,7 @@
     <!-- Tiêu đề -->
     <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
       <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
-      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Cập nhật: 22/12/2025</p>
+      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Dựa trên dữ liệu GA 365 ngày • Cập nhật: 23/12/2025</p>
     </div>
 
     <!-- Các nút xuất -->
@@ -36,39 +36,47 @@
       <a href="gantt-detail-vi.html" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
         🗓️ Xem Chi Tiết Tuần/Ngày →
       </a>
+      <a href="kpi-targets.html" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
+        🎯 KPI Target 2026 →
+      </a>
     </div>
 
-    <!-- Thẻ tổng kết -->
+    <!-- Thẻ tổng kết - Baseline 2025 & Target 2026 -->
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
       <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
         <h3 class="font-bold text-red-600">TazaSkinClinic</h3>
-        <p class="text-2xl font-bold mt-2">~630</p>
-        <p class="text-sm text-gray-500">đặt lịch/năm</p>
-        <p class="text-xs text-green-600 mt-1">TB ~53/tháng</p>
+        <p class="text-xs text-gray-500">2025: 28.598 sessions (30 đl)</p>
+        <p class="text-2xl font-bold mt-1">~675</p>
+        <p class="text-sm text-gray-500">đặt lịch/năm 2026</p>
+        <p class="text-xs text-green-600 mt-1">TB ~56/tháng • CVR 1.5%</p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-700">
         <h3 class="font-bold text-blue-700">Timona</h3>
-        <p class="text-2xl font-bold mt-2">~3.660</p>
-        <p class="text-sm text-gray-500">đăng ký/năm</p>
-        <p class="text-xs text-green-600 mt-1">TB ~305/tháng</p>
+        <p class="text-xs text-gray-500">2025: 103.364 sessions (30 đk)</p>
+        <p class="text-2xl font-bold mt-1">~775</p>
+        <p class="text-sm text-gray-500">đăng ký/năm 2026</p>
+        <p class="text-xs text-green-600 mt-1">TB ~65/tháng • CVR 0.5%</p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-600">
         <h3 class="font-bold text-green-600">Hderma</h3>
-        <p class="text-2xl font-bold mt-2">~114</p>
-        <p class="text-sm text-gray-500">đơn hàng/năm</p>
-        <p class="text-xs text-green-600 mt-1">TB ~10/tháng</p>
+        <p class="text-xs text-gray-500">2025: 3.209 sessions (2 đơn)</p>
+        <p class="text-2xl font-bold mt-1">~160</p>
+        <p class="text-sm text-gray-500">đơn hàng/năm 2026</p>
+        <p class="text-xs text-green-600 mt-1">TB ~13/tháng • CVR 2.5%</p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow border-l-4 border-purple-600">
         <h3 class="font-bold text-purple-600">Elasome</h3>
-        <p class="text-2xl font-bold mt-2">~14</p>
-        <p class="text-sm text-gray-500">lead B2B/năm</p>
-        <p class="text-xs text-green-600 mt-1">TB ~1,2/tháng</p>
+        <p class="text-xs text-gray-500">2025: 925 sessions (0 lead)</p>
+        <p class="text-2xl font-bold mt-1">~36</p>
+        <p class="text-sm text-gray-500">lead B2B/năm 2026</p>
+        <p class="text-xs text-green-600 mt-1">TB ~3/tháng • CVR 1.5%</p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow border-l-4 border-gray-500">
         <h3 class="font-bold text-gray-600">TazaGroup</h3>
-        <p class="text-2xl font-bold mt-2">~94</p>
-        <p class="text-sm text-gray-500">lead/năm</p>
-        <p class="text-xs text-green-600 mt-1">TB ~8/tháng</p>
+        <p class="text-xs text-gray-500">2025: 5.909 sessions (0 lead)</p>
+        <p class="text-2xl font-bold mt-1">~135</p>
+        <p class="text-sm text-gray-500">lead/năm 2026</p>
+        <p class="text-xs text-green-600 mt-1">TB ~11/tháng • CVR 1.5%</p>
       </div>
     </div>
 
@@ -107,7 +115,7 @@
     <!-- Footer -->
     <div class="text-center text-gray-500 py-4">
       <p>© 2026 TazaGroup - Kế hoạch KPI SEO Toàn Diện</p>
-      <p class="text-sm mt-1">Dựa trên phân tích phantichmoinhat.md - Chiến lược AI-First SEO</p>
+      <p class="text-sm mt-1">Dựa trên dữ liệu Google Analytics 365 ngày (23/12/2024 - 23/12/2025) - Chiến lược AI-First SEO</p>
     </div>
   </div>
 
@@ -137,58 +145,139 @@
     }
 
     function renderOverview() {
+      let tableRows = '';
+      Object.keys(DATA).forEach(key => {
+        const site = DATA[key];
+        const sum = SUMMARY[key];
+        tableRows += `
+          <tr class="hover:bg-gray-50">
+            <td class="border p-3 font-semibold" style="color:${site.color}">${site.name}</td>
+            <td class="border p-3 text-center">${sum.traffic2025}</td>
+            <td class="border p-3 text-center font-bold">${sum.traffic2026}</td>
+            <td class="border p-3 text-center text-green-600 font-bold">${sum.growth}</td>
+            <td class="border p-3 text-center">${sum.leads2025}</td>
+            <td class="border p-3 text-center font-bold text-green-600">${sum.leads2026}</td>
+            <td class="border p-3 text-sm">${sum.focus}</td>
+          </tr>
+        `;
+      });
+
+      let gaRows = '';
+      Object.keys(GA_BASELINE_2025).forEach((key, i) => {
+        const ga = GA_BASELINE_2025[key];
+        const site = DATA[key];
+        gaRows += `
+          <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
+            <td class="border p-2 font-semibold" style="color:${site.color}">${site.name}</td>
+            <td class="border p-2 text-center">${ga.sessions.toLocaleString()}</td>
+            <td class="border p-2 text-center">${ga.users.toLocaleString()}</td>
+            <td class="border p-2 text-center">${ga.pageviews.toLocaleString()}</td>
+            <td class="border p-2 text-center">${ga.bounceRate}%</td>
+            <td class="border p-2 text-center">${Math.round(ga.avgDuration)}s</td>
+            <td class="border p-2 text-center font-bold text-green-600">${ga.conversions}</td>
+          </tr>
+        `;
+      });
+
+      let trendsHtml = '';
+      TRENDS_2026.forEach(trend => {
+        trendsHtml += `
+          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <span class="text-blue-600">✓</span> ${trend}
+          </div>
+        `;
+      });
+
       return `
-        <h2 class="text-2xl font-bold mb-4">📊 Tổng Quan KPI 2026 - 5 Website</h2>
+        <h2 class="text-2xl font-bold mb-4">📊 Tổng Quan KPI 2026 - 5 Website (Dựa trên GA 365 ngày)</h2>
+        
+        <!-- Bảng Baseline 2025 vs Target 2026 -->
+        <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-200">
+          <h3 class="font-bold text-blue-800 mb-2">📈 So sánh Baseline 2025 (GA thực tế) vs Target 2026</h3>
+          <p class="text-sm text-blue-600">Dữ liệu thực từ Google Analytics 365 ngày (23/12/2024 - 23/12/2025)</p>
+        </div>
+        
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
             <thead>
-              <tr class="bg-gray-100">
+              <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
                 <th class="border p-3 text-left">Website</th>
-                <th class="border p-3 text-left">Mô Tả</th>
-                <th class="border p-3 text-center">Truy Cập/Năm</th>
-                <th class="border p-3 text-center">Lead/Năm</th>
-                <th class="border p-3 text-center">TB/Tháng</th>
+                <th class="border p-3 text-center">Sessions 2025</th>
+                <th class="border p-3 text-center">Target 2026</th>
+                <th class="border p-3 text-center">Tăng trưởng</th>
+                <th class="border p-3 text-center">Lead 2025</th>
+                <th class="border p-3 text-center">Lead 2026</th>
                 <th class="border p-3 text-left">Trọng Tâm</th>
               </tr>
             </thead>
             <tbody>
-              ${Object.keys(DATA).map(key => {
-                const site = DATA[key];
-                const sum = SUMMARY[key];
-                return `
-                  <tr class="hover:bg-gray-50">
-                    <td class="border p-3 font-semibold" style="color:${site.color}">${site.name}</td>
-                    <td class="border p-3 text-sm">${site.desc}</td>
-                    <td class="border p-3 text-center font-bold">${sum.traffic}</td>
-                    <td class="border p-3 text-center font-bold text-green-600">${sum.leads}</td>
-                    <td class="border p-3 text-center text-blue-600">${sum.avgMonth}</td>
-                    <td class="border p-3 text-sm">${sum.focus}</td>
-                  </tr>
-                `;
-              }).join('')}
+              ${tableRows}
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Bảng chi tiết GA Metrics 2025 -->
+        <h3 class="text-xl font-bold mt-8 mb-4">📊 Chi tiết Metrics từ Google Analytics 2025</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border p-2 text-left">Website</th>
+                <th class="border p-2 text-center">Sessions</th>
+                <th class="border p-2 text-center">Users</th>
+                <th class="border p-2 text-center">Pageviews</th>
+                <th class="border p-2 text-center">Bounce Rate</th>
+                <th class="border p-2 text-center">Avg Duration</th>
+                <th class="border p-2 text-center">Conversions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${gaRows}
             </tbody>
           </table>
         </div>
         
         <h3 class="text-xl font-bold mt-8 mb-4">🎯 Xu Hướng SEO 2026</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          ${TRENDS_2026.map(trend => `
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-              <span class="text-blue-600">✓</span> ${trend}
-            </div>
-          `).join('')}
+          ${trendsHtml}
         </div>
       `;
     }
 
     function renderSiteTable(key) {
       const site = DATA[key];
+      const baseline = site.baseline2025 || {};
+      const target = site.target2026 || {};
       return `
         <div class="mb-4">
           <h2 class="text-2xl font-bold" style="color:${site.color}">${site.name}</h2>
           <p class="text-gray-600">${site.desc}</p>
           <p class="text-sm mt-2"><strong>Trọng tâm:</strong> ${site.focus}</p>
         </div>
+        
+        <!-- Baseline 2025 vs Target 2026 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gray-100 p-4 rounded-lg">
+            <h4 class="font-bold text-gray-700">📊 Baseline 2025 (GA)</h4>
+            <p class="text-2xl font-bold mt-2">${baseline.sessions?.toLocaleString() || 'N/A'}</p>
+            <p class="text-sm text-gray-500">sessions/năm</p>
+            <p class="text-xs text-gray-400">~${baseline.avgMonth?.toLocaleString() || 'N/A'}/tháng • ${baseline.users?.toLocaleString() || 'N/A'} users</p>
+          </div>
+          <div class="bg-green-100 p-4 rounded-lg">
+            <h4 class="font-bold text-green-700">🎯 Target 2026</h4>
+            <p class="text-2xl font-bold mt-2 text-green-600">${target.sessions?.toLocaleString() || 'N/A'}</p>
+            <p class="text-sm text-gray-500">sessions/năm</p>
+            <p class="text-xs text-green-600">Tăng ${target.growth || 'N/A'} • ~${target.conversionsTarget || 0} leads</p>
+          </div>
+          <div class="bg-blue-100 p-4 rounded-lg">
+            <h4 class="font-bold text-blue-700">📈 Conversions 2025</h4>
+            <p class="text-2xl font-bold mt-2 text-blue-600">${baseline.conversions || 0}</p>
+            <p class="text-sm text-gray-500">conversions từ GA</p>
+            <p class="text-xs text-blue-600">Target 2026: ${target.conversionsTarget || 'N/A'}</p>
+          </div>
+        </div>
+        
+        <h3 class="font-bold mb-3">📅 Kế Hoạch Chi Tiết Từng Tháng 2026</h3>
         <div class="overflow-x-auto">
           <table class="w-full border-collapse text-sm">
             <thead>

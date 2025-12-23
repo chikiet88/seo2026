@@ -716,6 +716,7 @@
             <div class="tabs">
                 <button class="tab active" onclick="switchTab('realtime')">📊 Dữ liệu Real-time</button>
                 <button class="tab" onclick="switchTab('snapshots')">💾 Snapshots đã lưu</button>
+                <button class="tab" onclick="switchTab('monthly')">📅 Monthly Data</button>
                 <button class="tab" onclick="switchTab('analysis')">📈 Phân tích</button>
             </div>
 
@@ -811,6 +812,28 @@
                 <div id="snapshotList">
                     <p style="text-align: center; color: var(--gray); padding: 40px;">
                         Chưa có snapshot nào. Nhấn "Lưu Snapshot" để lưu dữ liệu hiện tại.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab: Monthly Data -->
+            <div class="tab-content" id="tab-monthly">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        <span class="icon">📅</span>
+                        Dữ liệu theo tháng (Snapshots 1 năm)
+                    </h2>
+                    <button class="btn btn-primary btn-sm" onclick="loadMonthlySnapshots()">Refresh</button>
+                </div>
+                <div id="monthlySnapshotSelect" style="margin-bottom: 20px;">
+                    <label>Chọn Snapshot:</label>
+                    <select id="monthlySnapshotDropdown" onchange="loadMonthlyData()" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; min-width: 300px;">
+                        <option value="">-- Chọn snapshot 1 năm --</option>
+                    </select>
+                </div>
+                <div id="monthlyContent">
+                    <p style="text-align: center; color: var(--gray); padding: 40px;">
+                        Chọn snapshot 1 năm để xem dữ liệu theo tháng.
                     </p>
                 </div>
             </div>
@@ -1147,6 +1170,7 @@
             document.getElementById(`tab-${tabName}`).classList.add('active');
             
             if (tabName === 'snapshots') loadSnapshots();
+            if (tabName === 'monthly') loadMonthlySnapshots();
             if (tabName === 'analysis') loadAnalysis();
         }
 
@@ -1208,19 +1232,28 @@
                     return;
                 }
                 
-                listDiv.innerHTML = data.snapshots.map(s => `
+                listDiv.innerHTML = data.snapshots.map(s => {
+                    const isYearSnapshot = s.hasMonthlyData || s.dateRange?.startDate === '365daysAgo' || s.dateRange === '1year' || s.dateRange === '1 năm';
+                    const dateRangeStr = typeof s.dateRange === 'object' 
+                        ? `${s.dateRange.startDate} → ${s.dateRange.endDate}` 
+                        : s.dateRange;
+                    return `
                     <div class="snapshot-item">
                         <div class="snapshot-info">
-                            <div class="snapshot-label">${s.label}</div>
+                            <div class="snapshot-label">
+                                ${s.label}
+                                ${isYearSnapshot ? '<span style="background: #4285f4; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; margin-left: 8px;">📅 1 năm</span>' : ''}
+                            </div>
                             <div class="snapshot-date">${new Date(s.createdAt).toLocaleString('vi-VN')}</div>
-                            <div class="snapshot-range">${s.dateRange.startDate} → ${s.dateRange.endDate}</div>
+                            <div class="snapshot-range">${dateRangeStr}</div>
                         </div>
                         <div class="snapshot-actions">
                             <button class="btn btn-primary btn-sm" onclick="viewSnapshot('${s.id}')">👁️ Xem</button>
+                            ${isYearSnapshot ? '<button class="btn btn-sm" style="background: #34a853; color: white;" onclick="viewMonthlySnapshot(\'' + s.id + '\')">📅 Monthly</button>' : ''}
                             <button class="btn btn-danger btn-sm" onclick="deleteSnapshot('${s.id}')">🗑️</button>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             } catch (error) {
                 listDiv.innerHTML = `<p style="color: var(--danger);">Lỗi: ${error.message}</p>`;
             }
@@ -1319,6 +1352,145 @@
             renderOverviewCards();
             await loadAllSitesData();
             await loadSiteData();
+        }
+
+        // Load Monthly Snapshots (for dropdown)
+        async function loadMonthlySnapshots() {
+            const dropdown = document.getElementById('monthlySnapshotDropdown');
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/snapshots`);
+                const data = await response.json();
+                
+                const yearSnapshots = data.snapshots.filter(s => 
+                    s.hasMonthlyData || 
+                    (s.dateRange?.startDate === '365daysAgo') ||
+                    s.dateRange === '1year' || 
+                    s.dateRange === '1 năm'
+                );
+                
+                if (yearSnapshots.length === 0) {
+                    dropdown.innerHTML = '<option value="">-- Chưa có snapshot 1 năm nào --</option>';
+                    document.getElementById('monthlyContent').innerHTML = `
+                        <p style="text-align: center; color: var(--gray); padding: 40px;">
+                            Chưa có snapshot 1 năm nào. Hãy tạo snapshot với khoảng thời gian 1 năm để xem dữ liệu theo tháng.
+                        </p>
+                    `;
+                    return;
+                }
+                
+                dropdown.innerHTML = '<option value="">-- Chọn snapshot 1 năm --</option>' + 
+                    yearSnapshots.map(s => `
+                        <option value="${s.id}">
+                            ${s.label} - ${new Date(s.createdAt).toLocaleDateString('vi-VN')}
+                        </option>
+                    `).join('');
+            } catch (error) {
+                dropdown.innerHTML = '<option value="">Lỗi tải dữ liệu</option>';
+            }
+        }
+
+        // Load Monthly Data for selected snapshot
+        async function loadMonthlyData() {
+            const snapshotId = document.getElementById('monthlySnapshotDropdown').value;
+            const contentDiv = document.getElementById('monthlyContent');
+            
+            if (!snapshotId) {
+                contentDiv.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 40px;">Chọn snapshot 1 năm để xem dữ liệu theo tháng.</p>';
+                return;
+            }
+            
+            contentDiv.innerHTML = '<p style="text-align: center; padding: 40px;">⏳ Đang tải...</p>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/snapshot/${snapshotId}/monthly`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    contentDiv.innerHTML = `<p style="text-align: center; color: var(--danger); padding: 40px;">❌ ${data.message || data.error}</p>`;
+                    return;
+                }
+                
+                let html = `<p style="margin-bottom: 20px;">📊 Tổng số records: <strong>${data.totalRecords}</strong></p>`;
+                
+                // Render by site
+                for (const [siteKey, siteData] of Object.entries(data.bySite)) {
+                    const site = SITES[siteKey];
+                    
+                    html += `
+                        <div style="margin-bottom: 30px;">
+                            <h3 style="margin-bottom: 15px;">${site?.icon || '🌐'} ${siteData.siteName || site?.name || siteKey}</h3>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Tháng</th>
+                                            <th>Sessions</th>
+                                            <th>Users</th>
+                                            <th>Page Views</th>
+                                            <th>Conversions</th>
+                                            <th>Bounce Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    `;
+                    
+                    let totalSessions = 0, totalUsers = 0, totalPageviews = 0;
+                    
+                    siteData.months.forEach(m => {
+                        totalSessions += m.sessions || 0;
+                        totalUsers += m.users || 0;
+                        totalPageviews += m.pageviews || 0;
+                        
+                        html += `
+                            <tr>
+                                <td><strong>${m.monthLabel}</strong></td>
+                                <td>${(m.sessions || 0).toLocaleString()}</td>
+                                <td>${(m.users || 0).toLocaleString()}</td>
+                                <td>${(m.pageviews || 0).toLocaleString()}</td>
+                                <td>${m.conversions || 0}</td>
+                                <td>${m.bounceRate ? m.bounceRate.toFixed(1) + '%' : '-'}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    // Total row
+                    html += `
+                            <tr style="background: #f0f0f0; font-weight: bold;">
+                                <td>TỔNG</td>
+                                <td>${totalSessions.toLocaleString()}</td>
+                                <td>${totalUsers.toLocaleString()}</td>
+                                <td>${totalPageviews.toLocaleString()}</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                contentDiv.innerHTML = html;
+            } catch (error) {
+                contentDiv.innerHTML = `<p style="color: var(--danger);">Lỗi: ${error.message}</p>`;
+            }
+        }
+
+        // View Monthly Snapshot (from snapshot list)
+        function viewMonthlySnapshot(id) {
+            // Switch to monthly tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector('[onclick="switchTab(\'monthly\')"]').classList.add('active');
+            document.getElementById('tab-monthly').classList.add('active');
+            
+            // Load and select the snapshot
+            loadMonthlySnapshots().then(() => {
+                document.getElementById('monthlySnapshotDropdown').value = id;
+                loadMonthlyData();
+            });
         }
 
         // Initialize

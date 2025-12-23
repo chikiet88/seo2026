@@ -26,12 +26,13 @@ const MENU = `
 ║  [8] 🗑️  DB Reset             - Reset database (XÓA DATA!)  ║
 ║                                                              ║
 ║  [9] 📈 Fetch All Data        - Lấy dữ liệu từ GA4          ║
-║  [10] 💾 Save Snapshot        - Lưu snapshot vào database   ║
+║  [10] 💾 Save Snapshot        - Lưu snapshot (1 năm=12 tháng)║
 ║  [11] 📜 View Snapshots       - Xem danh sách snapshots     ║
-║  [12] 📉 DB Stats             - Thống kê database           ║
+║  [12] 📅 View Monthly Data    - Xem dữ liệu theo tháng      ║
+║  [13] 📉 DB Stats             - Thống kê database           ║
 ║                                                              ║
-║  [13] 📤 Git Push             - Commit và push code         ║
-║  [14] 📋 Git Status           - Xem trạng thái git          ║
+║  [14] 📤 Git Push             - Commit và push code         ║
+║  [15] 📋 Git Status           - Xem trạng thái git          ║
 ║                                                              ║
 ║  [0] ❌ Exit                  - Thoát chương trình          ║
 ║                                                              ║
@@ -163,10 +164,30 @@ async function handleChoice(choice) {
       break;
       
     case '10':
-      const range = await question('📅 Chọn khoảng thời gian (7daysAgo/30daysAgo/90daysAgo/365daysAgo) [30daysAgo]: ');
+      console.log('\n📅 Chọn khoảng thời gian:');
+      console.log('   1. 7 ngày gần nhất (7daysAgo)');
+      console.log('   2. 30 ngày gần nhất (30daysAgo)');
+      console.log('   3. 90 ngày gần nhất (90daysAgo)');
+      console.log('   4. 1 năm gần nhất (365daysAgo) ⭐ Lưu theo từng tháng');
+      const rangeChoice = await question('\n👉 Chọn (1-4) [2]: ');
+      
+      let start;
+      switch(rangeChoice) {
+        case '1': start = '7daysAgo'; break;
+        case '3': start = '90daysAgo'; break;
+        case '4': start = '365daysAgo'; break;
+        default: start = '30daysAgo';
+      }
+      
+      if (start === '365daysAgo') {
+        console.log('\n⭐ Chế độ 1 năm: Sẽ lưu dữ liệu tổng hợp VÀ chi tiết theo từng tháng');
+      }
+      
       const desc = await question('📝 Mô tả snapshot (Enter để bỏ qua): ');
-      const start = range || '30daysAgo';
-      console.log(`💾 Đang lưu snapshot...`);
+      console.log(`\n💾 Đang lưu snapshot (${start})...`);
+      if (start === '365daysAgo') {
+        console.log('⏳ Đang lấy dữ liệu 12 tháng, vui lòng đợi...');
+      }
       await postAPI('/api/snapshot', {
         startDate: start,
         endDate: 'today',
@@ -180,11 +201,82 @@ async function handleChoice(choice) {
       break;
       
     case '12':
+      // View Monthly Data - Xem dữ liệu theo tháng của snapshot
+      console.log('📅 Xem dữ liệu theo tháng\n');
+      try {
+        const snapshotsResp = await fetch(`${API_BASE}/api/snapshots`);
+        const snapshots = await snapshotsResp.json();
+        
+        if (!snapshots.length) {
+          console.log('❌ Chưa có snapshot nào. Hãy tạo snapshot 1 năm trước!');
+          break;
+        }
+        
+        console.log('📜 Danh sách snapshots có dữ liệu monthly:\n');
+        const yearSnapshots = snapshots.filter(s => 
+          s.hasMonthlyData || 
+          s.dateRange?.startDate === '365daysAgo' ||
+          s.dateRange === '1year' || 
+          s.dateRange === '1 năm'
+        );
+        
+        if (!yearSnapshots.length) {
+          console.log('❌ Chưa có snapshot 1 năm nào. Dữ liệu monthly chỉ được lưu khi chọn khoảng thời gian 1 năm.');
+          break;
+        }
+        
+        yearSnapshots.forEach((s, i) => {
+          const date = new Date(s.createdAt).toLocaleString('vi-VN');
+          const range = typeof s.dateRange === 'object' ? `${s.dateRange.startDate} → ${s.dateRange.endDate}` : s.dateRange;
+          console.log(`  [${i + 1}] ID: ${s.id} | ${range} | ${date}`);
+        });
+        
+        const snapshotChoice = await question('\n👉 Chọn snapshot (số thứ tự): ');
+        const idx = parseInt(snapshotChoice) - 1;
+        
+        if (idx < 0 || idx >= yearSnapshots.length) {
+          console.log('❌ Lựa chọn không hợp lệ!');
+          break;
+        }
+        
+        const selectedId = yearSnapshots[idx].id;
+        console.log(`\n📊 Đang lấy dữ liệu monthly cho snapshot ${selectedId}...`);
+        
+        const monthlyResp = await fetch(`${API_BASE}/api/snapshot/${selectedId}/monthly`);
+        const monthlyData = await monthlyResp.json();
+        
+        if (monthlyData.error || !monthlyData.bySite) {
+          console.log('❌ Snapshot này chưa có dữ liệu monthly!');
+          if (monthlyData.message) console.log(`   ${monthlyData.message}`);
+          break;
+        }
+        
+        // Hiển thị dữ liệu theo từng site
+        console.log(`\n📊 Tổng số records: ${monthlyData.totalRecords}\n`);
+        
+        for (const [siteKey, siteData] of Object.entries(monthlyData.bySite)) {
+          console.log(`\n🌐 ${siteData.siteName || siteKey}`);
+          console.log('┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐');
+          console.log('│ Tháng       │ Sessions    │ Users       │ Page Views  │ Conversions │');
+          console.log('├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤');
+          
+          siteData.months.forEach(m => {
+            console.log(`│ ${m.monthLabel.padEnd(11)} │ ${String(m.sessions || 0).padStart(11)} │ ${String(m.users || 0).padStart(11)} │ ${String(m.pageviews || 0).padStart(11)} │ ${String(m.conversions || 0).padStart(11)} │`);
+          });
+          
+          console.log('└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘');
+        }
+      } catch (err) {
+        console.error('❌ Lỗi:', err.message);
+      }
+      break;
+      
+    case '13':
       console.log('📉 Đang lấy thống kê database...');
       await fetchAPI('/api/db/stats');
       break;
       
-    case '13':
+    case '14':
       console.log('📤 Git Push\n');
       await runCommand('git', ['status', '--short']);
       const commitMsg = await question('\n📝 Nhập commit message [update]: ');
@@ -196,7 +288,7 @@ async function handleChoice(choice) {
       console.log('\n✅ Done!');
       break;
       
-    case '14':
+    case '15':
       console.log('📋 Git Status\n');
       await runCommand('git', ['status']);
       break;

@@ -12,7 +12,7 @@
           "sessions": 28598,
           "users": 22200,
           "pageviews": 47656,
-          "conversions": 0,
+          "conversions": 30,
           "bounceRate": 0.516469683194629,
           "avgDuration": 121.18589427519409
         },
@@ -20,7 +20,7 @@
           "sessions": 103364,
           "users": 82164,
           "pageviews": 136465,
-          "conversions": 756,
+          "conversions": 30,
           "bounceRate": 0.5172013466971093,
           "avgDuration": 134.10684766007506
         },

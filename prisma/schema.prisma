@@ -20,7 +20,8 @@ model Snapshot {
   description String?  // Ghi chú (tùy chọn)
   
   // Relation với SiteData
-  siteData    SiteData[]
+  siteData       SiteData[]
+  monthlyMetrics MonthlyMetric[]
 }
 
 // Dữ liệu chi tiết của từng website trong snapshot
@@ -76,4 +77,31 @@ model TrafficSource {
   createdAt   DateTime @default(now())
   
   @@index([siteKey, dateRange])
+}
+
+// Lưu dữ liệu theo tháng (cho snapshot 1 năm)
+model MonthlyMetric {
+  id          String   @id @default(uuid())
+  siteKey     String
+  siteName    String
+  year        Int      // 2024, 2025...
+  month       Int      // 1-12
+  monthLabel  String   // "T1", "T2"... hoặc "2024-01"
+  sessions    Int      @default(0)
+  users       Int      @default(0)
+  pageviews   Int      @default(0)
+  conversions Int      @default(0)
+  bounceRate  Float    @default(0)
+  avgDuration Float    @default(0)
+  error       String?
+  
+  // Foreign key to snapshot
+  snapshotId  String
+  snapshot    Snapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  
+  @@unique([snapshotId, siteKey, year, month])
+  @@index([siteKey])
+  @@index([snapshotId])
+  @@index([year, month])
 }

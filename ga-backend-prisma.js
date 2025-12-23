@@ -92,6 +92,70 @@ function getDateRangeLabel(startDate, endDate) {
   return 'custom';
 }
 
+// Kiểm tra xem có phải 1 năm không
+function isYearRange(startDate, endDate) {
+  // Kiểm tra 365daysAgo hoặc khoảng cách > 300 ngày
+  if (startDate === '365daysAgo' || startDate === '364daysAgo') return true;
+  
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) return false;
+  
+  const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+  return diffDays > 300;
+}
+
+// Tạo danh sách các tháng trong khoảng thời gian
+function getMonthsInRange(startDate, endDate) {
+  const months = [];
+  const today = new Date();
+  
+  let start;
+  if (startDate === '365daysAgo' || startDate === '364daysAgo') {
+    start = new Date();
+    start.setDate(start.getDate() - 365);
+  } else {
+    start = new Date(startDate);
+  }
+  
+  let end;
+  if (endDate === 'today') {
+    end = today;
+  } else {
+    end = new Date(endDate);
+  }
+  
+  // Lặp qua từng tháng
+  const current = new Date(start.getFullYear(), start.getMonth(), 1);
+  
+  while (current <= end) {
+    const year = current.getFullYear();
+    const month = current.getMonth() + 1; // 1-12
+    const lastDay = new Date(year, month, 0).getDate();
+    
+    // Tính ngày bắt đầu và kết thúc của tháng
+    const monthStart = new Date(year, month - 1, 1);
+    const monthEnd = new Date(year, month - 1, lastDay);
+    
+    // Điều chỉnh cho tháng đầu và cuối
+    const actualStart = monthStart < start ? start : monthStart;
+    const actualEnd = monthEnd > end ? end : monthEnd;
+    
+    months.push({
+      year,
+      month,
+      monthLabel: `T${month}/${year}`,
+      startDate: actualStart.toISOString().split('T')[0],
+      endDate: actualEnd.toISOString().split('T')[0]
+    });
+    
+    // Sang tháng tiếp theo
+    current.setMonth(current.getMonth() + 1);
+  }
+  
+  return months;
+}
+
 // Format date cho GA API
 function formatDate(dateStr) {
   if (dateStr.includes('daysAgo') || dateStr === 'today' || dateStr === 'yesterday') {
@@ -403,8 +467,11 @@ app.post('/api/snapshot', async (req, res) => {
   try {
     const { startDate, endDate, description } = req.body;
     const dateRange = getDateRangeLabel(startDate, endDate);
+    const isYear = isYearRange(startDate, endDate);
     
-    // Lấy dữ liệu từ GA4
+    console.log(`📸 Saving snapshot: ${startDate} - ${endDate}, isYear: ${isYear}`);
+    
+    // Lấy dữ liệu tổng hợp từ GA4
     const siteDataArray = [];
     
     for (const [siteKey, propertyId] of Object.entries(CONFIG.properties)) {
@@ -456,7 +523,7 @@ app.post('/api/snapshot', async (req, res) => {
       siteDataArray.push(siteInfo);
     }
 
-    // Lưu vào database với Prisma
+    // Tạo snapshot trong database
     const snapshot = await prisma.snapshot.create({
       data: {
         dateRange,
@@ -471,6 +538,76 @@ app.post('/api/snapshot', async (req, res) => {
         siteData: true
       }
     });
+
+    // Nếu là 1 năm, lấy và lưu dữ liệu theo từng tháng
+    let monthlyData = [];
+    if (isYear) {
+      console.log('📅 Fetching monthly breakdown for 1 year...');
+      const months = getMonthsInRange(startDate, endDate);
+      console.log(`📆 Found ${months.length} months to process`);
+      
+      for (const monthInfo of months) {
+        console.log(`   Processing ${monthInfo.monthLabel}...`);
+        
+        for (const [siteKey, propertyId] of Object.entries(CONFIG.properties)) {
+          if (!propertyId || propertyId.includes('YOUR_')) continue;
+          
+          const monthlyMetric = {
+            siteKey,
+            siteName: CONFIG.siteNames[siteKey],
+            year: monthInfo.year,
+            month: monthInfo.month,
+            monthLabel: monthInfo.monthLabel,
+            sessions: 0,
+            users: 0,
+            pageviews: 0,
+            conversions: 0,
+            bounceRate: 0,
+            avgDuration: 0,
+            error: null,
+            snapshotId: snapshot.id
+          };
+
+          try {
+            const response = await analyticsDataClient.properties.runReport({
+              property: `properties/${propertyId}`,
+              requestBody: {
+                dateRanges: [{ 
+                  startDate: monthInfo.startDate, 
+                  endDate: monthInfo.endDate 
+                }],
+                metrics: [
+                  { name: 'sessions' },
+                  { name: 'totalUsers' },
+                  { name: 'screenPageViews' },
+                  { name: 'conversions' },
+                  { name: 'bounceRate' },
+                  { name: 'averageSessionDuration' }
+                ]
+              }
+            });
+
+            const row = response.data.rows?.[0];
+            monthlyMetric.sessions = parseInt(row?.metricValues?.[0]?.value) || 0;
+            monthlyMetric.users = parseInt(row?.metricValues?.[1]?.value) || 0;
+            monthlyMetric.pageviews = parseInt(row?.metricValues?.[2]?.value) || 0;
+            monthlyMetric.conversions = parseInt(row?.metricValues?.[3]?.value) || 0;
+            monthlyMetric.bounceRate = parseFloat(row?.metricValues?.[4]?.value) || 0;
+            monthlyMetric.avgDuration = parseFloat(row?.metricValues?.[5]?.value) || 0;
+          } catch (error) {
+            monthlyMetric.error = error.message;
+          }
+          
+          // Lưu vào database
+          await prisma.monthlyMetric.create({
+            data: monthlyMetric
+          });
+          
+          monthlyData.push(monthlyMetric);
+        }
+      }
+      console.log(`✅ Saved ${monthlyData.length} monthly metrics`);
+    }
 
     // Lưu daily metrics cho phân tích trend
     for (const site of siteDataArray) {
@@ -504,7 +641,8 @@ app.post('/api/snapshot', async (req, res) => {
       }
     }
 
-    res.json({ 
+    // Format response
+    const responseData = {
       success: true, 
       snapshot: {
         id: snapshot.id,
@@ -525,8 +663,29 @@ app.post('/api/snapshot', async (req, res) => {
           return acc;
         }, {})
       },
-      message: 'Đã lưu snapshot thành công vào SQLite!'
-    });
+      message: isYear 
+        ? `Đã lưu snapshot 1 năm với ${monthlyData.length} chỉ số theo tháng!`
+        : 'Đã lưu snapshot thành công vào SQLite!'
+    };
+
+    // Thêm monthly data nếu có
+    if (isYear && monthlyData.length > 0) {
+      responseData.monthlyBreakdown = {};
+      for (const m of monthlyData) {
+        if (!responseData.monthlyBreakdown[m.siteKey]) {
+          responseData.monthlyBreakdown[m.siteKey] = [];
+        }
+        responseData.monthlyBreakdown[m.siteKey].push({
+          month: m.monthLabel,
+          sessions: m.sessions,
+          users: m.users,
+          pageviews: m.pageviews,
+          conversions: m.conversions
+        });
+      }
+    }
+
+    res.json(responseData);
   } catch (error) {
     console.error('Error saving snapshot:', error);
     res.status(500).json({ error: error.message });
@@ -538,30 +697,36 @@ app.get('/api/snapshots', async (req, res) => {
   try {
     const snapshots = await prisma.snapshot.findMany({
       include: {
-        siteData: true
+        siteData: true,
+        monthlyMetrics: true
       },
       orderBy: {
         timestamp: 'desc'
       }
     });
 
-    const formattedSnapshots = snapshots.map(snap => ({
-      id: snap.id,
-      label: snap.description,
-      dateRange: { startDate: snap.startDate, endDate: snap.endDate },
-      data: snap.siteData.reduce((acc, site) => {
-        acc[site.siteKey] = site.error ? { error: site.error } : {
-          sessions: site.sessions,
-          users: site.users,
-          pageviews: site.pageviews,
-          conversions: site.conversions,
-          bounceRate: site.bounceRate,
-          avgDuration: site.avgDuration
-        };
-        return acc;
-      }, {}),
-      createdAt: snap.timestamp.toISOString()
-    }));
+    const formattedSnapshots = snapshots.map(snap => {
+      const result = {
+        id: snap.id,
+        label: snap.description,
+        dateRange: { startDate: snap.startDate, endDate: snap.endDate },
+        hasMonthlyData: snap.monthlyMetrics.length > 0,
+        data: snap.siteData.reduce((acc, site) => {
+          acc[site.siteKey] = site.error ? { error: site.error } : {
+            sessions: site.sessions,
+            users: site.users,
+            pageviews: site.pageviews,
+            conversions: site.conversions,
+            bounceRate: site.bounceRate,
+            avgDuration: site.avgDuration
+          };
+          return acc;
+        }, {}),
+        createdAt: snap.timestamp.toISOString()
+      };
+      
+      return result;
+    });
 
     res.json({
       total: snapshots.length,
@@ -569,6 +734,75 @@ app.get('/api/snapshots', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching snapshots:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Lấy monthly metrics của một snapshot
+app.get('/api/snapshot/:id/monthly', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const monthlyMetrics = await prisma.monthlyMetric.findMany({
+      where: { snapshotId: id },
+      orderBy: [
+        { year: 'asc' },
+        { month: 'asc' },
+        { siteKey: 'asc' }
+      ]
+    });
+
+    if (monthlyMetrics.length === 0) {
+      return res.status(404).json({ 
+        error: 'No monthly data found for this snapshot',
+        message: 'Snapshot này không có dữ liệu theo tháng. Chỉ snapshot 1 năm mới có.'
+      });
+    }
+
+    // Group by site
+    const bySite = {};
+    const byMonth = {};
+    
+    for (const m of monthlyMetrics) {
+      // By site
+      if (!bySite[m.siteKey]) {
+        bySite[m.siteKey] = {
+          siteName: m.siteName,
+          months: []
+        };
+      }
+      bySite[m.siteKey].months.push({
+        year: m.year,
+        month: m.month,
+        monthLabel: m.monthLabel,
+        sessions: m.sessions,
+        users: m.users,
+        pageviews: m.pageviews,
+        conversions: m.conversions,
+        bounceRate: m.bounceRate,
+        avgDuration: m.avgDuration
+      });
+      
+      // By month
+      if (!byMonth[m.monthLabel]) {
+        byMonth[m.monthLabel] = {};
+      }
+      byMonth[m.monthLabel][m.siteKey] = {
+        sessions: m.sessions,
+        users: m.users,
+        pageviews: m.pageviews,
+        conversions: m.conversions
+      };
+    }
+
+    res.json({
+      snapshotId: id,
+      totalRecords: monthlyMetrics.length,
+      bySite,
+      byMonth
+    });
+  } catch (error) {
+    console.error('Error fetching monthly metrics:', error);
     res.status(500).json({ error: error.message });
   }
 });
