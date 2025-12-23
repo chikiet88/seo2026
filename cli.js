@@ -30,6 +30,9 @@ const MENU = `
 ║  [11] 📜 View Snapshots       - Xem danh sách snapshots     ║
 ║  [12] 📉 DB Stats             - Thống kê database           ║
 ║                                                              ║
+║  [13] 📤 Git Push             - Commit và push code         ║
+║  [14] 📋 Git Status           - Xem trạng thái git          ║
+║                                                              ║
 ║  [0] ❌ Exit                  - Thoát chương trình          ║
 ║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
@@ -179,6 +182,23 @@ async function handleChoice(choice) {
     case '12':
       console.log('📉 Đang lấy thống kê database...');
       await fetchAPI('/api/db/stats');
+      break;
+      
+    case '13':
+      console.log('📤 Git Push\n');
+      await runCommand('git', ['status', '--short']);
+      const commitMsg = await question('\n📝 Nhập commit message [update]: ');
+      const message = commitMsg.trim() || 'update';
+      console.log('\n🔄 Đang commit và push...');
+      await runCommand('git', ['add', '.']);
+      await runCommand('git', ['commit', '-m', `"${message}"`]);
+      await runCommand('git', ['push']);
+      console.log('\n✅ Done!');
+      break;
+      
+    case '14':
+      console.log('📋 Git Status\n');
+      await runCommand('git', ['status']);
       break;
       
     case '0':
