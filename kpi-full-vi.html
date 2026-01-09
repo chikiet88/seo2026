@@ -8,140 +8,288 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="data-vi.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .tab-active { border-bottom: 3px solid #3b82f6; color: #3b82f6; font-weight: 600; }
-    .mermaid { background: #f8fafc; border-radius: 8px; padding: 20px; }
+    body { font-family: 'Inter', sans-serif; }
+    .sidebar-item-active { background-color: #f1f5f9; color: #0f172a; font-weight: 600; }
+    .mermaid { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <div class="max-w-7xl mx-auto p-4">
-    <!-- Tiêu đề -->
-    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 rounded-lg mb-6 shadow-lg">
-      <h1 class="text-3xl font-bold">📊 Bảng KPI SEO 2026 - TazaGroup</h1>
-      <p class="mt-2 opacity-90">Kế hoạch SEO toàn diện cho 5 website • Dựa trên dữ liệu GA 365 ngày • Cập nhật: 23/12/2025</p>
-    </div>
+<body class="bg-[#fafafa] text-slate-900 min-h-screen flex overflow-hidden">
 
-    <!-- Các nút xuất -->
-    <div class="flex flex-wrap gap-3 mb-6">
-      <button onclick="exportAllToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
-        📥 Xuất Excel Tổng Hợp
-      </button>
-      <button onclick="exportGanttToExcel()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
-        📊 Xuất Gantt Chart
-      </button>
-      <button onclick="exportCurrentTab()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
-        📄 Xuất Tab Hiện Tại
-      </button>
-      <a href="gantt-detail-vi.html" class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
-        🗓️ Xem Chi Tiết Tuần/Ngày →
-      </a>
-      <a href="kpi-targets.html" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold shadow flex items-center gap-2">
-        🎯 KPI Target 2026 →
-      </a>
+  <!-- Sidebar -->
+  <aside class="w-64 border-r border-slate-200 bg-white flex-col hidden md:flex h-screen sticky top-0">
+    <div class="p-6 border-b border-slate-100">
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">T</div>
+        <span class="font-bold text-lg tracking-tight">TazaGroup SEO</span>
+      </div>
+      <p class="text-xs text-slate-500 font-medium">Dashboard KPI 2026</p>
     </div>
-
-    <!-- Thẻ tổng kết - Baseline 2025 & Target 2026 -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
-        <h3 class="font-bold text-red-600">TazaSkinClinic</h3>
-        <p class="text-xs text-gray-500">2025: 28.598 sessions (30 đl)</p>
-        <p class="text-2xl font-bold mt-1">~675</p>
-        <p class="text-sm text-gray-500">đặt lịch/năm 2026</p>
-        <p class="text-xs text-green-600 mt-1">TB ~56/tháng • CVR 1.5%</p>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-700">
-        <h3 class="font-bold text-blue-700">Timona</h3>
-        <p class="text-xs text-gray-500">2025: 103.364 sessions (30 đk)</p>
-        <p class="text-2xl font-bold mt-1">~775</p>
-        <p class="text-sm text-gray-500">đăng ký/năm 2026</p>
-        <p class="text-xs text-green-600 mt-1">TB ~65/tháng • CVR 0.5%</p>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-600">
-        <h3 class="font-bold text-green-600">Hderma</h3>
-        <p class="text-xs text-gray-500">2025: 3.209 sessions (2 đơn)</p>
-        <p class="text-2xl font-bold mt-1">~160</p>
-        <p class="text-sm text-gray-500">đơn hàng/năm 2026</p>
-        <p class="text-xs text-green-600 mt-1">TB ~13/tháng • CVR 2.5%</p>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-purple-600">
-        <h3 class="font-bold text-purple-600">Elasome</h3>
-        <p class="text-xs text-gray-500">2025: 925 sessions (0 lead)</p>
-        <p class="text-2xl font-bold mt-1">~36</p>
-        <p class="text-sm text-gray-500">lead B2B/năm 2026</p>
-        <p class="text-xs text-green-600 mt-1">TB ~3/tháng • CVR 1.5%</p>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow border-l-4 border-gray-500">
-        <h3 class="font-bold text-gray-600">TazaGroup</h3>
-        <p class="text-xs text-gray-500">2025: 5.909 sessions (0 lead)</p>
-        <p class="text-2xl font-bold mt-1">~135</p>
-        <p class="text-sm text-gray-500">lead/năm 2026</p>
-        <p class="text-xs text-green-600 mt-1">TB ~11/tháng • CVR 1.5%</p>
-      </div>
-    </div>
-
-    <!-- Tab điều hướng -->
-    <div class="bg-white rounded-lg shadow mb-6">
-      <div class="flex overflow-x-auto border-b">
-        <button onclick="showTab('overview')" id="btn-overview" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100 tab-active">📈 Tổng Quan</button>
-        <button onclick="showTab('clinic')" id="btn-clinic" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏥 TazaSkinClinic</button>
-        <button onclick="showTab('timona')" id="btn-timona" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🎓 Timona</button>
-        <button onclick="showTab('hderma')" id="btn-hderma" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">💊 Hderma</button>
-        <button onclick="showTab('elasome')" id="btn-elasome" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🧬 Elasome</button>
-        <button onclick="showTab('group')" id="btn-group" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🏢 TazaGroup</button>
-        <button onclick="showTab('gantt')" id="btn-gantt" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">📊 Gantt Chart</button>
-        <button onclick="showTab('ai')" id="btn-ai" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">🤖 KPI Thời Đại AI</button>
-        <button onclick="showTab('nhansu')" id="btn-nhansu" class="px-6 py-4 whitespace-nowrap hover:bg-gray-100">👥 Nhân Sự & Chi Phí</button>
-      </div>
+    
+    <div class="flex-1 overflow-y-auto p-4 space-y-1">
+      <div class="text-[10px] font-bold uppercase text-slate-400 px-3 mb-2 tracking-widest leading-loose">Điều hướng chính</div>
       
-      <!-- Nội dung Tab -->
-      <div id="tab-content" class="p-6">
-        <!-- Nội dung sẽ được render bởi JavaScript -->
-      </div>
-    </div>
+      <button onclick="showTab('overview')" id="sidebar-overview" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none sidebar-item-active">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span class="text-sm">Tổng Quan</span>
+      </button>
+      
+      <button onclick="showTab('clinic')" id="sidebar-clinic" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="hospital" class="w-4 h-4"></i>
+        <span class="text-sm">TazaSkinClinic</span>
+      </button>
+      
+      <button onclick="showTab('timona')" id="sidebar-timona" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        <span class="text-sm">Timona</span>
+      </button>
+      
+      <button onclick="showTab('hderma')" id="sidebar-hderma" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="pill" class="w-4 h-4"></i>
+        <span class="text-sm">Hderma</span>
+      </button>
+      
+      <button onclick="showTab('elasome')" id="sidebar-elasome" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="dna" class="w-4 h-4"></i>
+        <span class="text-sm">Elasome</span>
+      </button>
+      
+      <button onclick="showTab('group')" id="sidebar-group" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="building-2" class="w-4 h-4"></i>
+        <span class="text-sm">TazaGroup</span>
+      </button>
+      
+      <button onclick="showTab('gantt')" id="sidebar-gantt" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="gantt-chart" class="w-4 h-4"></i>
+        <span class="text-sm">Gantt Chart</span>
+      </button>
+      
+      <button onclick="showTab('ai')" id="sidebar-ai" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="bot" class="w-4 h-4"></i>
+        <span class="text-sm text-left">KPI Thời Đại AI</span>
+      </button>
+      
+      <button onclick="showTab('nhansu')" id="sidebar-nhansu" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        <span class="text-sm text-left">Nhân Sự & Chi Phí</span>
+      </button>
 
-    <!-- Biểu đồ -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-      <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="font-bold mb-4 text-lg">📈 Xu hướng Lượt Truy Cập 2026</h3>
-        <canvas id="trafficChart" height="200"></canvas>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="font-bold mb-4 text-lg">📊 Dự báo Lead/Chuyển đổi 2026</h3>
-        <canvas id="leadsChart" height="200"></canvas>
-      </div>
-    </div>
+      <div class="text-[10px] font-bold uppercase text-slate-400 px-3 mt-6 mb-2 tracking-widest leading-loose">Thao tác dữ liệu</div>
+      
+      <button onclick="exportAllToExcel()" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-emerald-600 hover:bg-emerald-50 transition-colors outline-none">
+        <i data-lucide="download" class="w-4 h-4"></i>
+        <span class="text-sm">Xuất Excel Tổng Hợp</span>
+      </button>
+      
+      <button onclick="exportGanttToExcel()" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-violet-600 hover:bg-violet-50 transition-colors outline-none">
+        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+        <span class="text-sm font-medium">Xuất Gantt Chart</span>
+      </button>
+      
+      <button onclick="exportCurrentTab()" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-blue-600 hover:bg-blue-50 transition-colors outline-none">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+        <span class="text-sm font-medium">Xuất Tab Hiện Tại</span>
+      </button>
 
-    <!-- Footer -->
-    <div class="text-center text-gray-500 py-4">
-      <p>© 2026 TazaGroup - Kế hoạch KPI SEO Toàn Diện</p>
-      <p class="text-sm mt-1">Dựa trên dữ liệu Google Analytics 365 ngày (23/12/2024 - 23/12/2025) - Chiến lược AI-First SEO</p>
+      <div class="text-[10px] font-bold uppercase text-slate-400 px-3 mt-6 mb-2 tracking-widest leading-loose">Liên kết nhanh</div>
+      
+      <a href="gantt-detail-vi.html" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-orange-600 hover:bg-orange-50 transition-colors outline-none">
+        <i data-lucide="calendar-days" class="w-4 h-4"></i>
+        <span class="text-sm font-medium">Xem Chi Tiết Tuần/Ngày</span>
+      </a>
+      
+      <a href="kpi-targets.html" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-rose-600 hover:bg-rose-50 transition-colors outline-none">
+        <i data-lucide="target" class="w-4 h-4"></i>
+        <span class="text-sm font-medium">KPI Target 2026</span>
+      </a>
     </div>
-  </div>
+    
+    <div class="p-4 border-t border-slate-100 flex items-center gap-3">
+      <img src="https://ui-avatars.com/api/?name=SEO&background=6d28d9&color=fff" class="w-8 h-8 rounded-full shadow-sm" alt="User">
+      <div class="overflow-hidden">
+        <p class="text-xs font-semibold text-slate-700 truncate">SEO Manager</p>
+        <p class="text-[10px] text-slate-500 font-medium">TazaGroup Admin</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto h-screen bg-[#fafafa]">
+    <!-- Top Nav / Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10 px-8 py-4 flex items-center justify-between">
+      <div>
+        <h2 id="page-title" class="text-xl font-bold text-slate-800">Tổng Quan Báo Cáo</h2>
+        <p id="page-subtitle" class="text-xs text-slate-500 font-medium">Theo dõi hiệu suất 5 Website hệ sinh thái TazaGroup</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-[10px] font-bold border border-blue-100 uppercase tracking-wider">
+           Dữ liệu GA 2025
+        </div>
+        <div class="w-px h-6 bg-slate-200"></div>
+        <p class="text-xs font-medium text-slate-400 italic">Cập nhật: 23/12/2025</p>
+      </div>
+    </header>
+
+    <div class="p-8 max-w-7xl mx-auto space-y-8">
+      
+      <!-- Stats Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-amber-600 transition-colors">TazaSkinClinic</h3>
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-amber-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~675</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">đặt lịch/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 1.5%
+          </div>
+        </div>
+        
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-blue-600 transition-colors">Timona</h3>
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~775</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">đăng ký/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 0.5%
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-emerald-600 transition-colors">Hderma</h3>
+            <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-emerald-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~160</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">đơn hàng/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 2.5%
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-violet-600 transition-colors">Elasome</h3>
+            <i data-lucide="dna" class="w-3.5 h-3.5 text-violet-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~36</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">lead B2B/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 1.5%
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-slate-600 transition-colors">TazaGroup</h3>
+            <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~135</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">lead/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 1.5%
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dynamic Content -->
+      <div id="tab-content" class="bg-white rounded-xl border border-slate-200 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] p-8">
+        <!-- Content injected by JS -->
+      </div>
+
+      <!-- Overview Charts Section -->
+      <div id="charts-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800">📈 Xu hướng Lượt Truy Cập 2026</h3>
+            <i data-lucide="trending-up" class="w-5 h-5 text-blue-500 opacity-60"></i>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="trafficChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800">📊 Dự báo Lead/Chuyển đổi 2026</h3>
+            <i data-lucide="bar-chart-3" class="w-5 h-5 text-emerald-500 opacity-60"></i>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="leadsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <footer class="pt-8 pb-12 text-center">
+        <div class="w-full h-px bg-slate-200 mb-8 max-w-sm mx-auto"></div>
+        <p class="text-slate-400 text-xs font-semibold tracking-widest uppercase">© 2026 TazaGroup SEO Intelligence</p>
+        <p class="text-slate-400 text-[10px] font-medium mt-2">Dựa trên dữ liệu Google Analytics 365 ngày • Chiến lược AI-First SEO • Hệ sinh thái 5 Website</p>
+      </footer>
+    </div>
+  </main>
 
   <script>
     let currentTab = 'overview';
     const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
 
+    const TAB_HEADERS = {
+      'overview': { title: 'Tổng Quan Báo Cáo', sub: 'Theo dõi hiệu suất 5 Website hệ sinh thái TazaGroup' },
+      'clinic': { title: 'TazaSkinClinic.com', sub: 'Hệ thống viện thẩm mỹ & chăm sóc da chuyên sâu' },
+      'timona': { title: 'Timona.edu.vn', sub: 'Học viện thẩm mỹ đào tạo nhân sự chất lượng cao' },
+      'hderma': { title: 'Hderma.vn', sub: 'Thương hiệu dược mỹ phẩm chuẩn y khoa' },
+      'elasome': { title: 'Elasome.com', sub: 'Công nghệ Exosome độc quyền Hàn Quốc' },
+      'group': { title: 'TazaGroup.vn', sub: 'Website tập đoàn & Kết nối hệ sinh thái' },
+      'gantt': { title: 'Lộ Trình Triển Khai', sub: 'Gantt Chart chi tiết kế hoạch hành động 2026' },
+      'ai': { title: 'SEO Trong Kỷ Nguyên AI', sub: 'KPI đo lường AIO, SGE và Citation Rate' },
+      'nhansu': { title: 'Nhân Sự & Ngân Sách', sub: 'Phương án tối ưu nhân sự AI-First và chi phí thực thi' }
+    };
+
     function showTab(tab) {
       currentTab = tab;
-      document.querySelectorAll('[id^="btn-"]').forEach(btn => btn.classList.remove('tab-active'));
-      document.getElementById(`btn-${tab}`).classList.add('tab-active');
       
+      // Update Sidebar UI
+      document.querySelectorAll('[id^="sidebar-"]').forEach(btn => btn.classList.remove('sidebar-item-active'));
+      const activeBtn = document.getElementById(`sidebar-${tab}`);
+      if (activeBtn) activeBtn.classList.add('sidebar-item-active');
+      
+      // Update Headers
+      document.getElementById('page-title').innerText = TAB_HEADERS[tab].title;
+      document.getElementById('page-subtitle').innerText = TAB_HEADERS[tab].sub;
+      
+      // Update Content
       const content = document.getElementById('tab-content');
+      const chartsSection = document.getElementById('charts-section');
       
+      // Toggle Charts Visibility (only show on overview)
       if (tab === 'overview') {
+        chartsSection.classList.remove('hidden');
         content.innerHTML = renderOverview();
-      } else if (tab === 'gantt') {
-        content.innerHTML = renderGantt();
-        setTimeout(() => mermaid.run(), 100);
-      } else if (tab === 'ai') {
-        content.innerHTML = renderAIKPIs();
-      } else if (tab === 'nhansu') {
-        content.innerHTML = renderNhanSu();
       } else {
-        content.innerHTML = renderSiteTable(tab);
+        chartsSection.classList.add('hidden');
+        if (tab === 'gantt') {
+          content.innerHTML = renderGantt();
+          setTimeout(() => mermaid.run(), 100);
+        } else if (tab === 'ai') {
+          content.innerHTML = renderAIKPIs();
+        } else if (tab === 'nhansu') {
+          content.innerHTML = renderNhanSu();
+        } else {
+          content.innerHTML = renderSiteTable(tab);
+        }
       }
+      
+      // Re-init lucide icons for dynamic content
+      lucide.createIcons();
     }
 
     function renderOverview() {
@@ -150,14 +298,16 @@
         const site = DATA[key];
         const sum = SUMMARY[key];
         tableRows += `
-          <tr class="hover:bg-gray-50">
-            <td class="border p-3 font-semibold" style="color:${site.color}">${site.name}</td>
-            <td class="border p-3 text-center">${sum.traffic2025}</td>
-            <td class="border p-3 text-center font-bold">${sum.traffic2026}</td>
-            <td class="border p-3 text-center text-green-600 font-bold">${sum.growth}</td>
-            <td class="border p-3 text-center">${sum.leads2025}</td>
-            <td class="border p-3 text-center font-bold text-green-600">${sum.leads2026}</td>
-            <td class="border p-3 text-sm">${sum.focus}</td>
+          <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 group">
+            <td class="p-4 font-bold text-slate-800 group-hover:text-blue-600 transition-colors">${site.name}</td>
+            <td class="p-4 text-center text-slate-500 font-medium">${sum.traffic2025}</td>
+            <td class="p-4 text-center font-bold text-slate-900">${sum.traffic2026}</td>
+            <td class="p-4 text-center">
+               <span class="bg-green-50 text-green-600 px-2 py-1 rounded text-[10px] font-bold">+${sum.growth}</span>
+            </td>
+            <td class="p-4 text-center text-slate-500 font-medium">${sum.leads2025}</td>
+            <td class="p-4 text-center font-bold text-green-600">${sum.leads2026}</td>
+            <td class="p-4 text-xs text-slate-500 max-w-[200px] leading-relaxed">${sum.focus}</td>
           </tr>
         `;
       });
@@ -167,79 +317,74 @@
         const ga = GA_BASELINE_2025[key];
         const site = DATA[key];
         gaRows += `
-          <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-            <td class="border p-2 font-semibold" style="color:${site.color}">${site.name}</td>
-            <td class="border p-2 text-center">${ga.sessions.toLocaleString()}</td>
-            <td class="border p-2 text-center">${ga.users.toLocaleString()}</td>
-            <td class="border p-2 text-center">${ga.pageviews.toLocaleString()}</td>
-            <td class="border p-2 text-center">${ga.bounceRate}%</td>
-            <td class="border p-2 text-center">${Math.round(ga.avgDuration)}s</td>
-            <td class="border p-2 text-center font-bold text-green-600">${ga.conversions}</td>
+          <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-b border-slate-100">
+            <td class="p-3 text-xs font-semibold text-slate-700">${site.name}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.sessions.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.users.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.pageviews.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.bounceRate}%</td>
+            <td class="p-3 text-xs text-center font-medium">${Math.round(ga.avgDuration)}s</td>
+            <td class="p-3 text-xs text-center font-bold text-blue-600">${ga.conversions}</td>
           </tr>
         `;
       });
 
-      let trendsHtml = '';
-      TRENDS_2026.forEach(trend => {
-        trendsHtml += `
-          <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-            <span class="text-blue-600">✓</span> ${trend}
-          </div>
-        `;
-      });
-
       return `
-        <h2 class="text-2xl font-bold mb-4">📊 Tổng Quan KPI 2026 - 5 Website (Dựa trên GA 365 ngày)</h2>
-        
-        <!-- Bảng Baseline 2025 vs Target 2026 -->
-        <div class="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-200">
-          <h3 class="font-bold text-blue-800 mb-2">📈 So sánh Baseline 2025 (GA thực tế) vs Target 2026</h3>
-          <p class="text-sm text-blue-600">Dữ liệu thực từ Google Analytics 365 ngày (23/12/2024 - 23/12/2025)</p>
-        </div>
-        
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                <th class="border p-3 text-left">Website</th>
-                <th class="border p-3 text-center">Sessions 2025</th>
-                <th class="border p-3 text-center">Target 2026</th>
-                <th class="border p-3 text-center">Tăng trưởng</th>
-                <th class="border p-3 text-center">Lead 2025</th>
-                <th class="border p-3 text-center">Lead 2026</th>
-                <th class="border p-3 text-left">Trọng Tâm</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${tableRows}
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Bảng chi tiết GA Metrics 2025 -->
-        <h3 class="text-xl font-bold mt-8 mb-4">📊 Chi tiết Metrics từ Google Analytics 2025</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="border p-2 text-left">Website</th>
-                <th class="border p-2 text-center">Sessions</th>
-                <th class="border p-2 text-center">Users</th>
-                <th class="border p-2 text-center">Pageviews</th>
-                <th class="border p-2 text-center">Bounce Rate</th>
-                <th class="border p-2 text-center">Avg Duration</th>
-                <th class="border p-2 text-center">Conversions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${gaRows}
-            </tbody>
-          </table>
-        </div>
-        
-        <h3 class="text-xl font-bold mt-8 mb-4">🎯 Xu Hướng SEO 2026</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          ${trendsHtml}
+        <div class="space-y-8">
+          <div class="bg-blue-600 rounded-xl p-6 text-white overflow-hidden relative">
+            <div data-lucide="zap" class="absolute -right-8 -bottom-8 w-48 h-48 opacity-10"></div>
+            <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+              <i data-lucide="info" class="w-5 h-5"></i>
+              Báo cáo hiệu suất thực tế vs Mục tiêu 2026
+            </h3>
+            <p class="text-sm text-blue-100 opacity-90 max-w-2xl">Bản kế hoạch dựa trên phân tích 365 ngày dữ liệu Google Analytics. TazaGroup hướng tới việc tối ưu hóa tỷ lệ chuyển đổi (CVR) song song với việc mở rộng quy mô hiển thị trên các nền tảng tìm kiếm AI mới.</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">KPI Target Matrix</h3>
+            </div>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-wider border-b border-slate-200">
+                    <th class="p-4 text-left">Website</th>
+                    <th class="p-4 text-center">Sessions 2025</th>
+                    <th class="p-4 text-center">Target 2026</th>
+                    <th class="p-4 text-center">Tăng trưởng</th>
+                    <th class="p-4 text-center">Lead 2025</th>
+                    <th class="p-4 text-center">Lead 2026</th>
+                    <th class="p-4 text-left">Trọng Tâm</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  ${tableRows}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Baseline Google Analytics 2025</h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-wider border-b border-slate-200">
+                    <th class="p-3 text-left">Website</th>
+                    <th class="p-3 text-center">Sessions</th>
+                    <th class="p-3 text-center">Users</th>
+                    <th class="p-3 text-center">Pageviews</th>
+                    <th class="p-3 text-center">Bounce Rate</th>
+                    <th class="p-3 text-center">Avg Duration</th>
+                    <th class="p-3 text-center">Conversions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${gaRows}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       `;
     }
@@ -249,148 +394,210 @@
       const baseline = site.baseline2025 || {};
       const target = site.target2026 || {};
       return `
-        <div class="mb-4">
-          <h2 class="text-2xl font-bold" style="color:${site.color}">${site.name}</h2>
-          <p class="text-gray-600">${site.desc}</p>
-          <p class="text-sm mt-2"><strong>Trọng tâm:</strong> ${site.focus}</p>
-        </div>
-        
-        <!-- Baseline 2025 vs Target 2026 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="bg-gray-100 p-4 rounded-lg">
-            <h4 class="font-bold text-gray-700">📊 Baseline 2025 (GA)</h4>
-            <p class="text-2xl font-bold mt-2">${baseline.sessions?.toLocaleString() || 'N/A'}</p>
-            <p class="text-sm text-gray-500">sessions/năm</p>
-            <p class="text-xs text-gray-400">~${baseline.avgMonth?.toLocaleString() || 'N/A'}/tháng • ${baseline.users?.toLocaleString() || 'N/A'} users</p>
+        <div class="space-y-8">
+          <div class="flex items-center gap-4">
+             <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-white">
+                <i data-lucide="globe" class="w-6 h-6"></i>
+             </div>
+             <div>
+                <h2 class="text-2xl font-black text-slate-900">${site.name}</h2>
+                <p class="text-slate-500 font-medium text-sm">${site.desc}</p>
+             </div>
           </div>
-          <div class="bg-green-100 p-4 rounded-lg">
-            <h4 class="font-bold text-green-700">🎯 Target 2026</h4>
-            <p class="text-2xl font-bold mt-2 text-green-600">${target.sessions?.toLocaleString() || 'N/A'}</p>
-            <p class="text-sm text-gray-500">sessions/năm</p>
-            <p class="text-xs text-green-600">Tăng ${target.growth || 'N/A'} • ~${target.conversionsTarget || 0} leads</p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-slate-400">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">📊 Baseline 2025</h4>
+              <p class="text-3xl font-black text-slate-900 leading-none">${baseline.sessions?.toLocaleString() || 'N/A'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-2">Tổng sessions trong năm</p>
+              <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between">
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Tháng: ~${baseline.avgMonth?.toLocaleString() || 'N/A'}</span>
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Users: ${baseline.users?.toLocaleString() || 'N/A'}</span>
+              </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">🎯 Target 2026</h4>
+              <p class="text-3xl font-black text-emerald-600 leading-none">${target.sessions?.toLocaleString() || 'N/A'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-2">Mục tiêu tăng trưởng ${target.growth || 'N/A'}</p>
+              <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Conversions:</span>
+                <span class="bg-emerald-50 text-emerald-700 font-black px-2 py-0.5 rounded text-xs">${target.conversionsTarget || 0} Leads</span>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-blue-600">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">📈 Lực đẩy chiến lược</h4>
+              <p class="text-sm font-semibold text-slate-700 leading-relaxed">${site.focus}</p>
+            </div>
           </div>
-          <div class="bg-blue-100 p-4 rounded-lg">
-            <h4 class="font-bold text-blue-700">📈 Conversions 2025</h4>
-            <p class="text-2xl font-bold mt-2 text-blue-600">${baseline.conversions || 0}</p>
-            <p class="text-sm text-gray-500">conversions từ GA</p>
-            <p class="text-xs text-blue-600">Target 2026: ${target.conversionsTarget || 'N/A'}</p>
-          </div>
-        </div>
-        
-        <h3 class="font-bold mb-3">📅 Kế Hoạch Chi Tiết Từng Tháng 2026</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                ${site.headers.map(h => `<th class="border p-2 text-left whitespace-nowrap">${h}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${site.rows.map((row, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50">
-                  ${row.map((cell, j) => `
-                    <td class="border p-2 ${j === 0 ? 'font-semibold' : ''} ${j === 2 ? 'text-green-600 font-bold' : ''}">${cell}</td>
+          
+          <div class="pt-4">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4"></i> Lộ trình vận hành 12 tháng
+            </h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200">
+                    ${site.headers.map(h => `<th class="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-center">${h}</th>`).join('')}
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  ${site.rows.map((row, i) => `
+                    <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'} hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0">
+                      ${row.map((cell, j) => `
+                        <td class="p-3 ${j === 0 ? 'font-bold text-slate-800 text-center' : 'text-slate-600'} ${j === 2 ? 'text-emerald-600 font-bold text-center' : ''}">${cell}</td>
+                      `).join('')}
+                    </tr>
                   `).join('')}
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       `;
     }
 
     function renderGantt() {
       return `
-        <h2 class="text-2xl font-bold mb-4">📊 Gantt Chart KPI SEO 2026</h2>
-        <div class="mermaid">
+        <div class="space-y-8">
+           <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Visualization</h3>
+              <div class="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full">
+                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                 <span class="text-[10px] font-bold text-slate-600">Dynamic Plan 2026</span>
+              </div>
+           </div>
+           
+           <div class="overflow-x-auto p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
+             <div class="mermaid mx-auto">
 gantt
     title Kế Hoạch KPI SEO 2026 - TazaGroup
     dateFormat YYYY-MM-DD
     
     section Kiểm Tra
-    Kiểm tra kỹ thuật + Nghiên cứu từ khóa    :2026-01-01, 59d
+    Kỹ thuật & Từ khóa :2026-01-01, 59d
     
     section Clinic
-    Case study peel/phục hồi              :2026-03-01, 306d
-    Chiến dịch HIFU 199K, Triệt lông 499K :2026-03-01, 306d
+    Case study peel/phục hồi :2026-03-01, 306d
+    Chiến dịch hot deal :2026-03-01, 306d
     
     section Timona
-    Nội dung hướng nghiệp & khóa học      :2026-03-01, 214d
-    Mùa tuyển sinh (ưu đãi trả góp)       :2026-03-01, 214d
+    Nội dung hướng nghiệp :2026-03-01, 214d
+    Mùa tuyển sinh :2026-03-01, 214d
     
     section Hderma
-    Sản phẩm routine & cảm nhận           :2026-03-01, 306d
-    Chiến dịch Bundle & Tết               :crit, 2026-10-01, 92d
+    Routine & Testimonials :2026-03-01, 306d
+    Bundle & Tết :crit, 2026-10-01, 92d
     
     section Elasome
-    Nội dung Exosome M1-M5 B2B            :2026-04-01, 275d
-    Hợp tác clinic/spa B2B                :2026-07-01, 184d
+    Exosome M1-M5 Content :2026-04-01, 275d
+    Hợp tác B2B :2026-07-01, 184d
     
     section AI SEO
-    Xây dựng entity & Theo dõi trích dẫn  :2026-01-01, 365d
-    Kiểm tra lead ảnh hưởng AI            :crit, 2026-05-01, 245d
+    Entity & Citation :2026-01-01, 365d
+    AI Lead Tracking :crit, 2026-05-01, 245d
     
     section Báo Cáo
-    Báo cáo Q1                            :milestone, 2026-03-31, 0d
-    Báo cáo Q2                            :milestone, 2026-06-30, 0d
-    Báo cáo Q3                            :milestone, 2026-09-30, 0d
-    Báo cáo năm & Kế hoạch 2027           :milestone, 2026-12-31, 0d
-        </div>
-        
-        <h3 class="text-xl font-bold mt-8 mb-4">📋 Chi Tiết Gantt</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-gray-100">
-                ${GANTT_DATA[0].map(h => `<th class="border p-2">${h}</th>`).join('')}
-              </tr>
-            </thead>
-            <tbody>
-              ${GANTT_DATA.slice(1).map((row, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  ${row.map(cell => `<td class="border p-2">${cell}</td>`).join('')}
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+    Q1 :milestone, 2026-03-31, 0d
+    Q2 :milestone, 2026-06-30, 0d
+    Q3 :milestone, 2026-09-30, 0d
+    Q4 :milestone, 2026-12-31, 0d
+             </div>
+           </div>
+           
+           <div class="pt-4">
+             <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Danh mục đầu việc chính</h3>
+             <div class="overflow-hidden border border-slate-200 rounded-xl shadow-sm">
+               <table class="w-full border-collapse">
+                 <thead>
+                   <tr class="bg-slate-50 border-b border-slate-200">
+                     ${GANTT_DATA[0].map(h => `<th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-left">${h}</th>`).join('')}
+                   </tr>
+                 </thead>
+                 <tbody class="text-sm">
+                   ${GANTT_DATA.slice(1).map((row, i) => `
+                     <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'} border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                       ${row.map(cell => `<td class="p-4 text-slate-600 font-medium">${cell}</td>`).join('')}
+                     </tr>
+                   `).join('')}
+                 </tbody>
+               </table>
+             </div>
+           </div>
         </div>
       `;
     }
 
     function renderAIKPIs() {
       return `
-        <h2 class="text-2xl font-bold mb-4">🤖 Chỉ Số KPI Thời Đại AI</h2>
-        <p class="text-gray-600 mb-6">Các chỉ số mới quan trọng cho SEO trong kỷ nguyên AI (AIO, SGE, Perplexity...)</p>
-        
-        <div class="overflow-x-auto mb-8">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-                <th class="border p-3 text-left">Chỉ số</th>
-                <th class="border p-3 text-left">Mục tiêu 2026</th>
-                <th class="border p-3 text-left">Công cụ đo</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${AI_KPIS.map((kpi, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  <td class="border p-3 font-semibold">${kpi.name}</td>
-                  <td class="border p-3 text-green-600">${kpi.target}</td>
-                  <td class="border p-3 text-gray-600">${kpi.tool}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-        
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-          <h4 class="font-bold text-yellow-800">⚠️ Lưu ý quan trọng</h4>
-          <ul class="mt-2 text-yellow-700 space-y-1">
-            <li>• Kiểm tra lead ảnh hưởng AI bắt đầu từ T5/2026 (bước đột phá)</li>
-            <li>• Tỷ lệ trích dẫn cần theo dõi thủ công hoặc công cụ tùy chỉnh</li>
-            <li>• Điểm nhúng (Embedding) > 0.7 đảm bảo nội dung được AI trích xuất</li>
-            <li>• Hiện diện không click: tối ưu featured snippets, FAQ schema</li>
-          </ul>
+        <div class="space-y-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-indigo-600 p-8 rounded-2xl text-white relative overflow-hidden group">
+               <i data-lucide="bot" class="absolute -right-4 -top-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform"></i>
+               <h3 class="text-xl font-black mb-4 flex items-center gap-2">
+                 Thế hệ SEO 2026
+               </h3>
+               <p class="text-indigo-100 text-sm leading-relaxed mb-6">Google AI Overviews (AIO) và các công cụ LLM như ChatGPT đang định nghĩa lại SEO. Chúng ta không chỉ SEO cho "Blue Links" mà SEO cho "Citations".</p>
+               <div class="flex gap-2">
+                  <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold">AIO Visibilty</span>
+                  <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-bold">Embedding Score</span>
+               </div>
+            </div>
+            
+            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200">
+               <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                 <i data-lucide="shield-check" class="w-5 h-5 text-emerald-500"></i> Nguyên tắc AI-Response
+               </h4>
+               <ul class="space-y-3">
+                  <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <span class="w-1.5 h-1.5 bg-slate-300 rounded-full mt-2"></span>
+                    <span>Tư liệu độc quyền bác sĩ (Expert Quote) tăng E-E-A-T.</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <span class="w-1.5 h-1.5 bg-slate-300 rounded-full mt-2"></span>
+                    <span>Cấu trúc dữ liệu JSON-LD chi tiết cho Schema Treatment.</span>
+                  </li>
+                  <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <span class="w-1.5 h-1.5 bg-slate-300 rounded-full mt-2"></span>
+                    <span>Nội dung kim tự tháp ngược giúp AI dễ trích xuất.</span>
+                  </li>
+               </ul>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">AI Ranking Metrics</h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200">
+                    <th class="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-left">Chỉ số</th>
+                    <th class="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-left">Mục tiêu 2026</th>
+                    <th class="p-4 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-left">Công cụ đo</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  ${AI_KPIS.map((kpi, i) => `
+                    <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                      <td class="p-4 font-bold text-slate-800">${kpi.name}</td>
+                      <td class="p-4 text-emerald-600 font-bold">${kpi.target}</td>
+                      <td class="p-4 text-slate-500 font-medium italic">${kpi.tool}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="bg-amber-50 border border-amber-200 p-6 rounded-xl flex gap-4">
+             <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-500"></i>
+             <div>
+                <h4 class="font-bold text-amber-800 text-sm mb-1">Lưu ý về Citation Rate</h4>
+                <p class="text-amber-700 text-xs leading-relaxed font-medium">Việc xuất hiện trong câu trả lời của AI đòi hỏi nội dung phải có mật độ từ khóa ngữ nghĩa (Semantic density) cao và thực thể (Entity) được xác thực qua Google Maps & Wiki.</p>
+             </div>
+          </div>
         </div>
       `;
     }
@@ -398,398 +605,207 @@ gantt
     function renderNhanSu() {
       const formatMoney = (num) => num.toLocaleString('vi-VN') + 'đ';
       return `
-        <h2 class="text-2xl font-bold mb-4">👥 Phương Án Nhân Sự & Chi Phí SEO 2026</h2>
-        <p class="text-gray-600 mb-2">Mô hình: <strong class="text-blue-600">${NHAN_SU.moHinh}</strong></p>
-        
-        <!-- So sánh tiết kiệm -->
-        <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-lg mb-6 shadow-lg">
-          <div class="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h3 class="font-bold text-lg">🎯 TIẾT KIỆM ${NHAN_SU.soSanh.tietKiem.phanTram}% SO VỚI PHƯƠNG ÁN CŨ</h3>
-              <p class="text-sm opacity-90">Nhờ tận dụng AI draft + Free tools + CTV tinh gọn</p>
-            </div>
-            <div class="text-right">
-              <p class="text-3xl font-bold">~${formatMoney(NHAN_SU.soSanh.tietKiem.nam)}/năm</p>
-              <p class="text-sm opacity-80">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiNam)} → ${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiNam)}</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Chiến lược AI-First -->
-        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-          <h3 class="font-bold text-purple-800 mb-3">🤖 ${NHAN_SU.aiStrategy.title}</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h4 class="font-semibold text-sm mb-2">📋 Quy trình:</h4>
-              <ol class="text-sm space-y-1">
-                ${NHAN_SU.aiStrategy.steps.map((s, i) => `<li>${i+1}. ${s}</li>`).join('')}
-              </ol>
-            </div>
-            <div>
-              <h4 class="font-semibold text-sm mb-2">✅ Lợi ích:</h4>
-              <ul class="text-sm space-y-1">
-                ${NHAN_SU.aiStrategy.benefits.map(b => `<li>• ${b}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Sơ đồ tổ chức -->
-        <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-lg mb-6 border">
-          <h3 class="font-bold text-lg mb-4 text-center">📊 Mô Hình Tổ Chức Tinh Gọn</h3>
-          <div class="text-center">
-            <div class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-bold mb-4">
-              SEO MANAGER (Full-time)<br>
-              <span class="text-sm font-normal">Chiến lược | Technical | AI Tools | QC</span>
-            </div>
-            <div class="flex justify-center gap-4 flex-wrap">
-              ${NHAN_SU.ctv.map((ctv, i) => `
-                <div class="bg-white px-4 py-3 rounded-lg shadow border text-sm">
-                  <div class="font-semibold text-gray-800">${ctv.viTri}</div>
-                  <div class="text-gray-500 text-xs">${ctv.loai}</div>
-                  <div class="text-green-600 text-xs font-semibold mt-1">~${formatMoney(ctv.chiPhi.tb)}/tháng</div>
+        <div class="space-y-8">
+          <div class="flex items-center justify-between">
+             <div class="bg-emerald-600 text-white px-8 py-6 rounded-2xl shadow-xl flex-1 max-w-[60%] flex items-center justify-between">
+                <div>
+                   <h2 class="text-3xl font-black mb-1 leading-none tracking-tight">TIẾT KIỆM ${NHAN_SU.soSanh.tietKiem.phanTram}%</h2>
+                   <p class="text-emerald-100 font-medium text-xs">Phát triển dự án dựa trên khung vận hành AI-First</p>
                 </div>
-              `).join('')}
-              <div class="bg-purple-100 px-4 py-3 rounded-lg shadow border text-sm">
-                <div class="font-semibold text-purple-800">🤖 AI Tools</div>
-                <div class="text-purple-600 text-xs">ChatGPT/Claude</div>
-                <div class="text-purple-600 text-xs font-semibold mt-1">Draft 60-80%</div>
-              </div>
+                <div class="text-right">
+                   <p class="text-sm opacity-80 uppercase font-bold text-[10px] tracking-widest">Tiết kiệm ngân sách/năm</p>
+                   <p class="text-2xl font-black leading-none mt-1">~${formatMoney(NHAN_SU.soSanh.tietKiem.nam)}</p>
+                </div>
+             </div>
+             
+             <div class="bg-white border-2 border-slate-100 p-6 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm -ml-8 scale-105 z-10 self-center">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-loose">Ngân sách hàng tháng</p>
+                <p class="text-2xl font-black text-slate-900 leading-none mt-2">~6 TRIỆU</p>
+                <div class="mt-4 px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold text-slate-500">Không lương Manager</div>
+             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div class="bg-white border border-slate-200 rounded-2xl p-8 space-y-6">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                   <i data-lucide="cpu" class="w-5 h-5 text-purple-600"></i> Chiến lược tối ưu sản xuất
+                </h3>
+                <div class="space-y-4">
+                  ${NHAN_SU.aiStrategy.steps.map((s, i) => `
+                    <div class="flex items-center gap-4 group">
+                       <span class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-xs font-black text-slate-400 group-hover:bg-purple-600 group-hover:text-white transition-colors">${i+1}</span>
+                       <p class="text-sm font-semibold text-slate-600">${s}</p>
+                    </div>
+                  `).join('')}
+                </div>
+             </div>
+             
+             <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-8 space-y-6">
+                <h3 class="font-bold text-indigo-900 flex items-center gap-2">
+                   <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600"></i> Lợi ích thực thi
+                </h3>
+                <div class="grid grid-cols-1 gap-4">
+                  ${NHAN_SU.aiStrategy.benefits.map(b => `
+                    <div class="flex items-center gap-3">
+                       <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-indigo-400"></i>
+                       <p class="text-sm font-semibold text-indigo-800 tracking-tight">${b}</p>
+                    </div>
+                  `).join('')}
+                </div>
+             </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Phân bổ nguồn lực Website</h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl shadow-sm">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200">
+                    <th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-left">Website</th>
+                    <th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-left">Output/Tháng</th>
+                    <th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-left">Phụ trách</th>
+                    <th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-center">AI Assisted</th>
+                    <th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-right">Chi phí ước tính</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm font-medium">
+                   ${NHAN_SU.phanBoWebsite.map((w, i) => `
+                    <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                      <td class="p-4 text-slate-800 font-bold">${w.site}</td>
+                      <td class="p-4 text-slate-600">${w.output}</td>
+                      <td class="p-4 text-slate-500 font-semibold">${w.ctv}</td>
+                      <td class="p-4 text-center">
+                         <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] font-black">${w.aiHoTro}</span>
+                      </td>
+                      <td class="p-4 text-right text-emerald-600 font-black">${w.chiPhi > 0 ? formatMoney(w.chiPhi) : '0đ'}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-        
-        <!-- SEO Manager -->
-        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
-          <div class="bg-blue-600 text-white px-4 py-3">
-            <h3 class="font-bold">👤 ${NHAN_SU.manager.viTri}</h3>
+          
+          <div class="bg-slate-900 text-white rounded-2xl p-8 flex items-center justify-between border shadow-2xl overflow-hidden relative">
+             <div class="absolute -left-12 top-0 w-32 h-full bg-white opacity-5 rotate-12"></div>
+             <div>
+                <h4 class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1">Dự toán cả năm 2026</h4>
+                <p class="text-3xl font-black text-white leading-none">~${formatMoney(NHAN_SU.tongChiPhi.tongNam.tb)}</p>
+             </div>
+             <div class="text-right">
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-1">% ROI Kế hoạch dự kiến</p>
+                <p class="text-3xl font-black text-emerald-400 leading-none">40% - 60%</p>
+             </div>
           </div>
-          <div class="p-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h4 class="font-semibold mb-2">📋 Yêu cầu:</h4>
-                <ul class="text-sm space-y-1">
-                  ${NHAN_SU.manager.yeuCau.map(y => `<li>• ${y}</li>`).join('')}
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-semibold mb-2">✅ Công việc chính:</h4>
-                <ul class="text-sm space-y-1">
-                  ${NHAN_SU.manager.congViec.map(c => `<li>• ${c}</li>`).join('')}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Bảng CTV -->
-        <h3 class="text-xl font-bold mb-4">👥 Chi Tiết CTV (Tinh Gọn)</h3>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="border p-2 text-left">Vị trí</th>
-                <th class="border p-2 text-left">Loại</th>
-                <th class="border p-2 text-left">Output</th>
-                <th class="border p-2 text-left">Đơn giá</th>
-                <th class="border p-2 text-right">Chi phí/tháng</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${NHAN_SU.ctv.map((ctv, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  <td class="border p-2 font-semibold">${ctv.viTri}</td>
-                  <td class="border p-2">${ctv.loai}</td>
-                  <td class="border p-2">${ctv.output}</td>
-                  <td class="border p-2">${ctv.gia}</td>
-                  <td class="border p-2 text-right text-green-600 font-semibold">${formatMoney(ctv.chiPhi.thap)} - ${formatMoney(ctv.chiPhi.cao)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-            <tfoot>
-              <tr class="bg-blue-50 font-bold">
-                <td class="border p-2" colspan="4">TỔNG CHI PHÍ CTV/THÁNG (trung bình)</td>
-                <td class="border p-2 text-right text-blue-600">~${formatMoney(NHAN_SU.tongChiPhi.ctvThang.tb)}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        
-        <!-- Công cụ SEO - FREE -->
-        <h3 class="text-xl font-bold mb-4">🛠️ Công Cụ SEO (Ưu tiên FREE)</h3>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="border p-2 text-left">Công cụ</th>
-                <th class="border p-2 text-left">Mục đích</th>
-                <th class="border p-2 text-right">Chi phí/tháng</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${NHAN_SU.tools.map((tool, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  <td class="border p-2 font-semibold">${tool.name}</td>
-                  <td class="border p-2">${tool.mucDich}</td>
-                  <td class="border p-2 text-right ${tool.gia === 0 ? 'text-green-600 font-bold' : 'text-orange-600'}">${tool.gia === 0 ? 'MIỄN PHÍ' : formatMoney(tool.gia)}</td>
-                </tr>
-              `).join('')}
-              <tr class="bg-yellow-50">
-                <td class="border p-2 font-semibold">${NHAN_SU.toolsPremium[0].name}</td>
-                <td class="border p-2">${NHAN_SU.toolsPremium[0].mucDich}</td>
-                <td class="border p-2 text-right text-yellow-700">~${formatMoney(NHAN_SU.toolsPremium[0].gia)}/năm</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr class="bg-green-50 font-bold">
-                <td class="border p-2" colspan="2">TỔNG CHI PHÍ TOOLS/THÁNG</td>
-                <td class="border p-2 text-right text-green-600">~${formatMoney(NHAN_SU.tongChiPhi.toolsThang)} + Free tools</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-        
-        <!-- Chi phí theo quý -->
-        <h3 class="text-xl font-bold mb-4">📅 Phân Bổ Chi Phí Theo Quý</h3>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="border p-2 text-left">Quý</th>
-                <th class="border p-2 text-left">Trọng tâm</th>
-                <th class="border p-2 text-left">CTV cần</th>
-                <th class="border p-2 text-left">Ghi chú</th>
-                <th class="border p-2 text-right">Chi phí/tháng</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${NHAN_SU.chiPhiTheoQuy.map((q, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  <td class="border p-2 font-bold">${q.quy}</td>
-                  <td class="border p-2">${q.trongTam}</td>
-                  <td class="border p-2">${q.ctvCan}</td>
-                  <td class="border p-2 text-gray-500 text-xs">${q.ghiChu}</td>
-                  <td class="border p-2 text-right text-green-600">${formatMoney(q.chiPhi.thap)} - ${formatMoney(q.chiPhi.cao)}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Phân bổ theo website + AI -->
-        <h3 class="text-xl font-bold mb-4">🌐 Phân Bổ Theo Website (AI-Assisted)</h3>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full border-collapse text-sm">
-            <thead>
-              <tr class="bg-gray-100">
-                <th class="border p-2 text-left">Website</th>
-                <th class="border p-2 text-left">Output</th>
-                <th class="border p-2 text-left">Phụ trách</th>
-                <th class="border p-2 text-center">AI Hỗ Trợ</th>
-                <th class="border p-2 text-right">Chi phí/tháng</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${NHAN_SU.phanBoWebsite.map((w, i) => `
-                <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">
-                  <td class="border p-2 font-semibold">${w.site}</td>
-                  <td class="border p-2">${w.output}</td>
-                  <td class="border p-2">${w.ctv}</td>
-                  <td class="border p-2 text-center"><span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs">${w.aiHoTro}</span></td>
-                  <td class="border p-2 text-right ${w.chiPhi > 0 ? 'text-green-600' : 'text-gray-400'}">${w.chiPhi > 0 ? '~' + formatMoney(w.chiPhi) : 'Miễn phí'}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-        
-        <!-- Tổng chi phí - Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow">
-            <h4 class="font-bold">💰 CTV/Tháng</h4>
-            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.ctvThang.tb)}</p>
-            <p class="text-xs opacity-80">(${formatMoney(NHAN_SU.tongChiPhi.ctvThang.thap)} - ${formatMoney(NHAN_SU.tongChiPhi.ctvThang.cao)})</p>
-          </div>
-          <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-4 rounded-lg shadow">
-            <h4 class="font-bold">🛠️ Tools/Tháng</h4>
-            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.toolsThang)}</p>
-            <p class="text-xs opacity-80">ChatGPT + Free tools</p>
-          </div>
-          <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-lg shadow">
-            <h4 class="font-bold">📊 TỔNG/THÁNG</h4>
-            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.tongThang.tb)}</p>
-            <p class="text-xs opacity-80">(không lương Manager)</p>
-          </div>
-          <div class="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-lg shadow">
-            <h4 class="font-bold">📅 TỔNG/NĂM</h4>
-            <p class="text-2xl font-bold mt-1">~${formatMoney(NHAN_SU.tongChiPhi.tongNam.tb)}</p>
-            <p class="text-xs opacity-80">≈ 6 triệu/tháng</p>
-          </div>
-        </div>
-        
-        <!-- So sánh chi tiết -->
-        <div class="bg-white rounded-lg shadow mb-6 overflow-hidden">
-          <div class="bg-gray-800 text-white px-4 py-3">
-            <h3 class="font-bold">📊 So Sánh Phương Án Cũ vs Mới</h3>
-          </div>
-          <div class="p-4">
-            <table class="w-full text-sm">
-              <thead>
-                <tr class="border-b">
-                  <th class="p-2 text-left">Hạng mục</th>
-                  <th class="p-2 text-right text-red-600">Phương án cũ</th>
-                  <th class="p-2 text-right text-green-600">Phương án mới</th>
-                  <th class="p-2 text-right">Tiết kiệm</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b">
-                  <td class="p-2">Chi phí/tháng</td>
-                  <td class="p-2 text-right text-red-600">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiThang)}</td>
-                  <td class="p-2 text-right text-green-600 font-bold">${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiThang)}</td>
-                  <td class="p-2 text-right text-blue-600">-${formatMoney(NHAN_SU.soSanh.tietKiem.thang)}</td>
-                </tr>
-                <tr class="border-b">
-                  <td class="p-2">Chi phí/năm</td>
-                  <td class="p-2 text-right text-red-600">${formatMoney(NHAN_SU.soSanh.phuongAnCu.chiPhiNam)}</td>
-                  <td class="p-2 text-right text-green-600 font-bold">${formatMoney(NHAN_SU.soSanh.phuongAnMoi.chiPhiNam)}</td>
-                  <td class="p-2 text-right text-blue-600 font-bold">-${formatMoney(NHAN_SU.soSanh.tietKiem.nam)}</td>
-                </tr>
-                <tr>
-                  <td class="p-2 font-bold">% Tiết kiệm</td>
-                  <td class="p-2"></td>
-                  <td class="p-2"></td>
-                  <td class="p-2 text-right text-green-600 font-bold text-lg">${NHAN_SU.soSanh.tietKiem.phanTram}%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        
-        <!-- Ưu điểm -->
-        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded mb-6">
-          <h4 class="font-bold text-green-800">✅ Ưu Điểm Phương Án Tối Ưu AI</h4>
-          <ul class="mt-2 text-green-700 grid grid-cols-1 md:grid-cols-2 gap-2">
-            <li>• <strong>Tiết kiệm 60%</strong> - ~108M/năm so với phương án cũ</li>
-            <li>• <strong>AI draft 60-80%</strong> - CTV chỉ cần edit & optimize</li>
-            <li>• <strong>Free tools</strong> - GSC, Ubersuggest, Screaming Frog</li>
-            <li>• <strong>CTV tinh gọn</strong> - 1-2 CTV thay vì 4</li>
-            <li>• <strong>Linh hoạt</strong> - Thuê thêm khi cao điểm Q2-Q3</li>
-            <li>• <strong>Manager đa năng</strong> - Có thể tự viết với AI</li>
-          </ul>
-        </div>
-        
-        <!-- Lưu ý -->
-        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-          <h4 class="font-bold text-yellow-800">⚠️ Điều Kiện Áp Dụng</h4>
-          <ul class="mt-2 text-yellow-700 space-y-1">
-            <li>• SEO Manager <strong>phải thành thạo AI tools</strong> (ChatGPT, Claude)</li>
-            <li>• CTV cần kỹ năng <strong>edit & optimize</strong> chứ không chỉ viết</li>
-            <li>• Thuê Ahrefs/Semrush <strong>1-2 tháng/năm</strong> khi cần audit sâu</li>
-            <li>• Q2-Q3 có thể cần <strong>tăng CTV tạm thời</strong> (cao điểm tuyển sinh)</li>
-          </ul>
         </div>
       `;
     }
 
-    // Khởi tạo biểu đồ
+    // Initialize Charts
     function initCharts() {
-      // Biểu đồ lượt truy cập
-      new Chart(document.getElementById('trafficChart'), {
+      const ctxTraffic = document.getElementById('trafficChart');
+      if (!ctxTraffic) return;
+      
+      new Chart(ctxTraffic, {
         type: 'line',
         data: {
           labels: months,
           datasets: [
-            { label: 'Timona', data: [10000,10500,12000,14000,16000,18000,20000,22000,23000,24000,24500,25000], borderColor: '#1e40af', tension: 0.3 },
-            { label: 'Clinic', data: [1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300], borderColor: '#dc2626', tension: 0.3 },
-            { label: 'Hderma', data: [200,220,250,280,310,340,370,400,430,460,480,500], borderColor: '#059669', tension: 0.3 }
+            { label: 'Timona', data: [10000,10500,12000,14000,16000,18000,20000,22000,23000,24000,24500,25000], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.05)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 2, pointHoverRadius: 5 },
+            { label: 'Clinic', data: [1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300], borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5 },
+            { label: 'Hderma', data: [200,220,250,280,310,340,370,400,430,460,480,500], borderColor: '#10b981', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5 }
           ]
         },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 10, weight: 'bold', family: 'Inter' } } } 
+          },
+          scales: {
+            y: { grid: { display: true, color: '#f1f5f9' }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } },
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } }
+          },
+          interaction: { intersect: false, mode: 'index' }
+        }
       });
 
-      // Biểu đồ leads
-      new Chart(document.getElementById('leadsChart'), {
+      const ctxLeads = document.getElementById('leadsChart');
+      if (!ctxLeads) return;
+
+      new Chart(ctxLeads, {
         type: 'bar',
         data: {
           labels: ['Clinic', 'Timona', 'Hderma', 'Elasome', 'Group'],
           datasets: [{
             label: 'Lead/Năm 2026',
             data: [630, 3660, 114, 14, 94],
-            backgroundColor: ['#dc2626', '#1e40af', '#059669', '#7c3aed', '#64748b']
+            backgroundColor: ['#f43f5e', '#3b82f6', '#10b981', '#7c3aed', '#64748b'],
+            borderRadius: 8,
+            barThickness: 40
           }]
         },
-        options: { responsive: true, plugins: { legend: { display: false } } }
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { display: true, color: '#f1f5f9' }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } },
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10, weight: 'bold', family: 'Inter' } } }
+          }
+        }
       });
     }
 
-    // Hàm xuất Excel
+    // Excel Export Logic
     function exportAllToExcel() {
-      const wb = XLSX.utils.book_new();
-      
-      // Sheet tổng quan
-      const overview = [
-        ['BẢNG KPI SEO 2026 - TAZAGROUP'],
-        [''],
-        ['Website', 'Mô Tả', 'Truy Cập/Năm', 'Lead/Năm', 'TB/Tháng', 'Trọng Tâm'],
-        ...Object.keys(DATA).map(key => [
-          DATA[key].name,
-          DATA[key].desc,
-          SUMMARY[key].traffic,
-          SUMMARY[key].leads,
-          SUMMARY[key].avgMonth,
-          SUMMARY[key].focus
-        ])
-      ];
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(overview), 'Tổng Quan');
-      
-      // Sheet cho từng website
-      Object.keys(DATA).forEach(key => {
-        const site = DATA[key];
-        const data = [site.headers, ...site.rows];
-        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name.replace('.com', '').replace('.vn', ''));
-      });
-      
-      // Sheet Gantt
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
-      
-      // Sheet KPI AI
-      const aiData = [
-        ['Chỉ số', 'Mục tiêu 2026', 'Công cụ'],
-        ...AI_KPIS.map(k => [k.name, k.target, k.tool])
-      ];
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aiData), 'KPI Thời Đại AI');
-      
-      XLSX.writeFile(wb, 'KPI_SEO_2026_TazaGroup.xlsx');
+       const wb = XLSX.utils.book_new();
+       const overview = [
+         ['BẢNG KPI SEO 2026 - TAZAGROUP'],
+         [''],
+         ['Website', 'Mô Tả', 'Truy Cập/Năm', 'Lead/Năm', 'TB/Tháng', 'Trọng Tâm'],
+         ...Object.keys(DATA).map(key => [
+           DATA[key].name,
+           DATA[key].desc,
+           SUMMARY[key].traffic,
+           SUMMARY[key].leads,
+           SUMMARY[key].avgMonth,
+           SUMMARY[key].focus
+         ])
+       ];
+       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(overview), 'Tổng Quan');
+       Object.keys(DATA).forEach(key => {
+         const site = DATA[key];
+         const data = [site.headers, ...site.rows];
+         XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name.replace('.com', '').replace('.vn', ''));
+       });
+       XLSX.writeFile(wb, 'KPI_SEO_2026_TazaGroup_Master.xlsx');
     }
 
     function exportGanttToExcel() {
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart');
-      XLSX.writeFile(wb, 'Gantt_SEO_2026.xlsx');
+       const wb = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(GANTT_DATA), 'Gantt Chart 2026');
+       XLSX.writeFile(wb, 'Gantt_SEO_2026.xlsx');
     }
 
     function exportCurrentTab() {
-      const wb = XLSX.utils.book_new();
-      
-      if (currentTab === 'overview' || currentTab === 'ai') {
-        exportAllToExcel();
-        return;
-      } else if (currentTab === 'gantt') {
-        exportGanttToExcel();
-        return;
-      } else {
-        const site = DATA[currentTab];
-        const data = [site.headers, ...site.rows];
-        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), site.name);
-        XLSX.writeFile(wb, `KPI_${site.name}_2026.xlsx`);
-      }
+       if (currentTab === 'overview' || currentTab === 'ai' || currentTab === 'nhansu') {
+         exportAllToExcel();
+       } else if (currentTab === 'gantt') {
+         exportGanttToExcel();
+       } else {
+         const site = DATA[currentTab];
+         const wb = XLSX.utils.book_new();
+         const data = [site.headers, ...site.rows];
+         XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), 'KPI 2026');
+         XLSX.writeFile(wb, `KPI_${site.name}_2026.xlsx`);
+       }
     }
 
-    // Khởi tạo
+    // Bootstrap
     document.addEventListener('DOMContentLoaded', () => {
       showTab('overview');
       initCharts();
+      lucide.createIcons();
     });
   </script>
 </body>
