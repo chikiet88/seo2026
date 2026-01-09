@@ -23,6 +23,68 @@
   </style>
 </head>
 <body class="bg-[#fafafa] text-slate-900 min-h-screen flex overflow-hidden">
+  <script>
+    (function() {
+      const PASS = '@SeoTaza*2026';
+      if (sessionStorage.getItem('seo_auth') === 'true') return;
+      
+      document.body.style.overflow = 'hidden';
+      const overlay = document.createElement('div');
+      overlay.id = 'auth-overlay';
+      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:'Inter',sans-serif;";
+      overlay.innerHTML = `
+        <div style="background:white;padding:3rem;border-radius:2rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);width:100%;max-width:420px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
+          <div style="width:72px;height:72px;background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);border-radius:1.5rem;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 10px 20px -5px rgba(37, 99, 235, 0.4);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h2 style="font-size:1.75rem;font-weight:900;margin-bottom:0.75rem;color:#0f172a;letter-spacing:-0.03em;">Báo Cáo Nội Bộ</h2>
+          <p style="color:#64748b;font-size:1rem;margin-bottom:2.5rem;line-height:1.6;">Vui lòng nhập mật khẩu xác thực để truy cập Dashboard chiến lược 2026.</p>
+          <div style="position:relative;">
+            <input type="password" id="pass-input" placeholder="Mật khẩu hệ thống..." style="width:100%;padding:1rem 1.25rem;border:2px solid #e2e8f0;border-radius:1rem;margin-bottom:1.25rem;outline:none;transition:all 0.3s;font-size:1rem;background:#f8fafc;" onfocus="this.style.borderColor='#3b82f6';this.style.background='white';this.style.boxShadow='0 0 0 4px rgba(59, 130, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc';">
+          </div>
+          <button id="submit-pass" style="width:100%;padding:1rem;background:#0f172a;color:white;border:none;border-radius:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-size:1rem;box-shadow:0 10px 15px -3px rgba(15, 23, 42, 0.2);display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+            <span>Xác nhận danh tính</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <p id="err-msg" style="color:#ef4444;font-size:0.875rem;margin-top:1.25rem;display:none;font-weight:700;padding:0.75rem;background:#fef2f2;border-radius:0.75rem;">Mật khẩu không chính xác, vui lòng thử lại!</p>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      const checkPass = () => {
+        const input = document.getElementById('pass-input').value;
+        if (input === PASS) {
+          sessionStorage.setItem('seo_auth', 'true');
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            overlay.remove();
+            document.body.style.overflow = '';
+          }, 500);
+        } else {
+          const errMsg = document.getElementById('err-msg');
+          errMsg.style.display = 'block';
+          const inputEl = document.getElementById('pass-input');
+          inputEl.style.borderColor = '#ef4444';
+          inputEl.style.background = '#fff1f2';
+          inputEl.value = '';
+          inputEl.focus();
+          
+          // Shaking effect
+          overlay.querySelector('div').animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(0)' }
+          ], { duration: 400 });
+        }
+      };
+
+      document.getElementById('submit-pass').onclick = checkPass;
+      document.getElementById('pass-input').onkeypress = (e) => { if (e.key === 'Enter') checkPass(); };
+    })();
+  </script>
 
   <!-- Sidebar -->
   <aside class="w-64 border-r border-slate-200 bg-white flex-col hidden md:flex h-screen sticky top-0">
