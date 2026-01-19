@@ -139,10 +139,14 @@
       startOnLoad: false, 
       theme: 'neutral',
       gantt: { 
-        fontSize: 12,
-        leftPadding: 150, // Increase space for labels
-        barHeight: 25,
-        gridLineStartPadding: 50
+        fontSize: 10,
+        sectionFontSize: 10,
+        leftPadding: 140,
+        barHeight: 20,
+        barGap: 4,
+        topPadding: 20,
+        sidePadding: 20,
+        gridLineStartPadding: 30
       }
     });
 
@@ -167,7 +171,7 @@
           const els = document.querySelectorAll('.mermaid-target');
           els.forEach((el, i) => {
             const id = `mermaid-graph-${i}`;
-            const graphDefinition = el.textContent;
+            const graphDefinition = el.textContent.trim();
             mermaid.render(id, graphDefinition).then(({ svg }) => {
               el.innerHTML = svg;
             });
@@ -250,10 +254,10 @@
 
           <!-- Gantt View -->
           <div id="gantt-view" class="space-y-8 animate-in fade-in duration-500">
-            <div class="card p-6 overflow-hidden">
+            <h3 class="text-sm font-bold text-center text-slate-400 uppercase tracking-widest pt-4">Kế hoạch triển khai Tháng 1 & 2 - 2026</h3>
+            <div class="card p-4 overflow-hidden shadow-none">
                <div class="mermaid-target">
 gantt
-    title Kế hoạch hàng tuần T1-T2 2026
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
     
