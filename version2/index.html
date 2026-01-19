@@ -201,7 +201,6 @@
     }
 
     function renderOverview() {
-      setTimeout(() => initOverviewCharts(), 100);
       return `
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div class="card p-6 space-y-4 shadow-sm">
@@ -247,79 +246,37 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
-          <div class="card p-6 space-y-6 shadow-sm">
-            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-400"></i>So sánh Traffic Mục tiêu (Sessions)
-            </h3>
-            <div class="h-64 h-full relative">
-               <canvas id="trafficGrowthChart"></canvas>
-            </div>
-          </div>
-          
-          <div class="space-y-4">
-             <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 pl-2">Phân phối Thương hiệu</h3>
-             <div class="space-y-4">
-               ${Object.keys(DATA_V2).map(key => `
-                 <div class="card p-5 hover:border-slate-400 transition-colors shadow-sm group">
-                   <div class="flex items-center justify-between">
-                      <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
-                          <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'hospital'}" class="w-5 h-5 text-slate-600 group-hover:text-white"></i>
-                        </div>
-                        <div>
-                          <p class="text-sm font-bold text-slate-900">${DATA_V2[key].name}</p>
-                          <p class="text-[10px] text-slate-500 font-medium">${DATA_V2[key].target.traffic} Sessions / Năm</p>
-                        </div>
+        <div class="space-y-4 pt-4">
+           <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 pl-2">Ma trận Thương hiệu 2026</h3>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+             ${Object.keys(DATA_V2).map(key => `
+               <div class="card p-6 hover:border-slate-400 transition-all shadow-sm group hover:shadow-md">
+                 <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-6">
+                      <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 transition-colors">
+                        <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'hospital'}" class="w-6 h-6 text-slate-600 group-hover:text-white"></i>
                       </div>
-                      <div class="text-right">
-                         <p class="text-xs font-black text-slate-900">${DATA_V2[key].target.leads}</p>
-                         <p class="text-[9px] text-slate-400 font-black uppercase">Leads</p>
+                      <div class="space-y-1">
+                        <p class="text-base font-black text-slate-900 tracking-tight">${DATA_V2[key].name}</p>
+                        <p class="text-[11px] text-slate-500 font-medium leading-relaxed max-w-xs">${DATA_V2[key].focus}</p>
                       </div>
-                   </div>
+                    </div>
+                    <div class="text-right border-l pl-6 border-slate-100">
+                       <div class="mb-2">
+                          <p class="text-xs font-black text-slate-900">${DATA_V2[key].target.traffic}</p>
+                          <p class="text-[9px] text-slate-400 font-black uppercase tracking-tighter">Sessions</p>
+                       </div>
+                       <div>
+                          <p class="text-xs font-black text-blue-600">${DATA_V2[key].target.leads}</p>
+                          <p class="text-[9px] text-slate-400 font-black uppercase tracking-tighter">Leads</p>
+                       </div>
+                    </div>
                  </div>
-               `).join('')}
-             </div>
-          </div>
+               </div>
+             `).join('')}
+           </div>
         </div>
       `;
-    }
-
-    function initOverviewCharts() {
-      const ctx = document.getElementById('trafficGrowthChart');
-      if (!ctx) return;
-      
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Timona Academy', 'Taza Skin Clinic'],
-          datasets: [
-            {
-              label: 'Baseline 2025',
-              data: [103364, 28598],
-              backgroundColor: '#e2e8f0',
-              borderRadius: 6
-            },
-            {
-              label: 'Mục tiêu 2026',
-              data: [155000, 45000],
-              backgroundColor: '#0f172a',
-              borderRadius: 6
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10, weight: 'bold' } } }
-          },
-          scales: {
-            y: { beginAtZero: true, grid: { display: false }, ticks: { font: { size: 9 } } },
-            x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' } } }
-          }
-        }
-      });
     }
 
     function renderGantt() {
