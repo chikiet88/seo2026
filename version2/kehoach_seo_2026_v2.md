@@ -73,3 +73,8 @@ gantt
 | **Q2** | Tập trung content hướng nghiệp Timona (Mùa tuyển sinh). Xây dựng vệ tinh Social. | Code Frontend/Backend Next.js cho Timona. Setup Vercel/Self-host Docker. |
 | **Q3** | Tập trung dịch vụ Taza. Review hiệu quả Content AI. Quản lý CTV nội dung. | Migration dữ liệu Timona -> Next.js. Bắt đầu build site Taza trên nền tảng mới. |
 | **Q4** | Chiến dịch Tết cho Taza. Tổng kết dự án, báo cáo ROI & Kế hoạch 2027. | Go-live toàn diện. Triển khai AI Chatbot tư vấn da tích hợp sâu vào Next.js. |
+
+
+MỤC TIÊU : ĐỊNH VỊ THƯƠNG HIỆU 
+1. Timona Academy Học viện đào tạo thẩm mỹ chuẩn Y khoa số 1 Việt Nam
+2. TAZA SKIN CLINIC – TRUNG TÂM PEEL & PHỤC HỒI DA SINH HỌC CHUẨN KHOA HỌC

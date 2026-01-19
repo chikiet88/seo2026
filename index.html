@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEO Dashboard 2026 V2 - Shadcn Style</title>
+  <title>Bảng điều khiển SEO 2026 V2 - Shadcn Style</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,31 +16,29 @@
       --foreground: #020817;
       --card: #ffffff;
       --card-foreground: #020817;
-      --popover: #ffffff;
-      --popover-foreground: #020817;
       --primary: #0f172a;
       --primary-foreground: #f8fafc;
       --secondary: #f1f5f9;
       --secondary-foreground: #0f172a;
       --muted: #f1f5f9;
       --muted-foreground: #64748b;
-      --accent: #f1f5f9;
-      --accent-foreground: #020817;
       --border: #e2e8f0;
-      --input: #e2e8f0;
-      --ring: #020817;
       --radius: 0.5rem;
     }
     body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); }
     .sidebar-item-active { background-color: var(--secondary); color: var(--secondary-foreground); font-weight: 600; }
     .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
-    .mermaid { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; display: flex; justify-content: center; }
-    /* Shadcn Overlay Style */
-    #auth-overlay { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.8); }
-    .btn-primary { background: var(--primary); color: var(--primary-foreground); padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; transition: opacity 0.2s; }
-    .btn-primary:active { opacity: 0.8; }
-    .input-shadcn { border: 1px solid var(--input); padding: 0.5rem 0.75rem; border-radius: 0.375rem; outline: none; transition: border-color 0.2s; }
-    .input-shadcn:focus { border-color: var(--ring); }
+    .mermaid { width: 100% !important; height: auto !important; display: flex; justify-content: center; }
+    svg { max-width: 100% !important; height: auto !important; }
+    
+    /* Calendar Styles */
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .calendar-day-header { background-color: var(--muted); padding: 8px; text-align: center; font-size: 10px; font-weight: bold; color: var(--muted-foreground); text-transform: uppercase; }
+    .calendar-day { background-color: #fff; min-height: 80px; padding: 8px; font-size: 12px; }
+    .calendar-day.empty { background-color: #fcfcfc; }
+    .calendar-event { margin-top: 4px; padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 600; line-height: 1.2; }
+    .event-seo { background-color: #dbeafe; color: #1e40af; border-left: 3px solid #3b82f6; }
+    .event-tech { background-color: #fef2f2; color: #991b1b; border-left: 3px solid #ef4444; }
   </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -50,19 +48,16 @@
       if (sessionStorage.getItem('seo_auth_v2') === 'true') return;
       document.body.style.overflow = 'hidden';
       const overlay = document.createElement('div');
-      overlay.id = 'auth-overlay';
-      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:9999;";
+      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;backdrop-filter:blur(8px);background:rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;z-index:9999;";
       overlay.innerHTML = `
         <div class="card p-10 max-w-sm w-full shadow-2xl space-y-6">
-          <div class="space-y-2">
+          <div class="space-y-2 text-center">
             <h1 class="text-2xl font-semibold tracking-tight">Xác thực hệ thống</h1>
             <p class="text-sm text-slate-500">Nhập mật khẩu để truy cập Dashboard V2.</p>
           </div>
           <div class="space-y-4">
-            <div class="space-y-1">
-              <input type="password" id="p-v2" placeholder="••••••••" class="input-shadcn w-full text-center">
-            </div>
-            <button id="s-v2" class="btn-primary w-full">Đăng nhập</button>
+            <input type="password" id="p-v2" placeholder="••••••••" class="w-full border border-slate-200 p-2 rounded-md text-center outline-none focus:border-slate-900 transition-colors">
+            <button id="s-v2" class="w-full bg-slate-900 text-white p-2 rounded-md font-medium hover:opacity-90 transition-opacity">Đăng nhập</button>
           </div>
         </div>
       `;
@@ -84,32 +79,39 @@
     
     <div class="flex-1 overflow-y-auto p-4 space-y-4">
       <div class="space-y-1">
-        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Main</p>
+        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Chính</p>
         <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100 sidebar-item-active">
           <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Tổng Quan
         </button>
         <button onclick="switchTab('gantt')" id="nav-gantt" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <i data-lucide="calendar" class="w-4 h-4"></i> Timeline / Gantt
+          <i data-lucide="calendar" class="w-4 h-4"></i> Lộ trình / Gantt
         </button>
       </div>
 
       <div class="space-y-1">
-        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Brands</p>
+        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Thương hiệu</p>
         <button onclick="switchTab('timona')" id="nav-timona" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <i data-lucide="graduation-cap" class="w-4 h-4"></i> Timona Academy
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i> Học viện Timona
         </button>
         <button onclick="switchTab('clinic')" id="nav-clinic" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <i data-lucide="hospital" class="w-4 h-4"></i> TazaSkinClinic
+          <i data-lucide="hospital" class="w-4 h-4"></i> Taza Skin Clinic
         </button>
       </div>
     </div>
 
-    <div class="p-4 border-t border-slate-200">
+    <div class="p-4 border-t border-slate-200 space-y-3">
        <div class="flex items-center gap-3 px-2">
-          <div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300"></div>
+          <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-[10px] font-bold">PL</div>
           <div>
-            <p class="text-xs font-semibold">SEO Manager</p>
-            <p class="text-[10px] text-slate-500">TazaGroup Agent</p>
+            <p class="text-[11px] font-bold leading-none">Phương Linh</p>
+            <p class="text-[9px] text-slate-500 uppercase font-bold mt-1">SEO Manager</p>
+          </div>
+       </div>
+       <div class="flex items-center gap-3 px-2">
+          <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-[10px] font-bold">CK</div>
+          <div>
+            <p class="text-[11px] font-bold leading-none">Chí Kiệt</p>
+            <p class="text-[9px] text-slate-500 uppercase font-bold mt-1">Technical Lead</p>
           </div>
        </div>
     </div>
@@ -123,17 +125,26 @@
         <div class="w-px h-4 bg-slate-200"></div>
         <p id="view-sub" class="text-xs text-slate-500">Hệ sinh thái Timona & Taza 2026</p>
       </div>
-      <div class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase">V2.1 - FEB 2026 FOCUS</div>
+      <div class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase tracking-tighter">V2.1 - Tiêu điểm Tháng 1 & 2</div>
     </header>
 
-    <div class="p-8 max-w-6xl mx-auto w-full space-y-10" id="main-container">
-      <!-- Content -->
+    <div class="p-8 max-w-6xl mx-auto w-full space-y-8" id="main-container">
+      <!-- Nội dung được nạp bởi JS -->
     </div>
   </main>
 
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+    mermaid.initialize({ 
+      startOnLoad: false, 
+      theme: 'neutral',
+      gantt: { 
+        fontSize: 12,
+        leftPadding: 150, // Increase space for labels
+        barHeight: 25,
+        gridLineStartPadding: 50
+      }
+    });
 
     function switchTab(tab) {
       document.querySelectorAll('aside button').forEach(b => b.classList.remove('sidebar-item-active'));
@@ -149,9 +160,9 @@
         container.innerHTML = renderOverview();
       } else if (tab === 'gantt') {
         titleEl.textContent = 'Lộ Trình Triển Khai';
-        subEl.textContent = 'Chi tiết kế hoạch Jan-Feb 2026 (Hàng Tuần)';
+        subEl.textContent = 'Kế hoạch chi tiết Tháng 1-2 2026 (Theo Tuần)';
         container.innerHTML = renderGantt();
-        // Use a small delay to ensure DOM is ready for mermaid
+        renderCalendar(); // Initial calendar render
         setTimeout(() => {
           const els = document.querySelectorAll('.mermaid-target');
           els.forEach((el, i) => {
@@ -168,7 +179,7 @@
         subEl.textContent = site.desc;
         container.innerHTML = renderSiteDetails(tab);
       }
-      lucide.createIcons();
+      if(window.lucide) lucide.createIcons();
     }
 
     function renderOverview() {
@@ -183,22 +194,22 @@
                 <p class="text-3xl font-bold tracking-tighter">4.335</p>
                 <p class="text-xs text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded mb-1">+55%</p>
              </div>
-             <p class="text-xs text-slate-500">Lead dự kiến từ Timona (3.660) & Taza (675)</p>
+             <p class="text-[11px] text-slate-500">Dự kiến từ Timona (3.660) & Taza (675)</p>
           </div>
           <div class="card p-6 space-y-4 bg-slate-900 text-white border-slate-900">
              <div class="flex items-center justify-between">
-                <h3 class="text-sm font-semibold opacity-90">Tech Stack Migration</h3>
+                <h3 class="text-sm font-semibold opacity-90">Dự án Chuyển đổi Công nghệ</h3>
                 <i data-lucide="cpu" class="w-4 h-4 opacity-50"></i>
              </div>
              <div class="space-y-1">
                 <p class="text-2xl font-bold tracking-tight">WordPress → Next.js</p>
-                <p class="text-xs opacity-70">Focus: Performance, SSR & AI-First SEO</p>
+                <p class="text-[11px] opacity-70">Trình diễn Hiệu năng, SSR & Thân thiện AI SEO</p>
              </div>
           </div>
         </div>
 
-        <div class="space-y-6">
-          <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Brand Matrix</h3>
+        <div class="space-y-4">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Ma trận Thương hiệu</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             ${Object.keys(DATA_V2).map(key => `
               <div class="card p-6 flex items-start gap-4">
@@ -207,14 +218,14 @@
                 </div>
                 <div class="space-y-2">
                   <p class="text-sm font-bold">${DATA_V2[key].name}</p>
-                  <p class="text-xs text-slate-500 leading-relaxed">${DATA_V2[key].focus}</p>
+                  <p class="text-[11px] text-slate-500 leading-relaxed font-medium">${DATA_V2[key].focus}</p>
                   <div class="flex gap-4 pt-2">
                     <div>
-                      <p class="text-[10px] text-slate-400 uppercase font-bold">Traffic</p>
+                      <p class="text-[9px] text-slate-400 uppercase font-black">Truy cập</p>
                       <p class="text-xs font-bold">${DATA_V2[key].target.traffic}</p>
                     </div>
                     <div>
-                      <p class="text-[10px] text-slate-400 uppercase font-bold">Leads</p>
+                      <p class="text-[9px] text-slate-400 uppercase font-black">Leads</p>
                       <p class="text-xs font-bold">${DATA_V2[key].target.leads}</p>
                     </div>
                   </div>
@@ -229,100 +240,167 @@
     function renderGantt() {
       return `
         <div class="space-y-10">
-          <div class="space-y-4">
-             <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
-                <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Weekly Roadmap (Jan-Feb 2026)</h3>
+          <div class="flex items-center justify-between border-b pb-4">
+             <div class="flex gap-4">
+                <button onclick="document.getElementById('gantt-view').classList.remove('hidden'); document.getElementById('calendar-view').classList.add('hidden');" class="text-xs font-bold px-3 py-1.5 rounded-md bg-slate-900 text-white">Chế độ Gantt</button>
+                <button onclick="document.getElementById('gantt-view').classList.add('hidden'); document.getElementById('calendar-view').classList.remove('hidden');" class="text-xs font-bold px-3 py-1.5 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200">Chế độ Lịch</button>
              </div>
-             <div class="mermaid-target">
+             <p class="text-[11px] font-bold text-slate-400 uppercase">Phối hợp SEO Linh & Tech Kiệt</p>
+          </div>
+
+          <!-- Gantt View -->
+          <div id="gantt-view" class="space-y-8 animate-in fade-in duration-500">
+            <div class="card p-6 overflow-hidden">
+               <div class="mermaid-target">
 gantt
-    title Kế Hoạch Weekly Jan-Feb 2026
+    title Kế hoạch hàng tuần T1-T2 2026
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
     
-    section SEO Manager
-    Audit Tech (Jan W3)        :2026-01-19, 7d
-    Keyword Map Q2 (Jan W4)    :2026-01-26, 6d
-    Entity Schema (Feb W1)     :2026-02-01, 7d
-    AI Workflow (Feb W2)       :2026-02-08, 7d
-    Internal Link Matrix (Feb W3):2026-02-15, 7d
-    Indexing Review (Feb W4)   :2026-02-22, 7d
+    section (SEO) Phương Linh
+    Kế hoạch kỹ thuật :2026-01-19, 7d
+    Sơ đồ từ khóa Q2    :2026-01-26, 6d
+    Schema Entity      :2026-02-01, 7d
+    Quy trình Nội dung AI :2026-02-08, 7d
+    Ma trận Link nội bộ :2026-02-15, 7d
+    Đánh giá Indexing   :2026-02-22, 7d
 
-    section Tech Migration
-    Setup Next.js (Jan W3)     :2026-01-19, 7d
-    DB Design (Jan W4)         :2026-01-26, 6d
-    UI Components (Feb W1)     :2026-02-01, 7d
-    Routing Setup (Feb W2)     :2026-02-08, 7d
-    GSC Integration (Feb W3)   :2026-02-15, 7d
-    Staging & Audit (Feb W4)   :2026-02-22, 7d
-             </div>
+    section (Tech) Chí Kiệt
+    Thiết lập Next.js     :2026-01-19, 7d
+    Thiết kế DB & API    :2026-01-26, 6d
+    Thành phần UI       :2026-02-01, 7d
+    Cấu trúc SSG        :2026-02-08, 7d
+    Tích hợp GSC        :2026-02-15, 7d
+    Staging & Hiệu năng   :2026-02-22, 7d
+               </div>
+            </div>
+
+            <div class="space-y-4">
+               <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest">Phân công chi tiết</h3>
+               <div class="overflow-x-auto shadow-sm rounded-lg border">
+                  <table class="w-full text-[11px]">
+                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider">
+                      <tr>
+                        <th class="py-3 px-4 text-left">Nhân sự</th>
+                        <th class="py-3 px-4 text-left">Công việc</th>
+                        <th class="py-3 px-4 text-center">Thời gian</th>
+                        <th class="py-3 px-4 text-right">Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      ${GANTT_V2_DATA.slice(1).map(row => `
+                        <tr class="hover:bg-slate-50 transition-colors">
+                          <td class="py-3 px-4 font-bold text-slate-900">${row[0]}</td>
+                          <td class="py-3 px-4 text-slate-600">${row[1]}</td>
+                          <td class="py-3 px-4 text-center text-slate-400 font-medium">${row[2]} → ${row[3]}</td>
+                          <td class="py-3 px-4 text-right">
+                            <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[8px] ${row[4] === 'Đang thực hiện' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'}">${row[4]}</span>
+                          </td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+               </div>
+            </div>
           </div>
 
-          <div class="space-y-4">
-             <h3 class="text-sm font-bold text-slate-900 border-b pb-2">Bảng công tác chi tiết</h3>
-             <div class="overflow-x-auto">
-                <table class="w-full text-xs">
-                  <thead>
-                    <tr class="text-left font-bold text-slate-400 uppercase tracking-wider">
-                      <th class="py-3 px-4">Nhân sự</th>
-                      <th class="py-3 px-4">Công việc chi tiết</th>
-                      <th class="py-3 px-4">Thời gian</th>
-                      <th class="py-3 px-4 text-right">Tình trạng</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100">
-                    ${GANTT_V2_DATA.slice(1).map(row => `
-                      <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-4 px-4 font-bold text-slate-900">${row[0]}</td>
-                        <td class="py-4 px-4 text-slate-600">${row[1]}</td>
-                        <td class="py-4 px-4 text-slate-400 font-medium">${row[2]} → ${row[3]}</td>
-                        <td class="py-4 px-4 text-right">
-                          <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[9px] ${row[4] === 'In Progress' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'}">${row[4]}</span>
-                        </td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-             </div>
+          <!-- Calendar View (Hidden by default) -->
+          <div id="calendar-view" class="hidden space-y-12 animate-in slide-in-from-bottom-4 duration-500">
+             <div id="jan-cal"></div>
+             <div id="feb-cal"></div>
           </div>
         </div>
       `;
+    }
+
+    function renderCalendar() {
+      const janCal = document.getElementById('jan-cal');
+      const febCal = document.getElementById('feb-cal');
+      if(!janCal) return;
+
+      const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+      
+      const createCal = (monthName, startDayIdx, daysInMonth, events) => {
+        let html = `<h4 class="text-sm font-black mb-4 flex items-center gap-2"><i data-lucide="calendar-days" class="w-4 h-4"></i> ${monthName} 2026</h4>`;
+        html += `<div class="calendar-grid">`;
+        weekDays.forEach(d => html += `<div class="calendar-day-header">${d}</div>`);
+        
+        let dayCounter = 1;
+        for (let i = 0; i < 42; i++) {
+          if (i < startDayIdx || dayCounter > daysInMonth) {
+            html += `<div class="calendar-day empty"></div>`;
+          } else {
+            const currentDay = dayCounter;
+            const dayEvents = events.filter(e => currentDay >= e.start && currentDay <= e.end);
+            html += `<div class="calendar-day"><span class="font-bold">${currentDay}</span>`;
+            dayEvents.forEach(e => {
+              html += `<div class="calendar-event ${e.type === 'seo' ? 'event-seo' : 'event-tech'}">${e.title}</div>`;
+            });
+            html += `</div>`;
+            dayCounter++;
+          }
+        }
+        html += `</div>`;
+        return html;
+      };
+
+      // Jan 2026 starts on Thu (Idx 3 in 0-indexed T2-CN)
+      // Actually Jan 1 2026 is Thu. T2 is 0, T3 1, T4 2, T5 3, T6 4, T7 5, CN 6.
+      // So Thu is 3.
+      const janEvents = [
+        { start: 19, end: 25, title: "Linh: Audit Tech", type: "seo" },
+        { start: 19, end: 25, title: "Kiệt: Setup NextJS", type: "tech" },
+        { start: 26, end: 31, title: "Linh: Keyword Q2", type: "seo" },
+        { start: 26, end: 31, title: "Kiệt: DB & API", type: "tech" }
+      ];
+      janCal.innerHTML = createCal("Tháng 1", 3, 31, janEvents);
+
+      // Feb 2026 starts on Sun (Idx 6)
+      const febEvents = [
+        { start: 1, end: 7, title: "Linh: Schema Entity", type: "seo" },
+        { start: 1, end: 7, title: "Kiệt: UI Core", type: "tech" },
+        { start: 8, end: 14, title: "Linh: AI Workflow", type: "seo" },
+        { start: 8, end: 14, title: "Kiệt: Routing/SSG", type: "tech" },
+        { start: 15, end: 21, title: "Linh: Link Matrix", type: "seo" },
+        { start: 15, end: 21, title: "Kiệt: GSC API", type: "tech" },
+        { start: 22, end: 28, title: "Linh: Index Rev", type: "seo" },
+        { start: 22, end: 28, title: "Kiệt: Staging/Perf", type: "tech" }
+      ];
+      febCal.innerHTML = createCal("Tháng 2", 6, 28, febEvents);
+      lucide.createIcons();
     }
 
     function renderSiteDetails(key) {
       const site = DATA_V2[key];
       return `
-        <div class="space-y-10">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            ${site.tasks.map((t, i) => `
-              <div class="card p-6 space-y-4 border-l-4 border-l-slate-900 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between">
-                  <span class="text-[10px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">${t.week}</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          ${site.tasks.map((t, i) => `
+            <div class="card p-6 space-y-4 border-l-4 border-l-slate-900 hover:shadow-md transition-shadow">
+              <div class="flex items-center justify-between">
+                <span class="text-[9px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded tracking-tighter">${t.week}</span>
+                <span class="text-[10px] font-bold text-slate-300">#${i+1}</span>
+              </div>
+              <div class="space-y-3">
+                <div class="space-y-1">
+                  <p class="text-[9px] uppercase font-black text-blue-600">Chiến lược SEO</p>
+                  <p class="text-xs font-bold text-slate-800 leading-tight">${t.seo}</p>
                 </div>
-                <div class="space-y-3">
-                  <div class="space-y-1">
-                    <p class="text-[10px] uppercase font-bold text-blue-600">SEO Strategy</p>
-                    <p class="text-sm font-bold text-slate-800">${t.seo}</p>
-                  </div>
-                  <div class="pt-3 border-t border-slate-50 space-y-1">
-                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tech Sync</p>
-                    <p class="text-sm font-medium text-slate-600">${t.tech}</p>
-                  </div>
+                <div class="pt-3 border-t border-slate-50 space-y-1">
+                  <p class="text-[9px] uppercase font-black text-slate-400 tracking-wider">Kỹ thuật Sync</p>
+                  <p class="text-[11px] font-medium text-slate-600 leading-tight">${t.tech}</p>
                 </div>
               </div>
-            `).join('')}
-          </div>
+            </div>
+          `).join('')}
         </div>
       `;
     }
 
-    // Export switchTab to global
     window.switchTab = switchTab;
 
-    // Bootstrap
     document.addEventListener('DOMContentLoaded', () => {
       switchTab('overview');
-      lucide.createIcons();
+      if(window.lucide) lucide.createIcons();
     });
   </script>
 </body>
