@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng KPI SEO 2026 - TazaGroup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="data-vi.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .sidebar-item-active { background-color: #f1f5f9; color: #0f172a; font-weight: 600; }
+    .mermaid { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; }
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="bg-[#fafafa] text-slate-900 min-h-screen flex overflow-hidden">
+  <script>
+    (function() {
+      const PASS = '@SeoTaza*2026';
+      if (sessionStorage.getItem('seo_auth') === 'true') return;
+      
+      document.body.style.overflow = 'hidden';
+      const overlay = document.createElement('div');
+      overlay.id = 'auth-overlay';
+      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:9999;font-family:'Inter',sans-serif;";
+      overlay.innerHTML = `
+        <div style="background:white;padding:3rem;border-radius:2rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);width:100%;max-width:420px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
+          <div style="width:72px;height:72px;background:linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);border-radius:1.5rem;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 10px 20px -5px rgba(37, 99, 235, 0.4);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h2 style="font-size:1.75rem;font-weight:900;margin-bottom:0.75rem;color:#0f172a;letter-spacing:-0.03em;">Báo Cáo Nội Bộ</h2>
+          <p style="color:#64748b;font-size:1rem;margin-bottom:2.5rem;line-height:1.6;">Vui lòng nhập mật khẩu xác thực để truy cập Dashboard chiến lược 2026.</p>
+          <div style="position:relative;">
+            <input type="password" id="pass-input" placeholder="Mật khẩu hệ thống..." style="width:100%;padding:1rem 1.25rem;border:2px solid #e2e8f0;border-radius:1rem;margin-bottom:1.25rem;outline:none;transition:all 0.3s;font-size:1rem;background:#f8fafc;" onfocus="this.style.borderColor='#3b82f6';this.style.background='white';this.style.boxShadow='0 0 0 4px rgba(59, 130, 246, 0.1)'" onblur="this.style.borderColor='#e2e8f0';this.style.background='#f8fafc;'">
+          </div>
+          <button id="submit-pass" style="width:100%;padding:1rem;background:#0f172a;color:white;border:none;border-radius:1rem;font-weight:700;cursor:pointer;transition:all 0.3s;font-size:1rem;box-shadow:0 10px 15px -3px rgba(15, 23, 42, 0.2);display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+            <span>Xác nhận danh tính</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <p id="err-msg" style="color:#ef4444;font-size:0.875rem;margin-top:1.25rem;display:none;font-weight:700;padding:0.75rem;background:#fef2f2;border-radius:0.75rem;">Mật khẩu không chính xác, vui lòng thử lại!</p>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      const checkPass = () => {
+        const input = document.getElementById('pass-input').value;
+        if (input === PASS) {
+          sessionStorage.setItem('seo_auth', 'true');
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            overlay.remove();
+            document.body.style.overflow = '';
+          }, 500);
+        } else {
+          const errMsg = document.getElementById('err-msg');
+          errMsg.style.display = 'block';
+          const inputEl = document.getElementById('pass-input');
+          inputEl.style.borderColor = '#ef4444';
+          inputEl.style.background = '#fff1f2';
+          inputEl.value = '';
+          inputEl.focus();
+          
+          // Shaking effect
+          overlay.querySelector('div').animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(0)' }
+          ], { duration: 400 });
+        }
+      };
+
+      document.getElementById('submit-pass').onclick = checkPass;
+      document.getElementById('pass-input').onkeypress = (e) => { if (e.key === 'Enter') checkPass(); };
+    })();
+  </script>
+
+  <!-- Sidebar -->
+  <aside class="w-64 border-r border-slate-200 bg-white flex-col hidden md:flex h-screen sticky top-0">
+    <div class="p-6 border-b border-slate-100">
+      <div class="flex items-center gap-2 mb-2">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">T</div>
+        <span class="font-bold text-lg tracking-tight">TazaGroup SEO</span>
+      </div>
+      <p class="text-xs text-slate-500 font-medium">Dashboard KPI 2026</p>
+    </div>
+    
+    <div class="flex-1 overflow-y-auto p-4 space-y-1">
+      <div class="text-[10px] font-bold uppercase text-slate-400 px-3 mb-2 tracking-widest leading-loose">Điều hướng chính</div>
+      
+      <button onclick="showTab('overview')" id="sidebar-overview" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none sidebar-item-active">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span class="text-sm">Tổng Quan</span>
+      </button>
+
+      <button onclick="showTab('gantt')" id="sidebar-gantt" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="gantt-chart" class="w-4 h-4"></i>
+        <span class="text-sm">Timeline/Gantt</span>
+      </button>
+
+      <button onclick="showTab('timona')" id="sidebar-timona" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        <span class="text-sm">Timona</span>
+      </button>
+      
+      <button onclick="showTab('clinic')" id="sidebar-clinic" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-100 transition-colors text-slate-600 outline-none">
+        <i data-lucide="hospital" class="w-4 h-4"></i>
+        <span class="text-sm">TazaSkinClinic</span>
+      </button>
+    </div>
+    
+    <div class="p-4 border-t border-slate-100 flex items-center gap-3">
+      <img src="https://ui-avatars.com/api/?name=SEO&background=6d28d9&color=fff" class="w-8 h-8 rounded-full shadow-sm" alt="User">
+      <div class="overflow-hidden">
+        <p class="text-xs font-semibold text-slate-700 truncate">SEO Manager</p>
+        <p class="text-[10px] text-slate-500 font-medium">TazaGroup Admin</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto h-screen bg-[#fafafa]">
+    <!-- Top Nav / Header -->
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10 px-8 py-4 flex items-center justify-between">
+      <div>
+        <h2 id="page-title" class="text-xl font-bold text-slate-800">Tổng Quan Báo Cáo</h2>
+        <p id="page-subtitle" class="text-xs text-slate-500 font-medium">Theo dõi hiệu suất Website hệ sinh thái TazaGroup</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-[10px] font-bold border border-blue-100 uppercase tracking-wider">
+           Dữ liệu GA 2025
+        </div>
+        <div class="w-px h-6 bg-slate-200"></div>
+        <p class="text-xs font-medium text-slate-400 italic">Cập nhật: 23/12/2025</p>
+      </div>
+    </header>
+
+    <div class="p-8 max-w-7xl mx-auto space-y-8">
+      
+      <!-- Stats Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-amber-600 transition-colors">TazaSkinClinic</h3>
+            <i data-lucide="hospital" class="w-3.5 h-3.5 text-amber-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~675</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">đặt lịch/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 1.5%
+          </div>
+        </div>
+        
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] hover:shadow-md transition-shadow group">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-[10px] font-bold uppercase text-slate-400 tracking-tighter group-hover:text-blue-600 transition-colors">Timona</h3>
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-500"></i>
+          </div>
+          <p class="text-2xl font-bold text-slate-900 leading-none">~775</p>
+          <p class="text-[10px] text-slate-500 font-medium mt-1">đăng ký/năm 2026</p>
+          <div class="mt-4 flex items-center text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded w-fit">
+            CVR 0.5%
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dynamic Content -->
+      <div id="tab-content" class="bg-white rounded-xl border border-slate-200 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] p-8">
+        <!-- Content injected by JS -->
+      </div>
+
+      <!-- Overview Charts Section -->
+      <div id="charts-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800">📈 Xu hướng Lượt Truy Cập 2026</h3>
+            <i data-lucide="trending-up" class="w-5 h-5 text-blue-500 opacity-60"></i>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="trafficChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="font-bold text-slate-800">📊 Dự báo Lead/Chuyển đổi 2026</h3>
+            <i data-lucide="bar-chart-3" class="w-5 h-5 text-emerald-500 opacity-60"></i>
+          </div>
+          <div class="h-[300px]">
+            <canvas id="leadsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <footer class="pt-8 pb-12 text-center">
+        <div class="w-full h-px bg-slate-200 mb-8 max-w-sm mx-auto"></div>
+        <p class="text-slate-400 text-xs font-semibold tracking-widest uppercase">© 2026 TazaGroup SEO Intelligence</p>
+        <p class="text-slate-400 text-[10px] font-medium mt-2">Chiến lược AI-First SEO • Hệ sinh thái Website TazaGroup</p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    let currentTab = 'overview';
+    const months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+
+    const TAB_HEADERS = {
+      'overview': { title: 'Tổng Quan Báo Cáo', sub: 'Theo dõi hiệu suất Website hệ sinh thái TazaGroup' },
+      'clinic': { title: 'TazaSkinClinic.com', sub: 'Hệ thống viện thẩm mỹ & chăm sóc da chuyên sâu' },
+      'timona': { title: 'Timona.edu.vn', sub: 'Học viện thẩm mỹ đào tạo nhân sự chất lượng cao' },
+      'gantt': { title: 'Timeline/Gantt', sub: 'Gantt Chart chi tiết kế hoạch hành động 2026' }
+    };
+
+    function showTab(tab) {
+      currentTab = tab;
+      
+      // Update Sidebar UI
+      document.querySelectorAll('[id^="sidebar-"]').forEach(btn => btn.classList.remove('sidebar-item-active'));
+      const activeBtn = document.getElementById(`sidebar-${tab}`);
+      if (activeBtn) activeBtn.classList.add('sidebar-item-active');
+      
+      // Update Headers
+      document.getElementById('page-title').innerText = TAB_HEADERS[tab].title;
+      document.getElementById('page-subtitle').innerText = TAB_HEADERS[tab].sub;
+      
+      // Update Content
+      const content = document.getElementById('tab-content');
+      const chartsSection = document.getElementById('charts-section');
+      
+      // Toggle Charts Visibility (only show on overview)
+      if (tab === 'overview') {
+        chartsSection.classList.remove('hidden');
+        content.innerHTML = renderOverview();
+      } else {
+        chartsSection.classList.add('hidden');
+        if (tab === 'gantt') {
+          content.innerHTML = renderGantt();
+          setTimeout(() => mermaid.run(), 100);
+        } else {
+          content.innerHTML = renderSiteTable(tab);
+        }
+      }
+      
+      // Re-init lucide icons for dynamic content
+      lucide.createIcons();
+    }
+
+    function renderOverview() {
+      let tableRows = '';
+      ['clinic', 'timona'].forEach(key => {
+        const site = DATA[key];
+        const sum = SUMMARY[key];
+        tableRows += `
+          <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 group">
+            <td class="p-4 font-bold text-slate-800 group-hover:text-blue-600 transition-colors">${site.name}</td>
+            <td class="p-4 text-center text-slate-500 font-medium">${sum.traffic2025}</td>
+            <td class="p-4 text-center font-bold text-slate-900">${sum.traffic2026}</td>
+            <td class="p-4 text-center">
+               <span class="bg-green-50 text-green-600 px-2 py-1 rounded text-[10px] font-bold">+${sum.growth}</span>
+            </td>
+            <td class="p-4 text-center text-slate-500 font-medium">${sum.leads2025}</td>
+            <td class="p-4 text-center font-bold text-green-600">${sum.leads2026}</td>
+            <td class="p-4 text-xs text-slate-500 max-w-[200px] leading-relaxed">${sum.focus}</td>
+          </tr>
+        `;
+      });
+
+      let gaRows = '';
+      ['clinic', 'timona'].forEach((key, i) => {
+        const ga = GA_BASELINE_2025[key];
+        const site = DATA[key];
+        gaRows += `
+          <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-b border-slate-100">
+            <td class="p-3 text-xs font-semibold text-slate-700">${site.name}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.sessions.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.users.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.pageviews.toLocaleString()}</td>
+            <td class="p-3 text-xs text-center font-medium">${ga.bounceRate}%</td>
+            <td class="p-3 text-xs text-center font-medium">${Math.round(ga.avgDuration)}s</td>
+            <td class="p-3 text-xs text-center font-bold text-blue-600">${ga.conversions}</td>
+          </tr>
+        `;
+      });
+
+      return `
+        <div class="space-y-8">
+          <div class="bg-blue-600 rounded-xl p-6 text-white overflow-hidden relative">
+            <div data-lucide="zap" class="absolute -right-8 -bottom-8 w-48 h-48 opacity-10"></div>
+            <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+              <i data-lucide="info" class="w-5 h-5"></i>
+              Báo cáo hiệu suất thực tế vs Mục tiêu 2026
+            </h3>
+            <p class="text-sm text-blue-100 opacity-90 max-w-2xl">Bản kế hoạch dựa trên phân tích 365 ngày dữ liệu Google Analytics. TazaGroup hướng tới việc tối ưu hóa tỷ lệ chuyển đổi (CVR) song song với việc mở rộng quy mô hiển thị trên các nền tảng tìm kiếm AI mới.</p>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">KPI Target Matrix</h3>
+            </div>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-wider border-b border-slate-200">
+                    <th class="p-4 text-left">Website</th>
+                    <th class="p-4 text-center">Sessions 2025</th>
+                    <th class="p-4 text-center">Target 2026</th>
+                    <th class="p-4 text-center">Tăng trưởng</th>
+                    <th class="p-4 text-center">Lead 2025</th>
+                    <th class="p-4 text-center">Lead 2026</th>
+                    <th class="p-4 text-left">Trọng Tâm</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  ${tableRows}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Baseline Google Analytics 2025</h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-wider border-b border-slate-200">
+                    <th class="p-3 text-left">Website</th>
+                    <th class="p-3 text-center">Sessions</th>
+                    <th class="p-3 text-center">Users</th>
+                    <th class="p-3 text-center">Pageviews</th>
+                    <th class="p-3 text-center">Bounce Rate</th>
+                    <th class="p-3 text-center">Avg Duration</th>
+                    <th class="p-3 text-center">Conversions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${gaRows}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSiteTable(key) {
+      const site = DATA[key];
+      const baseline = site.baseline2025 || {};
+      const target = site.target2026 || {};
+      return `
+        <div class="space-y-8">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-slate-900 rounded-xl flex items-center justify-center text-white">
+              <i data-lucide="${key === 'clinic' ? 'hospital' : 'graduation-cap'}" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-black text-slate-900">${site.name}</h2>
+              <p class="text-slate-500 font-medium text-sm">${site.desc}</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-slate-400">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">📊 Baseline 2025</h4>
+              <p class="text-3xl font-black text-slate-900 leading-none">${baseline.sessions?.toLocaleString() || 'N/A'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-2">Tổng sessions trong năm</p>
+              <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between">
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Tháng: ~${baseline.avgMonth?.toLocaleString() || 'N/A'}</span>
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Users: ${baseline.users?.toLocaleString() || 'N/A'}</span>
+              </div>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-emerald-500">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">🎯 Target 2026</h4>
+              <p class="text-3xl font-black text-emerald-600 leading-none">${target.sessions?.toLocaleString() || 'N/A'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-2">Mục tiêu tăng trưởng ${target.growth || 'N/A'}</p>
+              <div class="mt-4 pt-4 border-t border-slate-100 flex justify-between items-center">
+                <span class="text-[10px] font-bold text-slate-400 capitalize">Conversions:</span>
+                <span class="bg-emerald-50 text-emerald-700 font-black px-2 py-0.5 rounded text-xs">${target.conversionsTarget || 0} Leads</span>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm border-l-4 border-l-blue-600">
+              <h4 class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">📈 Lực đẩy chiến lược</h4>
+              <p class="text-sm font-semibold text-slate-700 leading-relaxed">${site.focus}</p>
+            </div>
+          </div>
+          
+          <div class="pt-4">
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4"></i> Lộ trình vận hành 12 tháng
+            </h3>
+            <div class="overflow-hidden border border-slate-200 rounded-xl">
+              <table class="w-full border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200">
+                    ${site.headers.map(h => `<th class="p-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 text-center">${h}</th>`).join('')}
+                  </tr>
+                </thead>
+                <tbody class="text-sm">
+                  ${site.rows.map((row, i) => `
+                    <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'} hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-0">
+                      ${row.map((cell, j) => `
+                        <td class="p-3 ${j === 0 ? 'font-bold text-slate-800 text-center' : 'text-slate-600'} ${j === 2 ? 'text-emerald-600 font-bold text-center' : ''}">${cell}</td>
+                      `).join('')}
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderGantt() {
+      // Filter GANTT_DATA to only include relevant parts if needed, 
+      // but Gantt usually covers overall plan. I'll keep it as is but user 
+      // might expect it to only show the two sites. However GANTT_DATA 
+      // is defined in data-vi.js.
+      return `
+        <div class="space-y-8">
+           <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Visualization</h3>
+              <div class="flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full">
+                 <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                 <span class="text-[10px] font-bold text-slate-600">Dynamic Plan 2026</span>
+              </div>
+           </div>
+           
+           <div class="overflow-x-auto p-4 bg-slate-50 rounded-xl border border-slate-200 shadow-inner">
+             <div class="mermaid mx-auto">
+gantt
+    title Kế Hoạch KPI SEO 2026 - TazaGroup
+    dateFormat YYYY-MM-DD
+    
+    section Kiểm Tra
+    Kỹ thuật & Từ khóa :2026-01-01, 59d
+    
+    section Clinic
+    Case study peel/phục hồi :2026-03-01, 306d
+    Chiến dịch hot deal :2026-03-01, 306d
+    
+    section Timona
+    Nội dung hướng nghiệp :2026-03-01, 214d
+    Mùa tuyển sinh :2026-03-01, 214d
+    
+    section AI SEO
+    Entity & Citation :2026-01-01, 365d
+    AI Lead Tracking :crit, 2026-05-01, 245d
+    
+    section Báo Cáo
+    Q1 :milestone, 2026-03-31, 0d
+    Q2 :milestone, 2026-06-30, 0d
+    Q3 :milestone, 2026-09-30, 0d
+    Q4 :milestone, 2026-12-31, 0d
+             </div>
+           </div>
+           
+           <div class="pt-4">
+             <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Danh mục đầu việc chính</h3>
+             <div class="overflow-hidden border border-slate-200 rounded-xl shadow-sm">
+               <table class="w-full border-collapse">
+                 <thead>
+                   <tr class="bg-slate-50 border-b border-slate-200">
+                     ${GANTT_DATA[0].map(h => `<th class="p-4 text-[10px] font-bold uppercase text-slate-500 text-left">${h}</th>`).join('')}
+                   </tr>
+                 </thead>
+                 <tbody class="text-sm">
+                   ${GANTT_DATA.slice(1).filter(row => !row[0].includes('Hderma') && !row[0].includes('Elasome') && !row[1].includes('Hderma') && !row[1].includes('Elasome')).map((row, i) => `
+                     <tr class="${i % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'} border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                       ${row.map(cell => `<td class="p-4 text-slate-600 font-medium">${cell}</td>`).join('')}
+                     </tr>
+                   `).join('')}
+                 </tbody>
+               </table>
+             </div>
+           </div>
+        </div>
+      `;
+    }
+
+    // Initialize Charts
+    function initCharts() {
+      const ctxTraffic = document.getElementById('trafficChart');
+      if (!ctxTraffic) return;
+      
+      new Chart(ctxTraffic, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            { label: 'Timona', data: [10000,10500,12000,14000,16000,18000,20000,22000,23000,24000,24500,25000], borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.05)', fill: true, tension: 0.4, borderWidth: 3, pointRadius: 2, pointHoverRadius: 5 },
+            { label: 'TazaSkinClinic', data: [1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300], borderColor: '#f43f5e', backgroundColor: 'transparent', fill: false, tension: 0.4, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5 }
+          ]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { 
+            legend: { position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true, pointStyle: 'circle', font: { size: 10, weight: 'bold', family: 'Inter' } } } 
+          },
+          scales: {
+            y: { grid: { display: true, color: '#f1f5f9' }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } },
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } }
+          },
+          interaction: { intersect: false, mode: 'index' }
+        }
+      });
+
+      const ctxLeads = document.getElementById('leadsChart');
+      if (!ctxLeads) return;
+
+      new Chart(ctxLeads, {
+        type: 'bar',
+        data: {
+          labels: ['TazaSkinClinic', 'Timona'],
+          datasets: [{
+            label: 'Lead/Năm 2026',
+            data: [630, 3660],
+            backgroundColor: ['#f43f5e', '#3b82f6'],
+            borderRadius: 8,
+            barThickness: 60
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { grid: { display: true, color: '#f1f5f9' }, border: { display: false }, ticks: { font: { size: 10, family: 'Inter' } } },
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10, weight: 'bold', family: 'Inter' } } }
+          }
+        }
+      });
+    }
+
+    // Bootstrap
+    document.addEventListener('DOMContentLoaded', () => {
+      showTab('overview');
+      initCharts();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
