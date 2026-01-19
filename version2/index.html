@@ -28,8 +28,14 @@
     body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); }
     .sidebar-item-active { background-color: var(--secondary); color: var(--secondary-foreground); font-weight: 600; }
     .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
-    .mermaid { width: 100% !important; height: auto !important; display: flex; justify-content: center; }
-    svg { max-width: 100% !important; height: auto !important; }
+    .mermaid { width: 100% !important; display: flex; justify-content: center; overflow: hidden; }
+    
+    /* Force Mermaid Font Sizes */
+    .mermaid svg { max-width: 100% !important; height: auto !important; font-family: 'Inter', sans-serif !important; }
+    .mermaid text, .mermaid tspan { font-size: 10px !important; font-weight: 500 !important; }
+    .mermaid .sectionTitle, .mermaid .section, .mermaid .sectionText { font-size: 11px !important; font-weight: 700 !important; fill: #0f172a !important; }
+    .mermaid .taskText, .mermaid .taskTextOutsideRight, .mermaid .taskTextOutsideLeft { font-size: 10px !important; fill: #334155 !important; }
+    .mermaid .gridText, .mermaid .tick text { font-size: 9px !important; fill: #94a3b8 !important; }
     
     /* Calendar Styles */
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background-color: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -138,15 +144,17 @@
     mermaid.initialize({ 
       startOnLoad: false, 
       theme: 'neutral',
+      fontFamily: 'Inter',
       gantt: { 
         fontSize: 10,
-        sectionFontSize: 10,
-        leftPadding: 140,
+        sectionFontSize: 11,
+        leftPadding: 160,
         barHeight: 20,
         barGap: 4,
-        topPadding: 20,
+        topPadding: 30,
         sidePadding: 20,
-        gridLineStartPadding: 30
+        gridLineStartPadding: 35,
+        useMaxWidth: true
       }
     });
 
@@ -168,13 +176,9 @@
         container.innerHTML = renderGantt();
         renderCalendar(); // Initial calendar render
         setTimeout(() => {
-          const els = document.querySelectorAll('.mermaid-target');
-          els.forEach((el, i) => {
-            const id = `mermaid-graph-${i}`;
-            const graphDefinition = el.textContent.trim();
-            mermaid.render(id, graphDefinition).then(({ svg }) => {
-              el.innerHTML = svg;
-            });
+          mermaid.run({
+            nodes: document.querySelectorAll('.mermaid'),
+            suppressErrors: true
           });
         }, 100);
       } else {
@@ -256,7 +260,7 @@
           <div id="gantt-view" class="space-y-8 animate-in fade-in duration-500">
             <h3 class="text-sm font-bold text-center text-slate-400 uppercase tracking-widest pt-4">Kế hoạch triển khai Tháng 1 & 2 - 2026</h3>
             <div class="card p-4 overflow-hidden shadow-none">
-               <div class="mermaid-target">
+               <div class="mermaid">
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
