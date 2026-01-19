@@ -28,7 +28,7 @@
     body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); }
     .sidebar-item-active { background-color: var(--secondary); color: var(--secondary-foreground); font-weight: 600; }
     .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
-    .mermaid { width: 100% !important; display: flex; justify-content: center; overflow: hidden; }
+    .mermaid { width: 100% !important; display: flex; justify-content: center; overflow: hidden; opacity: 0.8;}
     
     /* Force Mermaid Font Sizes */
     .mermaid svg { max-width: 100% !important; height: auto !important; font-family: 'Inter', sans-serif !important; }
@@ -135,7 +135,7 @@
     </header>
 
     <div class="p-8 max-w-6xl mx-auto w-full space-y-8" id="main-container">
-      <!-- Nội dung được nạp bởi JS -->
+      <!-- Nội dung nạp bởi JS -->
     </div>
   </main>
 
@@ -174,7 +174,7 @@
         titleEl.textContent = 'Lộ Trình Triển Khai';
         subEl.textContent = 'Kế hoạch chi tiết Tháng 1-2 2026 (Theo Tuần)';
         container.innerHTML = renderGantt();
-        renderCalendar(); // Initial calendar render
+        renderCalendar();
         setTimeout(() => {
           mermaid.run({
             nodes: document.querySelectorAll('.mermaid'),
@@ -246,73 +246,104 @@
     }
 
     function renderGantt() {
+      const weeks = [
+        { label: "Tuần 3 T1 (19-25/01)", seo: "Kiểm tra kỹ thuật & Lỗ hổng nội dung", tech: "Thiết lập cấu trúc Next.js + Shadcn UI" },
+        { label: "Tuần 4 T1 (26-31/01)", seo: "Chốt sơ đồ từ khóa Tuyển sinh Q2", tech: "Thiết lập Database & Thiết kế API" },
+        { label: "Tuần 1 T2 (01-07/02)", seo: "Xây dựng Thực thể & JSON-LD Khóa học", tech: "Xây dựng thành phần UI Core" },
+        { label: "Tuần 2 T2 (08-14/02)", seo: "Thiết lập quy trình nội dung AI", tech: "Cấu trúc Routing & SSG" },
+        { label: "Tuần 3 T2 (15-21/02)", seo: "Ma trận liên kết nội bộ", tech: "Tích hợp API Google Search Console" },
+        { label: "Tuần 4 T2 (22-28/02)", seo: "Đánh giá Indexing", tech: "Triển khai Staging & Hiệu năng" }
+      ];
+
       return `
-        <div class="space-y-10">
+        <div class="space-y-12 animate-in fade-in duration-500">
           <div class="flex items-center justify-between border-b pb-4">
-             <div class="flex gap-4">
-                <button onclick="document.getElementById('gantt-view').classList.remove('hidden'); document.getElementById('calendar-view').classList.add('hidden');" class="text-xs font-bold px-3 py-1.5 rounded-md bg-slate-900 text-white">Chế độ Gantt</button>
-                <button onclick="document.getElementById('gantt-view').classList.add('hidden'); document.getElementById('calendar-view').classList.remove('hidden');" class="text-xs font-bold px-3 py-1.5 rounded-md bg-slate-100 text-slate-600 hover:bg-slate-200">Chế độ Lịch</button>
+             <div class="flex gap-2">
+                <button onclick="document.getElementById('timeline-view').classList.remove('hidden'); document.getElementById('gantt-view').classList.add('hidden'); document.getElementById('calendar-view').classList.add('hidden'); this.classList.add('bg-slate-900', 'text-white'); this.nextElementSibling.classList.remove('bg-slate-900', 'text-white'); this.nextElementSibling.nextElementSibling.classList.remove('bg-slate-900', 'text-white');" class="text-[11px] font-bold px-4 py-2 rounded-lg bg-slate-900 text-white shadow-sm transition-all focus:outline-none">Timeline Tuần</button>
+                <button onclick="document.getElementById('gantt-view').classList.remove('hidden'); document.getElementById('timeline-view').classList.add('hidden'); document.getElementById('calendar-view').classList.add('hidden'); this.classList.add('bg-slate-900', 'text-white'); this.previousElementSibling.classList.remove('bg-slate-900', 'text-white'); this.nextElementSibling.classList.remove('bg-slate-900', 'text-white');" class="text-[11px] font-bold px-4 py-2 rounded-lg bg-white border text-slate-600 hover:bg-slate-50 transition-all focus:outline-none">Biểu đồ Gantt</button>
+                <button onclick="document.getElementById('calendar-view').classList.remove('hidden'); document.getElementById('timeline-view').classList.add('hidden'); document.getElementById('gantt-view').classList.add('hidden'); this.classList.add('bg-slate-900', 'text-white'); this.previousElementSibling.classList.remove('bg-slate-900', 'text-white'); this.previousElementSibling.previousElementSibling.classList.remove('bg-slate-900', 'text-white');" class="text-[11px] font-bold px-4 py-2 rounded-lg bg-white border text-slate-600 hover:bg-slate-50 transition-all focus:outline-none">Lịch Tháng</button>
              </div>
-             <p class="text-[11px] font-bold text-slate-400 uppercase">Phối hợp SEO Linh & Tech Kiệt</p>
+             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest hidden md:block">Phối hợp Phương Linh & Chí Kiệt</p>
           </div>
 
-          <!-- Gantt View -->
-          <div id="gantt-view" class="space-y-8 animate-in fade-in duration-500">
-            <h3 class="text-sm font-bold text-center text-slate-400 uppercase tracking-widest pt-4">Kế hoạch triển khai Tháng 1 & 2 - 2026</h3>
-            <div class="card p-4 overflow-hidden shadow-none">
+          <!-- Timeline View (New UX) -->
+          <div id="timeline-view" class="space-y-12 relative pb-10">
+            <!-- Thanh nối dọc trung tâm -->
+            <div class="absolute left-4 md:left-1/2 top-4 bottom-10 w-px bg-slate-200 -translate-x-1/2"></div>
+            
+            <div class="space-y-16">
+              ${weeks.map((w, i) => `
+                <div class="relative group">
+                  <div class="flex flex-col md:flex-row items-center gap-8 relative">
+                    
+                    <!-- Nhãn Tuần (Desktop) -->
+                    <div class="w-1/2 text-right hidden md:block pr-12">
+                      <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-white z-10 relative px-4">${w.label}</span>
+                    </div>
+
+                    <!-- Điểm Marker trung tâm -->
+                    <div class="absolute left-4 md:left-1/2 top-0 w-8 h-8 bg-white border-2 border-slate-900 rounded-full -translate-x-1/2 z-10 flex items-center justify-center font-bold text-[10px] text-slate-900 shadow-md group-hover:scale-110 transition-transform">
+                      ${i + 1}
+                    </div>
+
+                    <!-- Nhãn Tuần (Mobile) -->
+                    <div class="pl-12 w-full md:hidden mb-4">
+                       <span class="text-[10px] font-black text-slate-900 uppercase tracking-widest bg-slate-100 px-3 py-1 rounded-md">${w.label}</span>
+                    </div>
+
+                    <!-- Thẻ công việc -->
+                    <div class="w-full md:w-1/2 pl-12 md:pl-12 space-y-4">
+                      <div class="grid grid-cols-1 gap-4">
+                        <div class="card p-6 border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-all group/card relative overflow-hidden">
+                          <div class="absolute top-0 right-0 p-2 opacity-10"><i data-lucide="search" class="w-12 h-12"></i></div>
+                          <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-blue-50 text-blue-600">Linh • SEO</span>
+                          </div>
+                          <p class="text-sm font-semibold text-slate-800 leading-snug">${w.seo}</p>
+                        </div>
+                        
+                        <div class="card p-6 border-l-4 border-l-rose-500 shadow-sm hover:shadow-md transition-all group/card relative overflow-hidden">
+                          <div class="absolute top-0 right-0 p-2 opacity-10"><i data-lucide="code" class="w-12 h-12"></i></div>
+                          <div class="flex items-center gap-2 mb-3">
+                            <span class="px-2 py-0.5 rounded text-[8px] font-black uppercase bg-rose-50 text-rose-600">Kiệt • Tech</span>
+                          </div>
+                          <p class="text-sm font-semibold text-slate-800 leading-snug">${w.tech}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Gantt View (Optimized) -->
+          <div id="gantt-view" class="hidden space-y-8">
+            <div class="card p-6 overflow-hidden bg-white shadow-sm border-slate-200">
                <div class="mermaid">
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
+    tickInterval 1week
     
-    section (SEO) Phương Linh
-    Kế hoạch kỹ thuật :2026-01-19, 7d
-    Sơ đồ từ khóa Q2    :2026-01-26, 6d
-    Schema Entity      :2026-02-01, 7d
-    Quy trình Nội dung AI :2026-02-08, 7d
-    Ma trận Link nội bộ :2026-02-15, 7d
-    Đánh giá Indexing   :2026-02-22, 7d
+    section (SEO) Linh
+    Audit Kỹ thuật :2026-01-19, 7d
+    Keyword Map Q2 :2026-01-26, 6d
+    Schema Entity  :2026-02-01, 7d
+    AI Workflow    :2026-02-08, 7d
+    Link nội bộ    :2026-02-15, 7d
 
-    section (Tech) Chí Kiệt
-    Thiết lập Next.js     :2026-01-19, 7d
-    Thiết kế DB & API    :2026-01-26, 6d
-    Thành phần UI       :2026-02-01, 7d
-    Cấu trúc SSG        :2026-02-08, 7d
-    Tích hợp GSC        :2026-02-15, 7d
-    Staging & Hiệu năng   :2026-02-22, 7d
-               </div>
-            </div>
-
-            <div class="space-y-4">
-               <h3 class="text-xs font-bold text-slate-900 uppercase tracking-widest">Phân công chi tiết</h3>
-               <div class="overflow-x-auto shadow-sm rounded-lg border">
-                  <table class="w-full text-[11px]">
-                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider">
-                      <tr>
-                        <th class="py-3 px-4 text-left">Nhân sự</th>
-                        <th class="py-3 px-4 text-left">Công việc</th>
-                        <th class="py-3 px-4 text-center">Thời gian</th>
-                        <th class="py-3 px-4 text-right">Trạng thái</th>
-                      </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                      ${GANTT_V2_DATA.slice(1).map(row => `
-                        <tr class="hover:bg-slate-50 transition-colors">
-                          <td class="py-3 px-4 font-bold text-slate-900">${row[0]}</td>
-                          <td class="py-3 px-4 text-slate-600">${row[1]}</td>
-                          <td class="py-3 px-4 text-center text-slate-400 font-medium">${row[2]} → ${row[3]}</td>
-                          <td class="py-3 px-4 text-right">
-                            <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[8px] ${row[4] === 'Đang thực hiện' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'}">${row[4]}</span>
-                          </td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                  </table>
+    section (Tech) Kiệt
+    Next.js Setup  :2026-01-19, 7d
+    DB/API Design  :2026-01-26, 6d
+    UI Core Build  :2026-02-01, 7d
+    SSG/Routing    :2026-02-08, 7d
                </div>
             </div>
           </div>
 
-          <!-- Calendar View (Hidden by default) -->
+          <!-- Calendar View -->
           <div id="calendar-view" class="hidden space-y-12 animate-in slide-in-from-bottom-4 duration-500">
              <div id="jan-cal"></div>
              <div id="feb-cal"></div>
@@ -352,9 +383,6 @@ gantt
         return html;
       };
 
-      // Jan 2026 starts on Thu (Idx 3 in 0-indexed T2-CN)
-      // Actually Jan 1 2026 is Thu. T2 is 0, T3 1, T4 2, T5 3, T6 4, T7 5, CN 6.
-      // So Thu is 3.
       const janEvents = [
         { start: 19, end: 25, title: "Linh: Audit Tech", type: "seo" },
         { start: 19, end: 25, title: "Kiệt: Setup NextJS", type: "tech" },
@@ -363,7 +391,6 @@ gantt
       ];
       janCal.innerHTML = createCal("Tháng 1", 3, 31, janEvents);
 
-      // Feb 2026 starts on Sun (Idx 6)
       const febEvents = [
         { start: 1, end: 7, title: "Linh: Schema Entity", type: "seo" },
         { start: 1, end: 7, title: "Kiệt: UI Core", type: "tech" },
