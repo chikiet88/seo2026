@@ -3,38 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SEO Dashboard 2026 V2 - Timona & Taza</title>
+  <title>SEO Dashboard 2026 V2 - Shadcn Style</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="data-v2.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-    .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
-    .sidebar-item-active { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-    .mermaid { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    :root {
+      --background: #ffffff;
+      --foreground: #020817;
+      --card: #ffffff;
+      --card-foreground: #020817;
+      --popover: #ffffff;
+      --popover-foreground: #020817;
+      --primary: #0f172a;
+      --primary-foreground: #f8fafc;
+      --secondary: #f1f5f9;
+      --secondary-foreground: #0f172a;
+      --muted: #f1f5f9;
+      --muted-foreground: #64748b;
+      --accent: #f1f5f9;
+      --accent-foreground: #020817;
+      --border: #e2e8f0;
+      --input: #e2e8f0;
+      --ring: #020817;
+      --radius: 0.5rem;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); }
+    .sidebar-item-active { background-color: var(--secondary); color: var(--secondary-foreground); font-weight: 600; }
+    .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); }
+    .mermaid { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; display: flex; justify-content: center; }
+    /* Shadcn Overlay Style */
+    #auth-overlay { backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.8); }
+    .btn-primary { background: var(--primary); color: var(--primary-foreground); padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; transition: opacity 0.2s; }
+    .btn-primary:active { opacity: 0.8; }
+    .input-shadcn { border: 1px solid var(--input); padding: 0.5rem 0.75rem; border-radius: 0.375rem; outline: none; transition: border-color 0.2s; }
+    .input-shadcn:focus { border-color: var(--ring); }
   </style>
 </head>
-<body class="text-slate-900 min-h-screen flex overflow-hidden">
-  <!-- Auth Overlay -->
+<body class="flex h-screen overflow-hidden">
   <script>
     (function() {
       const PASS = '@SeoTaza*2026';
       if (sessionStorage.getItem('seo_auth_v2') === 'true') return;
       document.body.style.overflow = 'hidden';
       const overlay = document.createElement('div');
-      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;background:#0f172a;display:flex;align-items:center;justify-content:center;z-index:9999;";
+      overlay.id = 'auth-overlay';
+      overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:9999;";
       overlay.innerHTML = `
-        <div class="bg-white p-12 rounded-[2.5rem] shadow-2xl max-w-md w-full text-center border border-slate-100">
-          <div class="w-20 h-20 bg-blue-600 rounded-3xl mx-auto mb-8 flex items-center justify-center text-white shadow-xl">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div class="card p-10 max-w-sm w-full shadow-2xl space-y-6">
+          <div class="space-y-2">
+            <h1 class="text-2xl font-semibold tracking-tight">Xác thực hệ thống</h1>
+            <p class="text-sm text-slate-500">Nhập mật khẩu để truy cập Dashboard V2.</p>
           </div>
-          <h2 class="text-3xl font-extrabold mb-3 text-slate-900 tracking-tight">Version 2.0</h2>
-          <p class="text-slate-500 mb-10 leading-relaxed font-medium">Nhập mật khẩu để truy cập kế hoạch chiến lược Timona & Taza 2026.</p>
-          <input type="password" id="p-v2" placeholder="••••••••" class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl mb-6 text-center text-xl focus:border-blue-500 outline-none transition-all">
-          <button id="s-v2" class="w-full p-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-black transition-all shadow-lg active:scale-[0.98]">Xác nhận</button>
+          <div class="space-y-4">
+            <div class="space-y-1">
+              <input type="password" id="p-v2" placeholder="••••••••" class="input-shadcn w-full text-center">
+            </div>
+            <button id="s-v2" class="btn-primary w-full">Đăng nhập</button>
+          </div>
         </div>
       `;
       document.body.appendChild(overlay);
@@ -45,91 +74,98 @@
   </script>
 
   <!-- Sidebar -->
-  <aside class="w-72 border-r border-slate-200 bg-white flex flex-col h-screen sticky top-0 z-20">
-    <div class="p-8">
-      <div class="flex items-center gap-3 mb-1">
-        <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg">V2</div>
-        <div>
-          <h1 class="font-extrabold text-lg text-slate-900 tracking-tight leading-none">SEO STRATEGY</h1>
-          <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Version 2.0 • 2026</p>
-        </div>
+  <aside class="w-64 border-r border-slate-200 bg-slate-50/40 flex flex-col">
+    <div class="p-6 border-b border-slate-200">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 bg-slate-900 rounded flex items-center justify-center text-white text-[10px] font-bold">V2</div>
+        <span class="font-semibold tracking-tight text-sm">SEO Dashboard</span>
+      </div>
+    </div>
+    
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <div class="space-y-1">
+        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Main</p>
+        <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100 sidebar-item-active">
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Tổng Quan
+        </button>
+        <button onclick="switchTab('gantt')" id="nav-gantt" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <i data-lucide="calendar" class="w-4 h-4"></i> Timeline / Gantt
+        </button>
+      </div>
+
+      <div class="space-y-1">
+        <p class="px-2 text-[10px] font-medium text-slate-500 uppercase tracking-widest mb-1">Brands</p>
+        <button onclick="switchTab('timona')" id="nav-timona" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i> Timona Academy
+        </button>
+        <button onclick="switchTab('clinic')" id="nav-clinic" class="w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <i data-lucide="hospital" class="w-4 h-4"></i> TazaSkinClinic
+        </button>
       </div>
     </div>
 
-    <nav class="flex-1 px-4 space-y-2">
-      <div class="px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Main Modules</div>
-      <button onclick="switchTab('overview')" id="nav-overview" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 font-bold text-sm transition-all sidebar-item-active">
-        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Tổng Quan V2
-      </button>
-      <button onclick="switchTab('gantt')" id="nav-gantt" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 font-bold text-sm transition-all hover:bg-slate-50">
-        <i data-lucide="calendar" class="w-4 h-4"></i> Timeline/Gantt
-      </button>
-      
-      <div class="mt-8 px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Two Brands</div>
-      <button onclick="switchTab('timona')" id="nav-timona" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 font-bold text-sm transition-all hover:bg-slate-50">
-        <i data-lucide="graduation-cap" class="w-4 h-4"></i> Timona Academy
-      </button>
-      <button onclick="switchTab('clinic')" id="nav-clinic" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 font-bold text-sm transition-all hover:bg-slate-50">
-        <i data-lucide="hospital" class="w-4 h-4"></i> TazaSkinClinic
-      </button>
-
-      <div class="mt-8 px-4 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resources</div>
-      <a href="kehoach_seo_2026_v2.md" target="_blank" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 font-bold text-sm transition-all hover:bg-slate-50">
-        <i data-lucide="file-text" class="w-4 h-4"></i> Doc Chi Tiết Plan
-      </a>
-    </nav>
-
-    <div class="p-6 border-t border-slate-100">
-      <div class="bg-slate-50 p-4 rounded-2xl flex items-center gap-3 border border-slate-100">
-        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-black">1+1</div>
-        <div>
-          <p class="text-xs font-bold text-slate-900">Tinh Gọn Mode</p>
-          <p class="text-[10px] text-slate-400 font-medium">1 Tech + 1 SEO</p>
-        </div>
-      </div>
+    <div class="p-4 border-t border-slate-200">
+       <div class="flex items-center gap-3 px-2">
+          <div class="w-8 h-8 rounded-full bg-slate-200 border border-slate-300"></div>
+          <div>
+            <p class="text-xs font-semibold">SEO Manager</p>
+            <p class="text-[10px] text-slate-500">TazaGroup Agent</p>
+          </div>
+       </div>
     </div>
   </aside>
 
-  <!-- Content -->
-  <main class="flex-1 overflow-y-auto bg-[#f8fafc]">
-    <header class="h-20 bg-white/70 backdrop-blur-md border-b border-slate-200 sticky top-0 z-10 px-10 flex items-center justify-between">
-      <div>
-        <h2 id="view-title" class="text-xl font-extrabold text-slate-900">Tổng Quan Chiến Lược V2</h2>
-        <p id="view-sub" class="text-xs text-slate-400 font-bold uppercase tracking-wider">Tập trung nguồn lực 2 Brand & Tech Migration</p>
+  <!-- Main Content -->
+  <main class="flex-1 overflow-y-auto flex flex-col bg-white">
+    <header class="h-14 border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 bg-white/80 backdrop-blur-sm z-10">
+      <div class="flex items-center gap-4">
+        <h2 id="view-title" class="text-sm font-semibold text-slate-900">Tổng Quan Chiến Lược</h2>
+        <div class="w-px h-4 bg-slate-200"></div>
+        <p id="view-sub" class="text-xs text-slate-500">Hệ sinh thái Timona & Taza 2026</p>
       </div>
-      <div class="flex items-center gap-6">
-        <div class="flex flex-col items-end">
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Project Lead</span>
-          <span class="text-sm font-black text-blue-600">Next.js Migration</span>
-        </div>
-        <div class="h-8 w-px bg-slate-200"></div>
-        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-200 to-slate-300"></div>
-      </div>
+      <div class="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded uppercase">V2.1 - FEB 2026 FOCUS</div>
     </header>
 
-    <div class="p-10 max-w-7xl mx-auto space-y-10" id="main-container">
-      <!-- Tabs content will be injected here -->
+    <div class="p-8 max-w-6xl mx-auto w-full space-y-10" id="main-container">
+      <!-- Content -->
     </div>
   </main>
 
-  <script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+
     function switchTab(tab) {
-      document.querySelectorAll('nav button').forEach(b => b.classList.remove('sidebar-item-active', 'bg-slate-50'));
+      document.querySelectorAll('aside button').forEach(b => b.classList.remove('sidebar-item-active'));
       document.getElementById(`nav-${tab}`).classList.add('sidebar-item-active');
       
       const container = document.getElementById('main-container');
       const titleEl = document.getElementById('view-title');
+      const subEl = document.getElementById('view-sub');
       
       if (tab === 'overview') {
-        titleEl.textContent = 'Tổng Quan Chiến Lược V2';
+        titleEl.textContent = 'Tổng Quan Chiến Lược';
+        subEl.textContent = 'Thống kê mục tiêu & Tăng trưởng';
         container.innerHTML = renderOverview();
       } else if (tab === 'gantt') {
         titleEl.textContent = 'Lộ Trình Triển Khai';
+        subEl.textContent = 'Chi tiết kế hoạch Jan-Feb 2026 (Hàng Tuần)';
         container.innerHTML = renderGantt();
-        setTimeout(() => mermaid.init(), 100);
+        // Use a small delay to ensure DOM is ready for mermaid
+        setTimeout(() => {
+          const els = document.querySelectorAll('.mermaid-target');
+          els.forEach((el, i) => {
+            const id = `mermaid-graph-${i}`;
+            const graphDefinition = el.textContent;
+            mermaid.render(id, graphDefinition).then(({ svg }) => {
+              el.innerHTML = svg;
+            });
+          });
+        }, 100);
       } else {
         const site = DATA_V2[tab];
         titleEl.textContent = site.name;
+        subEl.textContent = site.desc;
         container.innerHTML = renderSiteDetails(tab);
       }
       lucide.createIcons();
@@ -137,66 +173,54 @@
 
     function renderOverview() {
       return `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-gradient-to-br from-blue-700 to-indigo-800 p-8 rounded-[2rem] text-white shadow-xl relative overflow-hidden group">
-            <div data-lucide="cpu" class="absolute -right-10 -bottom-10 w-48 h-48 opacity-10 group-hover:rotate-12 transition-transform duration-500"></div>
-            <h3 class="text-2xl font-black mb-4">Mô Hình Nhân Sự Tinh Gọn</h3>
-            <div class="space-y-4">
-              <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl border border-white/10">
-                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center font-black">01</div>
-                <div><p class="font-bold text-lg">SEO Manager</p><p class="text-xs text-white/70">Plan & Content 2 Brand</p></div>
-              </div>
-              <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl border border-white/10">
-                <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center font-black">01</div>
-                <div><p class="font-bold text-lg">Tech Full-stack</p><p class="text-xs text-white/70">WP -> Next.js Migration</p></div>
-              </div>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card p-6 space-y-4">
+             <div class="flex items-center justify-between">
+                <h3 class="text-sm font-semibold">Mục tiêu Lead Toàn Năm</h3>
+                <i data-lucide="trending-up" class="w-4 h-4 text-slate-400"></i>
+             </div>
+             <div class="flex items-end gap-2">
+                <p class="text-3xl font-bold tracking-tighter">4.335</p>
+                <p class="text-xs text-green-600 font-bold bg-green-50 px-1.5 py-0.5 rounded mb-1">+55%</p>
+             </div>
+             <p class="text-xs text-slate-500">Lead dự kiến từ Timona (3.660) & Taza (675)</p>
           </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            ${Object.keys(DATA_V2).map(key => `
-              <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-md transition-all">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">${DATA_V2[key].name}</p>
-                <p class="text-3xl font-black text-slate-900">${DATA_V2[key].target.leads}</p>
-                <p class="text-[10px] text-green-600 font-bold mt-1">Target Lead/Năm</p>
-                <div class="mt-4 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div class="h-full bg-blue-500 w-${key === 'timona' ? '2/3' : '1/2'}"></div>
-                </div>
-              </div>
-            `).join('')}
+          <div class="card p-6 space-y-4 bg-slate-900 text-white border-slate-900">
+             <div class="flex items-center justify-between">
+                <h3 class="text-sm font-semibold opacity-90">Tech Stack Migration</h3>
+                <i data-lucide="cpu" class="w-4 h-4 opacity-50"></i>
+             </div>
+             <div class="space-y-1">
+                <p class="text-2xl font-bold tracking-tight">WordPress → Next.js</p>
+                <p class="text-xs opacity-70">Focus: Performance, SSR & AI-First SEO</p>
+             </div>
           </div>
         </div>
 
-        <div class="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-sm">
-          <h3 class="text-xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-            <i data-lucide="target" class="text-blue-600"></i> Mục Tiêu Hai Thương Hiệu Trọng Tâm
-          </h3>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="text-left text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] border-b border-slate-50">
-                  <th class="pb-6">Brand</th>
-                  <th class="pb-6">Trọng Tâm</th>
-                  <th class="pb-6">Traffic Target</th>
-                  <th class="pb-6">Growth</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm font-semibold">
-                ${Object.keys(DATA_V2).map(key => `
-                  <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="py-6 flex items-center gap-4">
-                      <div class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white">
-                        <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'hospital'}" class="w-5 h-5"></i>
-                      </div>
-                      ${DATA_V2[key].name}
-                    </td>
-                    <td class="py-6 text-slate-500">${DATA_V2[key].focus}</td>
-                    <td class="py-6 text-slate-900 font-bold">${DATA_V2[key].target.traffic}</td>
-                    <td class="py-6 text-green-600 font-black">${DATA_V2[key].target.growth}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
+        <div class="space-y-6">
+          <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Brand Matrix</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            ${Object.keys(DATA_V2).map(key => `
+              <div class="card p-6 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                  <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'hospital'}" class="w-5 h-5 text-slate-700"></i>
+                </div>
+                <div class="space-y-2">
+                  <p class="text-sm font-bold">${DATA_V2[key].name}</p>
+                  <p class="text-xs text-slate-500 leading-relaxed">${DATA_V2[key].focus}</p>
+                  <div class="flex gap-4 pt-2">
+                    <div>
+                      <p class="text-[10px] text-slate-400 uppercase font-bold">Traffic</p>
+                      <p class="text-xs font-bold">${DATA_V2[key].target.traffic}</p>
+                    </div>
+                    <div>
+                      <p class="text-[10px] text-slate-400 uppercase font-bold">Leads</p>
+                      <p class="text-xs font-bold">${DATA_V2[key].target.leads}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>
       `;
@@ -204,56 +228,62 @@
 
     function renderGantt() {
       return `
-        <div class="space-y-8">
-          <div class="bg-indigo-900 p-8 rounded-[2rem] text-white">
-            <h3 class="text-xl font-bold mb-2">Roadmap Chuyển Đổi Next.js + SEO Plan</h3>
-            <p class="text-indigo-200 text-sm">Sự phối hợp giữa Tech (Build nền tảng) và SEO (Đổ nội dung & Traffic)</p>
-          </div>
-          <div class="mermaid">
-            gantt
-              title Lộ Trình SEO & Tech 2026
-              dateFormat YYYY-MM-DD
-              axisFormat %m/%Y
+        <div class="space-y-10">
+          <div class="space-y-4">
+             <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Weekly Roadmap (Jan-Feb 2026)</h3>
+             </div>
+             <div class="mermaid-target">
+gantt
+    title Kế Hoạch Weekly Jan-Feb 2026
+    dateFormat YYYY-MM-DD
+    axisFormat %d/%m
+    
+    section SEO Manager
+    Audit Tech (Jan W3)        :2026-01-19, 7d
+    Keyword Map Q2 (Jan W4)    :2026-01-26, 6d
+    Entity Schema (Feb W1)     :2026-02-01, 7d
+    AI Workflow (Feb W2)       :2026-02-08, 7d
+    Internal Link Matrix (Feb W3):2026-02-15, 7d
+    Indexing Review (Feb W4)   :2026-02-22, 7d
 
-              section SEO Manager
-              Audit & Research        :2026-01-01, 30d
-              Entity & Schema Map     :2026-02-01, 30d
-              Content Timona Q2       :2026-03-01, 120d
-              Content Taza Q3         :2026-07-01, 90d
-              AI Citation Opt         :active, 2026-01-01, 365d
-
-              section Tech Project
-              Arch Design (V2)        :2026-01-01, 45d
-              Next.js Dev (Timona)    :2026-02-15, 90d
-              Data Migration          :2026-05-15, 45d
-              Next.js Dev (Taza)      :2026-07-01, 90d
-              Go-live & Performance   :2026-10-01, 92d
+    section Tech Migration
+    Setup Next.js (Jan W3)     :2026-01-19, 7d
+    DB Design (Jan W4)         :2026-01-26, 6d
+    UI Components (Feb W1)     :2026-02-01, 7d
+    Routing Setup (Feb W2)     :2026-02-08, 7d
+    GSC Integration (Feb W3)   :2026-02-15, 7d
+    Staging & Audit (Feb W4)   :2026-02-22, 7d
+             </div>
           </div>
-          
-          <div class="bg-white p-8 rounded-[2rem] border border-slate-100">
-             <h4 class="font-bold text-slate-900 mb-6">Bảng Phân Công Hạng Mục Chi Tiết</h4>
-             <table class="w-full text-sm">
-                <thead>
-                  <tr class="text-left font-bold text-slate-400 border-b">
-                    <th class="pb-4 px-4">Nhân Sự</th>
-                    <th class="pb-4 px-4">Hạng Mục</th>
-                    <th class="pb-4 px-4 text-center">Thời Gian</th>
-                    <th class="pb-4 px-4 text-right">Trạng Thái</th>
-                  </tr>
-                </thead>
-                <tbody class="font-medium">
-                  ${GANTT_V2_DATA.slice(1).map(row => `
-                    <tr class="border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors">
-                      <td class="py-4 px-4 font-bold text-slate-800">${row[0]}</td>
-                      <td class="py-4 px-4 text-slate-600">${row[1]}</td>
-                      <td class="py-4 px-4 text-center text-xs text-slate-400">${row[2]} - ${row[3]}</td>
-                      <td class="py-4 px-4 text-right">
-                        <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase ${row[4] === 'Done' ? 'bg-green-100 text-green-700' : row[4] === 'In Progress' ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'}">${row[4]}</span>
-                      </td>
+
+          <div class="space-y-4">
+             <h3 class="text-sm font-bold text-slate-900 border-b pb-2">Bảng công tác chi tiết</h3>
+             <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="text-left font-bold text-slate-400 uppercase tracking-wider">
+                      <th class="py-3 px-4">Nhân sự</th>
+                      <th class="py-3 px-4">Công việc chi tiết</th>
+                      <th class="py-3 px-4">Thời gian</th>
+                      <th class="py-3 px-4 text-right">Tình trạng</th>
                     </tr>
-                  `).join('')}
-                </tbody>
-             </table>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    ${GANTT_V2_DATA.slice(1).map(row => `
+                      <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-4 px-4 font-bold text-slate-900">${row[0]}</td>
+                        <td class="py-4 px-4 text-slate-600">${row[1]}</td>
+                        <td class="py-4 px-4 text-slate-400 font-medium">${row[2]} → ${row[3]}</td>
+                        <td class="py-4 px-4 text-right">
+                          <span class="px-2 py-0.5 rounded-full font-bold uppercase text-[9px] ${row[4] === 'In Progress' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'}">${row[4]}</span>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+             </div>
           </div>
         </div>
       `;
@@ -263,59 +293,33 @@
       const site = DATA_V2[key];
       return `
         <div class="space-y-10">
-          <div class="flex items-center gap-6">
-            <div class="w-16 h-16 bg-slate-900 rounded-3xl flex items-center justify-center text-white shadow-xl">
-              <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'hospital'}" class="w-8 h-8"></i>
-            </div>
-            <div>
-              <h2 class="text-3xl font-black text-slate-900 tracking-tight">${site.name}</h2>
-              <p class="text-slate-500 font-medium">${site.desc}</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center">
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Target Traffic</p>
-              <p class="text-4xl font-black text-slate-900">${site.target.traffic}</p>
-            </div>
-            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center">
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Target Leads</p>
-              <p class="text-4xl font-black text-blue-600">${site.target.leads}</p>
-            </div>
-            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 text-center">
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Growth KPI</p>
-              <p class="text-4xl font-black text-green-600">${site.target.growth}</p>
-            </div>
-          </div>
-
-          <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
-            <h3 class="font-bold text-slate-900 mb-8 flex items-center gap-3">
-               <i data-lucide="list-checks" class="text-blue-600"></i> Lộ Trình Phối Hợp SEO & Tech
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-               ${site.tasks.map((t, i) => `
-                 <div class="p-6 bg-slate-50 rounded-2xl relative overflow-hidden group">
-                    <div class="absolute -right-2 -top-2 text-6xl font-black text-slate-100 group-hover:text-blue-50 transition-colors">${i+1}</div>
-                    <p class="text-xs font-black text-blue-600 mb-4 z-10 relative">${t.month}</p>
-                    <div class="space-y-4 z-10 relative">
-                       <div>
-                          <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">SEO Task</p>
-                          <p class="text-sm font-bold text-slate-800 leading-tight">${t.seo}</p>
-                       </div>
-                       <div class="pt-4 border-t border-slate-200">
-                          <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Tech Task</p>
-                          <p class="text-sm font-bold text-indigo-600 leading-tight">${t.tech}</p>
-                       </div>
-                    </div>
-                 </div>
-               `).join('')}
-            </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${site.tasks.map((t, i) => `
+              <div class="card p-6 space-y-4 border-l-4 border-l-slate-900 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] font-black text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">${t.week}</span>
+                </div>
+                <div class="space-y-3">
+                  <div class="space-y-1">
+                    <p class="text-[10px] uppercase font-bold text-blue-600">SEO Strategy</p>
+                    <p class="text-sm font-bold text-slate-800">${t.seo}</p>
+                  </div>
+                  <div class="pt-3 border-t border-slate-50 space-y-1">
+                    <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Tech Sync</p>
+                    <p class="text-sm font-medium text-slate-600">${t.tech}</p>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
           </div>
         </div>
       `;
     }
 
-    // Init
+    // Export switchTab to global
+    window.switchTab = switchTab;
+
+    // Bootstrap
     document.addEventListener('DOMContentLoaded', () => {
       switchTab('overview');
       lucide.createIcons();
