@@ -36,7 +36,8 @@
     "dotenv": "^17.2.3",
     "express": "^4.22.1",
     "googleapis": "^129.0.0",
-    "prisma": "6"
+    "prisma": "6",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
