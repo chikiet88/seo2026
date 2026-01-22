@@ -103,6 +103,9 @@
           <button onclick="switchTab('overview')" id="nav-overview" class="w-full nav-btn sidebar-item-active">
             <i data-lucide="layout-grid" class="w-5 h-5"></i> Dashboard chính
           </button>
+          <button onclick="switchTab('kpi')" id="nav-kpi" class="w-full nav-btn text-slate-600">
+            <i data-lucide="table-2" class="w-5 h-5"></i> KPI Tổng Hợp
+          </button>
           <button onclick="switchTab('roadmap')" id="nav-roadmap" class="w-full nav-btn text-slate-600">
             <i data-lucide="map" class="w-5 h-5"></i> Lộ trình chiến lược
           </button>
@@ -225,6 +228,10 @@
           });
           mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
         }, 100);
+      } else if (tab === 'kpi') {
+        titleEl.textContent = 'KPI Tổng Hợp 2026';
+        subEl.textContent = 'Chi tiết mục tiêu 12 tháng của hệ thống (Dữ liệu từ Excel)';
+        container.innerHTML = renderKPITables();
       } else {
         const site = DATA_V3[tab];
         titleEl.textContent = site.name;
@@ -653,6 +660,72 @@ gantt
           }
         }));
       }
+    }
+
+    function renderKPITables() {
+      const renderTable = (siteKey) => {
+        const site = DATA_V3[siteKey];
+        const months = ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9", "T10", "T11", "T12"];
+        const totalTraffic = site.kpis.traffic.reduce((a, b) => a + b, 0);
+        const totalLeads = site.kpis.leads.reduce((a, b) => a + b, 0);
+        const totalAiLeads = site.kpis.aiLead.reduce((a, b) => a + b, 0);
+
+        return `
+          <div class="card bg-white overflow-hidden shadow-sm border-slate-200">
+            <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+               <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="${siteKey === 'timona' ? 'graduation-cap' : 'stethoscope'}" class="w-4 h-4"></i>
+                  KPI ${site.name} 2026
+               </h3>
+               <span class="text-[10px] bg-white px-2 py-1 rounded border border-slate-200 font-bold text-slate-500 uppercase">12 Months Plan</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50/50">
+                    <th class="px-4 py-3 text-[10px] font-bold text-slate-500 uppercase border-b border-r">Chỉ số</th>
+                    ${months.map(m => `<th class="px-3 py-3 text-[10px] font-bold text-slate-500 uppercase border-b text-center">${m}</th>`).join('')}
+                    <th class="px-4 py-3 text-[10px] font-bold text-slate-900 uppercase border-b border-l text-center bg-slate-100/50">Tổng</th>
+                  </tr>
+                </thead>
+                <tbody class="text-[11px]">
+                  <tr>
+                    <td class="px-4 py-3 font-bold text-slate-700 border-b border-r bg-slate-50/20">Traffic (Analytics)</td>
+                    ${site.kpis.traffic.map(v => `<td class="px-3 py-3 text-slate-600 border-b text-center">${v.toLocaleString()}</td>`).join('')}
+                    <td class="px-4 py-3 font-black text-slate-900 border-b border-l text-center bg-blue-50/30">${totalTraffic.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-bold text-slate-700 border-b border-r bg-slate-50/20">Đăng ký (Lead)</td>
+                    ${site.kpis.leads.map(v => `<td class="px-3 py-3 text-slate-600 border-b text-center">${v}</td>`).join('')}
+                    <td class="px-4 py-3 font-black text-rose-600 border-b border-l text-center bg-rose-50/30">${totalLeads}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-bold text-slate-700 border-b border-r bg-slate-50/20">AI Vis %</td>
+                    ${site.kpis.aiVis.map(v => `<td class="px-3 py-3 text-emerald-600 border-b text-center font-medium">${v}%</td>`).join('')}
+                    <td class="px-4 py-3 font-black text-emerald-700 border-b border-l text-center bg-emerald-50/30">${site.kpis.aiVis[11]}%</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-bold text-slate-700 border-r bg-slate-50/20">AI Lead (Source)</td>
+                    ${site.kpis.aiLead.map(v => `<td class="px-3 py-3 text-amber-600 border-b text-center font-medium">${v}</td>`).join('')}
+                    <td class="px-4 py-3 font-black text-amber-700 border-l text-center bg-amber-50/30">${totalAiLeads}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      };
+
+      return `
+        <div class="space-y-12 animate-fade-in pb-12">
+          <div class="space-y-6">
+            ${renderTable('timona')}
+          </div>
+          <div class="space-y-6">
+            ${renderTable('clinic')}
+          </div>
+        </div>
+      `;
     }
 
     window.switchTab = switchTab;
