@@ -566,7 +566,27 @@ gantt
               </div>
 
               <div class="space-y-6">
-                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Thống kê 2026</h3>
+                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Chỉ số Mục tiêu Tháng ${selectedMonth}</h3>
+                 <div class="grid grid-cols-2 gap-3">
+                    <div class="card p-4 bg-white border-l-2 border-l-blue-500 shadow-sm">
+                       <p class="text-[9px] font-bold text-slate-400 uppercase">Traffic</p>
+                       <p class="text-base font-black text-slate-900 mt-1">${site.kpis.traffic[selectedMonth-1].toLocaleString()}</p>
+                    </div>
+                    <div class="card p-4 bg-white border-l-2 border-l-rose-500 shadow-sm">
+                       <p class="text-[9px] font-bold text-slate-400 uppercase">Leads</p>
+                       <p class="text-base font-black text-slate-900 mt-1">${site.kpis.leads[selectedMonth-1]}</p>
+                    </div>
+                    <div class="card p-4 bg-white border-l-2 border-l-emerald-500 shadow-sm">
+                       <p class="text-[9px] font-bold text-slate-400 uppercase">AI Vis%</p>
+                       <p class="text-base font-black text-slate-900 mt-1">${site.kpis.aiVis[selectedMonth-1]}%</p>
+                    </div>
+                    <div class="card p-4 bg-white border-l-2 border-l-amber-500 shadow-sm">
+                       <p class="text-[9px] font-bold text-slate-400 uppercase">AI Leads</p>
+                       <p class="text-base font-black text-slate-900 mt-1">${site.kpis.aiLead[selectedMonth-1]}</p>
+                    </div>
+                 </div>
+
+                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Biểu đồ Tăng trưởng</h3>
                  <div class="card p-6 h-64">
                     <canvas id="siteYearlyChart"></canvas>
                  </div>
@@ -577,14 +597,14 @@ gantt
                     <div class="space-y-4">
                        <div class="flex items-center gap-3">
                           <div class="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center"><i data-lucide="users" class="w-4 h-4 text-slate-400"></i></div>
-                          <div>
-                             <p class="text-xs font-medium text-white">Bác sĩ chuyên khoa</p>
+                          <div class="flex-1">
+                             <p class="text-xs font-medium text-white">${key === 'timona' ? 'Giảng viên ITEC' : 'Bác sĩ chuyên khoa'}</p>
                              <p class="text-[9px] text-slate-500 uppercase">Tham vấn nội dung</p>
                           </div>
                        </div>
                        <div class="flex items-center gap-3">
                           <div class="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center"><i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i></div>
-                          <div>
+                          <div class="flex-1">
                              <p class="text-xs font-medium text-white">Đối tác Y học</p>
                              <p class="text-[9px] text-slate-500 uppercase">Bảo chứng Entity</p>
                           </div>
