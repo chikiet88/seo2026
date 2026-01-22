@@ -9,37 +9,51 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="data-v3.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --background: #f8fafc;
-      --foreground: #0f172a;
+      --background: #ffffff;
+      --foreground: #020817;
       --card: #ffffff;
-      --primary: #2563eb;
-      --primary-dark: #1e40af;
-      --secondary: #64748b;
-      --accent: #f59e0b;
-      --radius: 1rem;
+      --card-foreground: #020817;
+      --popover: #ffffff;
+      --popover-foreground: #020817;
+      --primary: #0f172a;
+      --primary-foreground: #f8fafc;
+      --secondary: #f1f5f9;
+      --secondary-foreground: #0f172a;
+      --muted: #f1f5f9;
+      --muted-foreground: #64748b;
+      --accent: #f1f5f9;
+      --accent-foreground: #0f172a;
+      --destructive: #ff4444;
+      --destructive-foreground: #f8fafc;
+      --border: #e2e8f0;
+      --input: #e2e8f0;
+      --ring: #020817;
+      --radius: 0.5rem;
     }
-    body { font-family: 'Outfit', sans-serif; background-color: var(--background); color: var(--foreground); }
-    .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); }
-    .card { background-color: var(--card); border: 1px solid #e2e8f0; border-radius: var(--radius); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); border-color: #cbd5e1; }
-    .sidebar-item-active { background: linear-gradient(to right, #1e293b, #334155); color: white; font-weight: 600; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-    .nav-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; transition: all 0.2s; }
-    .nav-btn:hover:not(.sidebar-item-active) { background-color: #f1f5f9; color: #0f172a; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--background); color: var(--foreground); }
+    .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .card { background-color: var(--card); border: 1px solid var(--border); border-radius: var(--radius); transition: all 0.2s ease; }
+    .card:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px -2px rgba(0,0,0,0.05); }
+    .sidebar-item-active { background-color: var(--secondary); color: var(--secondary-foreground); font-weight: 600; }
+    .nav-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: var(--radius); font-size: 0.875rem; transition: all 0.2s; color: var(--muted-foreground); }
+    .nav-btn:hover:not(.sidebar-item-active) { background-color: var(--secondary); color: var(--foreground); }
     
     .mermaid { width: 100% !important; display: flex; justify-content: center; overflow: hidden; opacity: 0.9; }
     .chart-container { position: relative; height: 300px; width: 100%; }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
+    /* Custom Scrollbar - Shadcn style */
+    ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    
+    input, button { outline: none !important; }
   </style>
 </head>
 <body class="flex h-screen overflow-hidden">
@@ -51,15 +65,15 @@
       const overlay = document.createElement('div');
       overlay.style = "position:fixed;top:0;left:0;width:100%;height:100%;backdrop-filter:blur(15px);background:rgba(15, 23, 42, 0.6);display:flex;align-items:center;justify-content:center;z-index:9999;";
       overlay.innerHTML = `
-        <div class="bg-white p-10 max-w-sm w-full rounded-2xl shadow-2xl space-y-6 animate-fade-in">
+        <div class="bg-white border border-slate-200 p-8 max-w-sm w-full rounded-lg shadow-lg space-y-6 animate-fade-in">
           <div class="space-y-2 text-center">
-            <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center text-white text-2xl font-black mb-4 shadow-lg ring-4 ring-blue-50">V3</div>
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">SEO Dashboard 2026</h1>
-            <p class="text-sm text-slate-500 font-medium">Phiên bản cập nhật Kế hoạch Mới nhất</p>
+            <div class="w-12 h-12 bg-slate-900 rounded-md mx-auto flex items-center justify-center text-white text-xl font-bold mb-4 shadow-sm">V3</div>
+            <h1 class="text-xl font-bold tracking-tight text-slate-900">SEO Dashboard 2026</h1>
+            <p class="text-xs text-slate-500 font-medium">Phiên bản cập nhật Kế hoạch Mới nhất</p>
           </div>
-          <div class="space-y-4">
-            <input type="password" id="p-v3" placeholder="Mật khẩu hệ thống" class="w-full border-2 border-slate-100 p-3 rounded-xl text-center outline-none focus:border-blue-500 transition-all font-semibold">
-            <button id="s-v3" class="w-full bg-slate-900 text-white p-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg">TRUY CẬP</button>
+          <div class="space-y-3">
+            <input type="password" id="p-v3" placeholder="Mật khẩu hệ thống" class="w-full border border-slate-200 p-2.5 rounded-md text-sm outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all">
+            <button id="s-v3" class="w-full bg-slate-900 text-white p-2.5 rounded-md text-sm font-semibold hover:bg-slate-800 transition-all">Truy cập hệ thống</button>
           </div>
         </div>
       `;
@@ -108,14 +122,29 @@
       </div>
 
       <div>
-        <p class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Hệ thống & Tech</p>
+        <p class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Tài liệu & Hệ thống</p>
         <div class="space-y-1">
-          <a href="../version2/kehoach_seo_2026_v2.md" target="_blank" class="w-full nav-btn text-slate-600">
-            <i data-lucide="file-text" class="w-5 h-5"></i> Kế hoạch V2 (Cũ)
+          <a href="kehoach_seo_2026_v3.md" target="_blank" class="w-full nav-btn text-slate-900 font-bold bg-amber-50">
+            <i data-lucide="file-text" class="w-5 h-5 text-amber-600"></i> Kế hoạch V3 (Mới)
+          </a>
+          <a href="version2/kehoach_seo_2026_v2.md" target="_blank" class="w-full nav-btn text-slate-600">
+            <i data-lucide="file-text" class="w-5 h-5"></i> Kế hoạch V2
           </a>
           <button class="w-full nav-btn text-slate-300 cursor-not-allowed">
             <i data-lucide="cpu" class="w-5 h-5"></i> Tech Matrix
           </button>
+        </div>
+      </div>
+
+      <div>
+        <p class="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Lịch sử Phiên bản</p>
+        <div class="space-y-1">
+          <a href="v1/index.html" class="w-full nav-btn text-slate-500 hover:text-slate-900">
+            <i data-lucide="history" class="w-5 h-5"></i> Dashboard V1
+          </a>
+          <a href="version2/index.html" class="w-full nav-btn text-slate-500 hover:text-slate-900">
+            <i data-lucide="history" class="w-5 h-5"></i> Dashboard V2
+          </a>
         </div>
       </div>
     </div>
@@ -142,17 +171,17 @@
 
   <!-- Main Content -->
   <main class="flex-1 overflow-y-auto flex flex-col bg-slate-50/50 relative">
-    <header class="h-20 glass px-12 flex items-center justify-between sticky top-0 z-10 border-b border-slate-200/50">
+    <header class="h-14 glass px-8 flex items-center justify-between sticky top-0 z-10">
       <div class="flex items-center gap-6">
         <div>
-          <h2 id="view-title" class="text-xl font-black text-slate-900 tracking-tight">Tổng Quan Chiến Lược 2026</h2>
-          <p id="view-sub" class="text-xs font-medium text-slate-500 mt-0.5">Phân tích chuyên sâu dựa trên mô hình Chuẩn Y Khoa</p>
+          <h2 id="view-title" class="text-sm font-bold text-slate-900 tracking-tight">Tổng Quan Chiến Lược 2026</h2>
+          <p id="view-sub" class="text-[10px] font-medium text-slate-500 mt-0.5">Phân tích chuyên sâu dựa trên mô hình Chuẩn Y Khoa</p>
         </div>
       </div>
       <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl shadow-lg ring-4 ring-slate-100">
-           <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
-           <span class="text-[10px] font-black uppercase tracking-widest">Version 3.0 Ready</span>
+        <div class="flex items-center gap-2 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-md border border-slate-200 shadow-sm">
+           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-slate-900"></i>
+           <span class="text-[10px] font-bold uppercase tracking-wider">V3.0 Stable</span>
         </div>
       </div>
     </header>
@@ -210,48 +239,47 @@
 
     function renderOverview() {
       return `
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
-           <div class="card p-6 space-y-4">
-              <div class="flex justify-between items-start">
-                 <div class="p-3 bg-blue-50 rounded-2xl"><i data-lucide="trending-up" class="w-6 h-6 text-blue-600"></i></div>
-                 <span class="text-[10px] font-black text-green-600 bg-green-50 px-2 py-1 rounded-full">+61% YoY</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in">
+           <div class="card p-6 space-y-3">
+              <div class="flex items-center justify-between">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tổng Traffic Dự Kiến</p>
+                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-slate-400"></i>
               </div>
-              <div>
-                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tổng Traffic Dự Kiến</p>
-                 <p class="text-3xl font-black text-slate-900 tracking-tighter">211,300</p>
-              </div>
-           </div>
-
-           <div class="card p-6 space-y-4">
-              <div class="flex justify-between items-start">
-                 <div class="p-3 bg-indigo-50 rounded-2xl"><i data-lucide="user-plus" class="w-6 h-6 text-indigo-600"></i></div>
-                 <span class="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-full">Target 2026</span>
-              </div>
-              <div>
-                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Tổng Lead Mục Tiêu</p>
-                 <p class="text-3xl font-black text-slate-900 tracking-tighter">1,191</p>
+              <div class="flex items-baseline gap-2">
+                 <p class="text-2xl font-bold text-slate-900 tracking-tight">211,300</p>
+                 <span class="text-[10px] font-medium text-green-600">+61%</span>
               </div>
            </div>
 
-           <div class="card p-6 space-y-4 bg-slate-900 border-none shadow-xl ring-1 ring-white/10">
-              <div class="flex justify-between items-start">
-                 <div class="p-3 bg-white/10 rounded-2xl"><i data-lucide="cpu" class="w-6 h-6 text-amber-400"></i></div>
+           <div class="card p-6 space-y-3">
+              <div class="flex items-center justify-between">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tổng Lead Mục Tiêu</p>
+                <i data-lucide="user-plus" class="w-3.5 h-3.5 text-slate-400"></i>
               </div>
-              <div>
-                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">AI Search Vis%</p>
-                 <p class="text-3xl font-black text-white tracking-tighter">25.0%</p>
-                 <p class="text-[10px] text-slate-400 mt-1 font-medium italic">Thị phần tiếng nói trên AI</p>
+              <div class="flex items-baseline gap-2">
+                 <p class="text-2xl font-bold text-slate-900 tracking-tight">1,191</p>
+                 <span class="text-[10px] font-medium text-slate-400">Target</span>
               </div>
            </div>
 
-           <div class="card p-6 space-y-4">
-              <div class="flex justify-between items-start">
-                 <div class="p-3 bg-rose-50 rounded-2xl"><i data-lucide="zap" class="w-6 h-6 text-rose-600"></i></div>
+           <div class="card p-6 space-y-3 bg-slate-900 border-slate-900">
+              <div class="flex items-center justify-between">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AI Search Vis%</p>
+                <i data-lucide="cpu" class="w-3.5 h-3.5 text-slate-500"></i>
               </div>
-              <div>
-                 <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Next.js Migration</p>
-                 <p class="text-3xl font-black text-slate-900 tracking-tighter">45%</p>
-                 <p class="text-[10px] text-slate-500 mt-1 font-medium">Staging Phase</p>
+              <div class="flex items-baseline gap-2">
+                 <p class="text-2xl font-bold text-white tracking-tight">25.0%</p>
+              </div>
+           </div>
+
+           <div class="card p-6 space-y-3">
+              <div class="flex items-center justify-between">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Next.js Migration</p>
+                <i data-lucide="zap" class="w-3.5 h-3.5 text-slate-400"></i>
+              </div>
+              <div class="flex items-baseline gap-2">
+                 <p class="text-2xl font-bold text-slate-900 tracking-tight">45%</p>
+                 <span class="text-[10px] font-medium text-slate-400">Staging</span>
               </div>
            </div>
         </div>
@@ -276,22 +304,22 @@
            </div>
         </div>
 
-        <div class="space-y-6">
-           <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 pl-4">Thương hiệu Chiến lược</h3>
-           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="space-y-4">
+           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Thương hiệu Chiến lược</h3>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               ${Object.keys(DATA_V3).map(key => `
-                 <div class="card p-8 hover:ring-2 hover:ring-blue-500/20 group cursor-pointer" onclick="switchTab('${key}')">
-                    <div class="flex items-center gap-6">
-                       <div class="w-16 h-16 rounded-3xl bg-slate-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
-                          <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'stethoscope'}" class="w-8 h-8 text-slate-400 group-hover:text-white"></i>
+                 <div class="card p-6 hover:bg-slate-50/50 group cursor-pointer" onclick="switchTab('${key}')">
+                    <div class="flex items-center gap-4">
+                       <div class="w-10 h-10 rounded-md bg-slate-100 flex items-center justify-center group-hover:bg-slate-900 group-hover:text-white transition-colors duration-200">
+                          <i data-lucide="${key === 'timona' ? 'graduation-cap' : 'stethoscope'}" class="w-5 h-5"></i>
                        </div>
                        <div class="flex-1">
-                          <h4 class="text-xl font-black text-slate-900">${DATA_V3[key].name}</h4>
-                          <p class="text-xs font-medium text-slate-500 mt-1 leading-relaxed">${DATA_V3[key].focus}</p>
+                          <h4 class="text-sm font-bold text-slate-900">${DATA_V3[key].name}</h4>
+                          <p class="text-[10px] text-slate-500 mt-0.5 leading-relaxed truncate">${DATA_V3[key].focus}</p>
                        </div>
                        <div class="text-right">
-                          <p class="text-lg font-black text-slate-900">${DATA_V3[key].target.traffic}</p>
-                          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sessions</p>
+                          <p class="text-sm font-bold text-slate-900">${DATA_V3[key].target.traffic}</p>
+                          <p class="text-[9px] font-medium text-slate-400 uppercase">Sessions</p>
                        </div>
                     </div>
                  </div>
@@ -360,53 +388,53 @@
 
     function renderRoadmap() {
       return `
-        <div class="space-y-12 animate-fade-in">
-           <div class="card p-10 bg-white shadow-xl ring-1 ring-slate-200">
-              <h3 class="text-sm font-black uppercase tracking-widest text-slate-900 mb-8 flex items-center gap-2">
-                 <i data-lucide="calendar" class="w-5 h-5 text-blue-600"></i> Giai đoạn 1: Thiết lập & Chuẩn hóa (Q1 2026)
+        <div class="space-y-8 animate-fade-in">
+           <div class="card p-8 bg-white">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
+                 <i data-lucide="calendar" class="w-4 h-4 text-slate-900"></i> Giai đoạn 1: Thiết lập & Chuẩn hóa (Q1 2026)
               </h3>
               <div class="mermaid">
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
-    title  Tiến độ Phối hợp SEO & Tech Q1 2026
+    title  Lộ trình Phối hợp SEO & Tech 2026
     
-    section Tổng quan
+    section Phối hợp
     ${GANTT_V3_DATA.slice(1).map(row => `${row[0]} | ${row[1]} : active, ${row[3]}, ${row[4]}`).join('\n    ')}
               </div>
            </div>
 
-           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div class="card p-8 bg-blue-600 text-white border-none">
-                 <h4 class="text-lg font-black mb-4">Mục tiêu Chiến lược SEO</h4>
-                 <ul class="space-y-3 opacity-90">
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-blue-200"></i>
+           <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div class="card p-6 border-l-4 border-l-slate-900">
+                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">Mục tiêu Chiến lược SEO</h4>
+                 <ul class="space-y-3">
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="check" class="w-4 h-4 mt-0.5 text-slate-900"></i>
                        Xây dựng Thực thể học thuật (Entity) với các Bệnh viện/ĐH Y.
                     </li>
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-blue-200"></i>
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="check" class="w-4 h-4 mt-0.5 text-slate-900"></i>
                        Thống trị AI Search Top 1 cho các câu hỏi về 'Học nghề Spa' & 'Peel da'.
                     </li>
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="check-circle-2" class="w-4 h-4 mt-0.5 text-blue-200"></i>
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="check" class="w-4 h-4 mt-0.5 text-slate-900"></i>
                        Chuyển đổi hoàn toàn nội dung sang chuẩn Y khoa bảo chứng bởi Bác sĩ.
                     </li>
                  </ul>
               </div>
-              <div class="card p-8 bg-slate-900 text-white border-none">
-                 <h4 class="text-lg font-black mb-4">Mục tiêu Kỹ thuật (Chí Kiệt)</h4>
-                 <ul class="space-y-3 opacity-90">
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="cpu" class="w-4 h-4 mt-0.5 text-slate-400"></i>
+              <div class="card p-6 border-l-4 border-l-slate-300">
+                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">Mục tiêu Kỹ thuật (Chí Kiệt)</h4>
+                 <ul class="space-y-3">
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="chevron-right" class="w-4 h-4 mt-0.5 text-slate-400"></i>
                        Hoàn tất Migration WordPress -> Next.js 14 (App Router).
                     </li>
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="cpu" class="w-4 h-4 mt-0.5 text-slate-400"></i>
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="chevron-right" class="w-4 h-4 mt-0.5 text-slate-400"></i>
                        Đạt điểm Core Web Vitals tối đa (LCP < 1.0s, CLS = 0).
                     </li>
-                    <li class="flex items-start gap-2 text-sm">
-                       <i data-lucide="cpu" class="w-4 h-4 mt-0.5 text-slate-400"></i>
+                    <li class="flex items-start gap-2.5 text-sm text-slate-600">
+                       <i data-lucide="chevron-right" class="w-4 h-4 mt-0.5 text-slate-400"></i>
                        Tích hợp CRM thông minh hỗ trợ Lead Scoring tự động.
                     </li>
                  </ul>
@@ -419,55 +447,52 @@ gantt
     function renderSiteDetails(key) {
       const site = DATA_V3[key];
       return `
-        <div class="space-y-8 animate-fade-in">
+        <div class="space-y-6 animate-fade-in">
            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div class="card p-6 border-b-4 border-b-blue-600">
-                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Mục tiêu Traffic</p>
-                 <p class="text-2xl font-black text-slate-900 text-center mt-2">${site.target.traffic}</p>
-                 <p class="text-[9px] text-green-600 font-bold text-center mt-1">+${site.target.growth} Growth</p>
+              <div class="card p-5 space-y-2">
+                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mục tiêu Traffic</p>
+                 <p class="text-xl font-bold text-slate-900">${site.target.traffic}</p>
+                 <p class="text-[9px] text-green-600 font-medium">+${site.target.growth} Growth</p>
               </div>
-              <div class="card p-6 border-b-4 border-b-indigo-600">
-                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Mục tiêu Leads</p>
-                 <p class="text-2xl font-black text-indigo-600 text-center mt-2">${site.target.leads}</p>
-                 <p class="text-[9px] text-indigo-400 font-bold text-center mt-1">Hàng năm</p>
+              <div class="card p-5 space-y-2">
+                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Mục tiêu Leads</p>
+                 <p class="text-xl font-bold text-slate-900">${site.target.leads}</p>
+                 <p class="text-[9px] text-slate-400 font-medium">Hàng năm</p>
               </div>
-              <div class="card p-6 border-b-4 border-b-amber-500 bg-slate-900">
-                 <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest text-center">AI Visibility</p>
-                 <p class="text-2xl font-black text-amber-500 text-center mt-2">${site.target.aiVis}</p>
-                 <p class="text-[9px] text-slate-400 font-bold text-center mt-1">AEO Target</p>
+              <div class="card p-5 space-y-2 bg-slate-900 border-slate-900">
+                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AI Visibility</p>
+                 <p class="text-xl font-bold text-white">${site.target.aiVis}</p>
+                 <p class="text-[9px] text-slate-500 font-medium">AEO Target</p>
               </div>
-              <div class="card p-6 border-b-4 border-b-rose-500">
-                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">AI Leads</p>
-                 <p class="text-2xl font-black text-rose-500 text-center mt-2">${site.target.aiLead}</p>
-                 <p class="text-[9px] text-rose-300 font-bold text-center mt-1">Thế hệ mới</p>
+              <div class="card p-5 space-y-2">
+                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">AI Leads</p>
+                 <p class="text-xl font-bold text-slate-900">${site.target.aiLead}</p>
+                 <p class="text-[9px] text-slate-400 font-medium">Thế hệ mới</p>
               </div>
            </div>
 
-           <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div class="lg:col-span-2 space-y-8">
-                 <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 pl-4">Lộ trình Thực thi Chi tiết</h3>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="lg:col-span-2 space-y-6">
+                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Lộ trình Thực thi Chi tiết</h3>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${site.tasks.map((t, i) => `
-                       <div class="card p-8 space-y-6 relative overflow-hidden group">
-                          <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform">
-                             <i data-lucide="zap" class="w-16 h-16"></i>
-                          </div>
+                       <div class="card p-6 space-y-5 group">
                           <div class="flex items-center justify-between">
-                             <span class="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-900 rounded-lg uppercase tracking-tighter">${t.week}</span>
-                             <span class="text-[10px] font-bold text-slate-300">#0${i+1}</span>
+                             <span class="px-2 py-1 bg-slate-100 text-[9px] font-bold text-slate-900 rounded uppercase">${t.week}</span>
+                             <span class="text-[10px] font-medium text-slate-300">STAGE 0${i+1}</span>
                           </div>
                           <div class="space-y-4">
-                             <div>
-                                <p class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                   <i data-lucide="search" class="w-3 h-3"></i> Chiến lược SEO
+                             <div class="space-y-1">
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                   <span class="w-1 h-1 rounded-full bg-slate-900"></span> SEO Strategy
                                 </p>
-                                <p class="text-xs font-bold text-slate-800 leading-relaxed">${t.seo}</p>
+                                <p class="text-xs font-medium text-slate-700 leading-relaxed">${t.seo}</p>
                              </div>
-                             <div class="pt-4 border-t border-slate-50">
-                                <p class="text-[10px] font-black text-rose-600 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                   <i data-lucide="code" class="w-3 h-3"></i> Phối hợp Kỹ thuật
+                             <div class="space-y-1">
+                                <p class="text-[9px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                   <span class="w-1 h-1 rounded-full bg-slate-300"></span> Tech Sync
                                 </p>
-                                <p class="text-[11px] font-medium text-slate-600 leading-relaxed">${t.tech}</p>
+                                <p class="text-[11px] text-slate-500 leading-relaxed">${t.tech}</p>
                              </div>
                           </div>
                        </div>
@@ -475,35 +500,28 @@ gantt
                  </div>
               </div>
 
-              <div class="space-y-8">
-                 <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 pl-4">Thống kê 2026</h3>
-                 <div class="card p-8 h-80">
+              <div class="space-y-6">
+                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Thống kê 2026</h3>
+                 <div class="card p-6 h-64">
                     <canvas id="siteYearlyChart"></canvas>
                  </div>
-                 <div class="card p-8 bg-slate-900 text-white space-y-6 shadow-xl">
-                    <h4 class="text-xs font-black uppercase tracking-widest text-amber-400 flex items-center gap-2">
-                       <i data-lucide="shield-check" class="w-4 h-4"></i> Bảo chứng E-E-A-T 2026
+                 <div class="card p-6 bg-slate-900 border-slate-900 space-y-5">
+                    <h4 class="text-[10px] font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                       <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Bảo chứng E-E-A-T 2026
                     </h4>
                     <div class="space-y-4">
-                       <div class="flex items-center gap-4">
-                          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="users" class="w-5 h-5 text-blue-400"></i></div>
+                       <div class="flex items-center gap-3">
+                          <div class="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center"><i data-lucide="users" class="w-4 h-4 text-slate-400"></i></div>
                           <div>
-                             <p class="text-xs font-bold leading-none">Bác sĩ chuyên khoa</p>
-                             <p class="text-[9px] text-slate-400 mt-1 uppercase">Tham vấn & Ký duyệt nội dung</p>
+                             <p class="text-xs font-medium text-white">Bác sĩ chuyên khoa</p>
+                             <p class="text-[9px] text-slate-500 uppercase">Tham vấn nội dung</p>
                           </div>
                        </div>
-                       <div class="flex items-center gap-4">
-                          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="building-2" class="w-5 h-5 text-green-400"></i></div>
+                       <div class="flex items-center gap-3">
+                          <div class="w-8 h-8 rounded-md bg-white/5 flex items-center justify-center"><i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i></div>
                           <div>
-                             <p class="text-xs font-bold leading-none">Đối tác Y học</p>
-                             <p class="text-[9px] text-slate-400 mt-1 uppercase">Entity bảo chứng bởi ĐH/Bệnh viện</p>
-                          </div>
-                       </div>
-                       <div class="flex items-center gap-4">
-                          <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center"><i data-lucide="award" class="w-5 h-5 text-amber-400"></i></div>
-                          <div>
-                             <p class="text-xs font-bold leading-none">Trích dẫn Chuyên gia</p>
-                             <p class="text-[9px] text-slate-400 mt-1 uppercase">Tăng cường sự tin cậy với AI</p>
+                             <p class="text-xs font-medium text-white">Đối tác Y học</p>
+                             <p class="text-[9px] text-slate-500 uppercase">Bảo chứng Entity</p>
                           </div>
                        </div>
                     </div>
