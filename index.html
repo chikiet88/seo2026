@@ -41,7 +41,7 @@
     .nav-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; border-radius: var(--radius); font-size: 0.875rem; transition: all 0.2s; color: var(--muted-foreground); }
     .nav-btn:hover:not(.sidebar-item-active) { background-color: var(--secondary); color: var(--foreground); }
     
-    .mermaid { width: 100% !important; display: flex; justify-content: center; overflow: hidden; opacity: 0.9; }
+    .mermaid { width: auto !important; display: block; overflow: visible; opacity: 0.9; }
     .chart-container { position: relative; height: 300px; width: 100%; }
 
     /* Custom Scrollbar - Shadcn style */
@@ -207,7 +207,21 @@
         subEl.textContent = 'Kế hoạch Phối hợp SEO & Technical 2026';
         container.innerHTML = renderRoadmap();
         setTimeout(() => {
-          mermaid.initialize({ startOnLoad: false, theme: 'neutral', fontFamily: 'Outfit' });
+          mermaid.initialize({ 
+            startOnLoad: false, 
+            theme: 'neutral', 
+            fontFamily: 'Inter',
+            gantt: {
+              barHeight: 25,
+              barGap: 8,
+              topPadding: 40,
+              leftPadding: 150,
+              gridLineStartPadding: 10,
+              fontSize: 10,
+              sectionFontSize: 11,
+              useMaxWidth: false
+            }
+          });
           mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
         }, 100);
       } else {
@@ -372,18 +386,19 @@
     function renderRoadmap() {
       return `
         <div class="space-y-8 animate-fade-in">
-           <div class="card p-8 bg-white">
+           <div class="card p-8 bg-white overflow-hidden">
               <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
                  <i data-lucide="calendar" class="w-4 h-4 text-slate-900"></i> Giai đoạn 1: Thiết lập & Chuẩn hóa (Q1 2026)
               </h3>
-              <div class="mermaid">
+              <div class="overflow-x-auto pb-4">
+                <div class="mermaid" style="min-width: 1000px;">
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %d/%m
-    title  Lộ trình Phối hợp SEO & Tech 2026
     
     section Phối hợp
     ${GANTT_V3_DATA.slice(1).map(row => `${row[0]} | ${row[1]} : active, ${row[3]}, ${row[4]}`).join('\n    ')}
+                </div>
               </div>
            </div>
 
