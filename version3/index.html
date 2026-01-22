@@ -178,6 +178,7 @@
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     
     let activeCharts = [];
+    let selectedMonth = 1; // Mặc định tháng 1
 
     window.initDashboard = function() {
       lucide.createIcons();
@@ -231,6 +232,14 @@
         container.innerHTML = renderSiteDetails(tab);
         initSiteCharts(tab);
       }
+      if(window.lucide) lucide.createIcons();
+    }
+
+    window.switchMonth = function(tab, month) {
+      selectedMonth = parseInt(month);
+      const container = document.getElementById('main-container');
+      container.innerHTML = renderSiteDetails(tab);
+      initSiteCharts(tab);
       if(window.lucide) lucide.createIcons();
     }
 
@@ -469,32 +478,66 @@ gantt
               </div>
            </div>
 
+           <div class="space-y-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Chọn tháng xem kế hoạch</h3>
+              <div class="flex flex-wrap gap-2 overflow-x-auto pb-2">
+                 ${[1,2,3,4,5,6,7,8,9,10,11,12].map(m => `
+                    <button onclick="switchMonth('${key}', ${m})" 
+                            class="px-4 py-2 rounded-md text-xs font-bold transition-all border ${selectedMonth === m ? 'bg-slate-900 text-white border-slate-900 shadow-sm' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'}">
+                       Tháng ${m}
+                    </button>
+                 `).join('')}
+              </div>
+           </div>
+
            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div class="lg:col-span-2 space-y-6">
-                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Lộ trình Thực thi Chi tiết</h3>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    ${site.tasks.map((t, i) => `
-                       <div class="card p-6 space-y-5 group">
-                          <div class="flex items-center justify-between">
-                             <span class="px-2 py-1 bg-slate-100 text-[9px] font-bold text-slate-900 rounded uppercase">${t.week}</span>
-                             <span class="text-[10px] font-medium text-slate-300">STAGE 0${i+1}</span>
-                          </div>
-                          <div class="space-y-4">
-                             <div class="space-y-1">
-                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                                   <span class="w-1 h-1 rounded-full bg-slate-900"></span> SEO Strategy
-                                </p>
-                                <p class="text-xs font-medium text-slate-700 leading-relaxed">${t.seo}</p>
+                 <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">Công việc chi tiết Tháng ${selectedMonth}</h3>
+                 <div class="card p-8 space-y-8 animate-fade-in bg-white border-l-4 border-l-slate-900">
+                    ${(() => {
+                        const task = site.tasks.find(t => t.month === selectedMonth) || site.tasks[0];
+                        return `
+                          <div class="flex items-center justify-between border-b pb-4">
+                             <div>
+                                <h4 class="text-lg font-bold text-slate-900">${task.title}</h4>
+                                <p class="text-[10px] text-slate-500 font-medium uppercase tracking-widest mt-1">Focus Giai đoạn: STAGE 0${selectedMonth}</p>
                              </div>
-                             <div class="space-y-1">
-                                <p class="text-[9px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                                   <span class="w-1 h-1 rounded-full bg-slate-300"></span> Tech Sync
-                                </p>
-                                <p class="text-[11px] text-slate-500 leading-relaxed">${t.tech}</p>
+                             <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100 italic font-black text-slate-400">
+                                M${selectedMonth}
                              </div>
                           </div>
-                       </div>
-                    `).join('')}
+                          
+                          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                             <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                   <div class="w-8 h-8 rounded-md bg-blue-50 flex items-center justify-center"><i data-lucide="search" class="w-4 h-4 text-blue-600"></i></div>
+                                   <p class="text-[10px] font-bold text-slate-900 uppercase tracking-widest">Chiến lược SEO</p>
+                                </div>
+                                <div class="bg-blue-50/30 p-4 rounded-md border border-blue-100/50">
+                                   <p class="text-sm font-medium text-slate-700 leading-relaxed">${task.seo}</p>
+                                </div>
+                             </div>
+
+                             <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                   <div class="w-8 h-8 rounded-md bg-rose-50 flex items-center justify-center"><i data-lucide="code" class="w-4 h-4 text-rose-600"></i></div>
+                                   <p class="text-[10px] font-bold text-slate-900 uppercase tracking-widest">Phối hợp Kỹ thuật</p>
+                                </div>
+                                <div class="bg-rose-50/30 p-4 rounded-md border border-rose-100/50">
+                                   <p class="text-sm font-medium text-slate-700 leading-relaxed">${task.tech}</p>
+                                </div>
+                             </div>
+                          </div>
+                          
+                          <div class="pt-6 border-t flex items-center justify-between">
+                             <div class="flex -space-x-2">
+                                <div class="w-8 h-8 rounded-full border-2 border-white bg-blue-500 flex items-center justify-center text-[8px] text-white font-bold" title="Phương Linh">PL</div>
+                                <div class="w-8 h-8 rounded-full border-2 border-white bg-slate-900 flex items-center justify-center text-[8px] text-white font-bold" title="Chí Kiệt">CK</div>
+                             </div>
+                             <p class="text-[10px] text-slate-400 font-medium italic">Tiến độ dự kiến: 100% hoàn thành trong tháng ${selectedMonth}</p>
+                          </div>
+                        `;
+                    })()}
                  </div>
               </div>
 
