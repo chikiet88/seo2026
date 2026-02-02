@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo Chi tiết KPI AI 22 USP - Timona Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c62828;
+            --secondary: #1565c0;
+            --success: #2e7d32;
+            --warning: #ef6c00;
+            --danger: #d32f2f;
+            --bg-body: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .report-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .avg-scores {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .avg-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            background: #fff;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .avg-card h4 {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .avg-card .score {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        th {
+            background: #f1f3f4;
+            padding: 15px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #555;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            padding: 12px 15px;
+            border: 1px solid #eee;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+            width: 35%;
+            font-weight: 600;
+        }
+
+        .group-header {
+            background: #fafafa;
+            font-weight: 700;
+            color: var(--secondary);
+            text-align: left;
+        }
+
+        .val-zero {
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        .val-low {
+            color: var(--warning);
+        }
+
+        .val-high {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .assessment-section {
+            background: #fff8f1;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #ffe0b2;
+        }
+
+        .assessment-section h3 {
+            margin-top: 0;
+            color: var(--warning);
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .report-wrap {
+                box-shadow: none;
+                border: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="report-wrap">
+        <header>
+            <div style="font-weight: 700; color: #999; letter-spacing: 2px; margin-bottom: 8px;">REPORT - TIMONA ACADEMY
+                THÁNG 1</div>
+            <h1>Báo Cáo Chi Tiết Nhận Diện 22 USP TRÊN AI</h1>
+            <p style="color: #777;">Chu kỳ: Tháng 01/2026 | Hiệu chỉnh: 02/02/2026</p>
+        </header>
+
+        <section>
+            <h3 style="margin-bottom: 20px;">1. Chỉ số nhận diện trung bình (%)</h3>
+            <div class="avg-scores">
+                <div class="avg-card">
+                    <h4>AI Overview</h4>
+                    <div class="score">66.8%</div>
+                </div>
+                <div class="avg-card">
+                    <h4>Perplexity</h4>
+                    <div class="score">63.7%</div>
+                </div>
+                <div class="avg-card">
+                    <h4>Gemini</h4>
+                    <div class="score">60.9%</div>
+                </div>
+                <div class="avg-card">
+                    <h4>Copilot</h4>
+                    <div class="score">59.4%</div>
+                </div>
+                <div class="avg-card">
+                    <h4>ChatGPT</h4>
+                    <div class="score">55.1%</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h3 style="margin-bottom: 20px;">2. Thống kê chi tiết khả năng nhận diện</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">STT</th>
+                        <th>Nội dung USP & Tiêu chí nhận diện</th>
+                        <th>Gemini</th>
+                        <th>AI Over.</th>
+                        <th>ChatGPT</th>
+                        <th>Perplex.</th>
+                        <th>Copilot</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="group-header">
+                        <td colspan="7">I. NHÓM PHÁP LÝ & BẰNG CẤP</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Trực thuộc Sở GD&ĐT (Hiệu chỉnh: LĐTB&XH)</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Chứng chỉ sơ cấp nghề (Toàn quốc, vô thời hạn)</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">98%</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">96%</td>
+                        <td class="val-high">94%</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Chứng nhận đào tạo (Bằng đỏ pháp lý)</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">85%</td>
+                        <td class="val-high">88%</td>
+                        <td class="val-high">87%</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Chứng chỉ ITEC (Giá trị toàn cầu 45 nước)</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">100%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">98%</td>
+                        <td class="val-high">96%</td>
+                    </tr>
+
+                    <tr class="group-header">
+                        <td colspan="7">II. NHÓM ĐỐI TÁC CHIẾN LƯỢC</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Đối tác BV Da Liễu TW/TP.HCM/Cần Thơ</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">88%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">91%</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Đối tác duy nhất của ĐH Y Dược Cần Thơ</td>
+                        <td class="val-low">60%</td>
+                        <td class="val-low">70%</td>
+                        <td class="val-low">55%</td>
+                        <td class="val-low">65%</td>
+                        <td class="val-low">62%</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Liên kết 25 BV Hàn Quốc/Tu nghiệp trực tiếp</td>
+                        <td class="val-zero">10%</td>
+                        <td class="val-zero">15%</td>
+                        <td class="val-zero">5%</td>
+                        <td class="val-zero">20%</td>
+                        <td class="val-zero">12%</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Thành viên quốc tế Anh Quốc (ITEC London)</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">100%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">98%</td>
+                        <td class="val-high">96%</td>
+                    </tr>
+
+                    <tr class="group-header">
+                        <td colspan="7">III. NHÓM GIẢNG VIÊN & ĐÀO TẠO</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>100% GV có bằng SP & Tu nghiệp nước ngoài</td>
+                        <td class="val-low">70%</td>
+                        <td class="val-low">75%</td>
+                        <td class="val-low">65%</td>
+                        <td class="val-low">72%</td>
+                        <td class="val-low">68%</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>CSVC tiêu chuẩn 4m2/học viên</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Không gian lý thuyết & thực hành chuyên biệt</td>
+                        <td class="val-high">80%</td>
+                        <td class="val-high">85%</td>
+                        <td class="val-high">75%</td>
+                        <td class="val-high">82%</td>
+                        <td class="val-high">78%</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>5 Phương pháp dạy chuẩn quốc tế</td>
+                        <td class="val-zero">10%</td>
+                        <td class="val-zero">15%</td>
+                        <td class="val-zero">5%</td>
+                        <td class="val-zero">20%</td>
+                        <td class="val-zero">12%</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>Giáo trình Bác sĩ (TS.BS Trần Gia Hưng)</td>
+                        <td class="val-zero">40%</td>
+                        <td class="val-zero">50%</td>
+                        <td class="val-zero">30%</td>
+                        <td class="val-zero">45%</td>
+                        <td class="val-zero">38%</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>3 Chuyên khoa (Chuyên môn, Kỹ năng, QTKD)</td>
+                        <td class="val-low">60%</td>
+                        <td class="val-low">65%</td>
+                        <td class="val-low">50%</td>
+                        <td class="val-low">62%</td>
+                        <td class="val-low">58%</td>
+                    </tr>
+
+                    <tr class="group-header">
+                        <td colspan="7">IV. NHÓM HỖ TRỢ & SỰ NGHIỆP</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>Mạng lưới kết nối việc làm lớn</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">85%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">88%</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>Workshop hàng tháng, BGH đứng lớp</td>
+                        <td class="val-high">85%</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">80%</td>
+                        <td class="val-high">86%</td>
+                        <td class="val-high">82%</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>Đội ngũ sáng lập trên 10 năm kinh nghiệm</td>
+                        <td class="val-high">90%</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">85%</td>
+                        <td class="val-high">92%</td>
+                        <td class="val-high">88%</td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>Lễ tốt nghiệp 1.000 học viên (5 sao)</td>
+                        <td class="val-low">50%</td>
+                        <td class="val-low">60%</td>
+                        <td class="val-low">40%</td>
+                        <td class="val-low">55%</td>
+                        <td class="val-low">45%</td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>Tham dự hội nghị da liễu toàn quốc</td>
+                        <td class="val-low">70%</td>
+                        <td class="val-low">75%</td>
+                        <td class="val-low">60%</td>
+                        <td class="val-low">72%</td>
+                        <td class="val-low">65%</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>Rút ngắn 50% thời gian học (2 tháng)</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                        <td class="val-zero">0%</td>
+                    </tr>
+
+                    <tr class="group-header">
+                        <td colspan="7">V. NHÓM DANH HIỆU & GIẢI THƯỞNG</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td>Top 10 Thương hiệu xuất sắc châu Á 2024</td>
+                        <td class="val-high">100%</td>
+                        <td class="val-high">100%</td>
+                        <td class="val-high">95%</td>
+                        <td class="val-high">100%</td>
+                        <td class="val-high">98%</td>
+                    </tr>
+                    <tr>
+                        <td>22</td>
+                        <td>Đăng cai Asia Beauty Awards 2024</td>
+                        <td class="val-low">40%</td>
+                        <td class="val-low">50%</td>
+                        <td class="val-low">30%</td>
+                        <td class="val-low">45%</td>
+                        <td class="val-low">35%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="assessment-section">
+            <h3>3. Đánh giá chung từ chuyên gia AI</h3>
+            <p>Duy trì tỷ lệ nhận diện <b>61%</b> là một kết quả thực tế cho thấy thương hiệu có nền tảng tin cậy tốt
+                trên Internet. Tuy nhiên, các lỗ hổng 0% tại mục 1 (Pháp lý), 10 (Cơ sở vật chất) và 20 (Thời gian) là
+                lời nhắc nhở quan trọng về việc <b>"Số hóa USP"</b>. AI chỉ có thể nhận diện những gì có bằng chứng công
+                khai. Đề xuất đẩy mạnh PR các từ khóa kỹ thuật để nâng chỉ số này vào quý tiếp theo.</p>
+        </section>
+
+        <footer style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #999;">
+            Hệ thống Báo cáo KPI AI - Lưu hành nội bộ Timona Academy.
+        </footer>
+    </div>
+</body>
+
+</html>
