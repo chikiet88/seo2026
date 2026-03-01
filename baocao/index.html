@@ -75,7 +75,7 @@
             <div class="max-w-6xl mx-auto">
                 <header class="mb-8 flex items-center justify-between animate-fade-in">
                     <div>
-                        <h1 id="month-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Tháng 01 / 2026</h1>
+                        <h1 id="month-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Tháng 02 / 2026</h1>
                         <p class="text-sm text-slate-500 mt-1">Chi tiết hiệu suất nhận diện USP từ các lõi AI phổ biến.</p>
                     </div>
                     <div class="flex items-center gap-3">
@@ -90,7 +90,7 @@
 
                 <!-- Report Container -->
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[800px] flex flex-col">
-                    <iframe id="report-frame" src="baocaothang1.html" class="w-full flex-1 border-none" style="min-height: 800px;"></iframe>
+                    <iframe id="report-frame" src="baocaothang2.html" class="w-full flex-1 border-none" style="min-height: 800px;"></iframe>
                 </div>
             </div>
         </main>
@@ -99,7 +99,7 @@
     <script>
         const months = [
             { id: 1, name: "Tháng 1", file: "baocaothang1.html", active: true },
-            { id: 2, name: "Tháng 2", file: "#", active: false },
+            { id: 2, name: "Tháng 2", file: "baocaothang2.html", active: true },
             { id: 3, name: "Tháng 3", file: "#", active: false },
             { id: 4, name: "Tháng 4", file: "#", active: false },
             { id: 5, name: "Tháng 5", file: "#", active: false },
@@ -112,7 +112,7 @@
             { id: 12, name: "Tháng 12", file: "#", active: false }
         ];
 
-        let currentMonth = 1;
+        let currentMonth = 2;
 
         function loadMonths() {
             const list = document.getElementById('month-list');
