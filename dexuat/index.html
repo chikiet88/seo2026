@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Báo cáo Cuộc họp SEO & AI 2026</title>
+    <title>Hệ thống Đề xuất Chiến lược SEO & AI 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -29,18 +29,18 @@
             <div class="p-6 border-b border-slate-100">
                 <div class="flex items-center gap-2 mb-2">
                     <div class="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
-                        <i data-lucide="users" class="w-5 h-5 text-white"></i>
+                        <i data-lucide="lightbulb" class="w-5 h-5 text-white"></i>
                     </div>
-                    <span class="font-bold text-sm tracking-tight text-zinc-900">CUỘC HỌP REVIEW</span>
+                    <span class="font-bold text-sm tracking-tight text-zinc-900">ĐỀ XUẤT CHIẾN LƯỢC</span>
                 </div>
                 <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">TazaGroup 2026</p>
             </div>
 
             <nav class="flex-1 p-4 space-y-8 overflow-y-auto">
                 <div>
-                    <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Các buổi họp</p>
-                    <div id="meeting-list" class="space-y-1">
-                        <!-- JS handles meetings -->
+                    <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Các đề xuất</p>
+                    <div id="proposal-list" class="space-y-1">
+                        <!-- JS handles proposals -->
                     </div>
                 </div>
 
@@ -55,9 +55,9 @@
                             <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
                             Báo cáo KPI
                         </a>
-                        <a href="../dexuat/index.html" class="flex items-center gap-3 px-3 py-2 text-xs font-medium text-slate-600 rounded-md sidebar-item">
-                            <i data-lucide="lightbulb" class="w-4 h-4"></i>
-                            Đề Xuất Chiến Lược
+                        <a href="../cuochop/index.html" class="flex items-center gap-3 px-3 py-2 text-xs font-medium text-slate-600 rounded-md sidebar-item">
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            Cuộc Họp (Reviews)
                         </a>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
             <div class="max-w-6xl mx-auto">
                 <header class="mb-8 flex items-center justify-between animate-fade-in">
                     <div>
-                        <h1 id="meeting-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Review Meeting</h1>
-                        <p class="text-sm text-slate-500 mt-1">Nội dung chi tiết các buổi họp chiến lược SEO & AI.</p>
+                        <h1 id="proposal-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Đề xuất Tối ưu</h1>
+                        <p class="text-sm text-slate-500 mt-1">Nội dung chi tiết các đề xuất tối ưu kỹ thuật và hạ tầng.</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <button onclick="refreshReport()" class="h-9 px-4 rounded-md border border-slate-200 bg-white text-xs font-semibold text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-2">
@@ -92,7 +92,7 @@
                     </div>
                 </header>
 
-                <!-- Meeting Container -->
+                <!-- Report Container -->
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[800px] flex flex-col">
                     <iframe id="report-frame" src="" class="w-full flex-1 border-none" style="min-height: 800px;"></iframe>
                 </div>
@@ -101,34 +101,34 @@
     </div>
 
     <script>
-        const meetings = [
-            { id: 1, name: "Họp 03/03/2026", file: "../reviews/hop03032026.html", active: true },
-            // Thêm file họp mới tại đây: { id: 2, name: "Họp dd/mm/yyyy", file: "../reviews/file.html", active: true },
+        const proposals = [
+            { id: 1, name: "Tối ưu 5 website (Focus)", file: "he_thong_website_2026.html", active: true },
+            // Thêm đề xuất mới tại đây: { id: 2, name: "Đề xuất ABCD", file: "file_moi.html", active: true },
         ];
 
-        let currentMeeting = 1;
+        let currentProposal = 1;
 
-        function loadMeetings() {
-            const list = document.getElementById('meeting-list');
-            list.innerHTML = meetings.map(m => `
-                <button onclick="${m.active ? `selectMeeting(${m.id})` : ''}" 
-                        class="w-full flex items-center justify-between gap-3 px-3 py-2 text-xs font-medium rounded-md sidebar-item ${currentMeeting === m.id ? 'sidebar-item-active' : 'text-slate-500'} ${!m.active ? 'opacity-40 cursor-not-allowed' : ''}">
+        function loadProposals() {
+            const list = document.getElementById('proposal-list');
+            list.innerHTML = proposals.map(p => `
+                <button onclick="${p.active ? `selectProposal(${p.id})` : ''}" 
+                        class="w-full flex items-center justify-between gap-3 px-3 py-2 text-xs font-medium rounded-md sidebar-item ${currentProposal === p.id ? 'sidebar-item-active' : 'text-slate-500'} ${!p.active ? 'opacity-40 cursor-not-allowed' : ''}">
                     <div class="flex items-center gap-3">
-                        <i data-lucide="calendar" class="w-4 h-4"></i>
-                        ${m.name}
+                        <i data-lucide="file-check" class="w-4 h-4"></i>
+                        ${p.name}
                     </div>
-                    ${m.active ? '<div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>' : ''}
+                    ${p.active ? '<div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>' : ''}
                 </button>
             `).join('');
             lucide.createIcons();
         }
 
-        function selectMeeting(id) {
-            currentMeeting = id;
-            const meeting = meetings.find(m => m.id === id);
-            document.getElementById('report-frame').src = meeting.file;
-            document.getElementById('meeting-header').innerText = meeting.name;
-            loadMeetings();
+        function selectProposal(id) {
+            currentProposal = id;
+            const proposal = proposals.find(p => p.id === id);
+            document.getElementById('report-frame').src = proposal.file;
+            document.getElementById('proposal-header').innerText = proposal.name;
+            loadProposals();
         }
 
         function refreshReport() {
@@ -137,9 +137,9 @@
         }
 
         window.onload = () => {
-            loadMeetings();
-            if (meetings.length > 0) {
-                selectMeeting(meetings[0].id);
+            loadProposals();
+            if (proposals.length > 0) {
+                selectProposal(proposals[0].id);
             }
             lucide.createIcons();
         };

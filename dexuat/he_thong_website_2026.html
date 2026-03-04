@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề xuất Tối ưu Hệ thống Website 2026 (Focus)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #3b82f6;
+            --text-dark: #1e293b;
+            --text-gray: #64748b;
+            --bg: #f8fafc;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.7;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; color: var(--primary); }
+        header { border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 40px; }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .intro { font-size: 1.1rem; color: var(--text-gray); font-style: italic; }
+        
+        .section { background: white; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        h2 { font-size: 1.5rem; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        h3 { font-size: 1.2rem; margin-top: 25px; margin-bottom: 15px; color: var(--accent); }
+        
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        strong { color: var(--primary); }
+        
+        .badge { background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="badge">Chiến lược 2026</span>
+        <h1>Đề xuất Tối ưu Hệ thống Website 2026 (Focus)</h1>
+        <p class="intro">Tài liệu này tập trung vào 3 trụ cột cốt lõi trong chiến lược chuyển đổi hệ thống website từ WordPress sang hệ sinh thái Next.js (Self-hosted), nhằm giải quyết triệt để các hạn chế hiện tại và tối ưu hóa hiệu quả kinh doanh.</p>
+    </header>
+
+    <div class="section">
+        <h2>I. Hiện trạng & Thách thức</h2>
+        <p>Hệ thống hiện tại gồm 05 website (Taza Group, Timona, Taza Skin Clinic, Elasome, HDerma) đang vận hành trên WordPress/PHP:</p>
+        <ul>
+            <li><strong>Tốc độ & SEO:</strong> Khó tối ưu Core Web Vitals, mã nguồn dư thừa lớn.</li>
+            <li><strong>Dữ liệu Leads:</strong> Phụ thuộc hoàn toàn vào Google Sheets, độ trễ cao, thiếu hệ thống thông báo tức thời.</li>
+            <li><strong>Chi phí:</strong> Duy trì hosting/VPS riêng lẻ cho từng site tốn kém và khó quản lý tập trung.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>II. 3 Trụ cột Chuyển đổi Chiến lược</h2>
+        
+        <h3>1. Công nghệ Hiện đại & Data Real-time</h3>
+        <p>Chuyển đổi sang stack công nghệ mạnh mẽ nhất hiện nay:</p>
+        <ul>
+            <li><strong>Next.js 15+ & React Server Components:</strong> Đảm bảo tốc độ tải trang gần như tức thì, tối ưu SEO tuyệt đối 100/100 điểm Lighthouse.</li>
+            <li><strong>Real-time Tracking:</strong> Theo dõi hành vi người dùng theo thời gian thực để cá nhân hóa trải nghiệm.</li>
+            <li><strong>Push Notification System:</strong> Tích hợp Firebase/Zalo/Telegram để thông báo lead mới ngay lập tức (dưới 1 giây) cho bộ phận Sales/CSKH.</li>
+            <li><strong>Bảo mật:</strong> Sử dụng Cloudflare Tunnel kết hợp Traefik để ẩn máy chủ khỏi Internet, loại bỏ hoàn toàn các cuộc tấn công Brute-force/DDoS thông thường.</li>
+        </ul>
+
+        <h3>2. Xử lý Dữ liệu & Đồng bộ Google Sheets</h3>
+        <p>Thay đổi quy trình xử lý leads từ "Thụ động" sang "Chủ động & Tin cậy":</p>
+        <ul>
+            <li><strong>Lưu trữ Nội bộ trước (Internal First):</strong> Dữ liệu lead được lưu ngay vào database PostgreSQL nội bộ để đảm bảo an toàn dữ liệu, không lo bị mất lead khi Google API gặp sự cố.</li>
+            <li><strong>Đồng bộ thông minh:</strong> Dữ liệu được sync sang Google Sheets một cách tự động và mượt mà để phục vụ báo cáo/backup.</li>
+            <li><strong>Dashboard tập trung:</strong> Hệ thống quản trị nội bộ cho phép phân loại, lọc và xuất dữ liệu lead theo từng nguồn (website) một cách linh hoạt.</li>
+        </ul>
+
+        <h3>3. Tối ưu Chi phí & Khả năng Mở rộng (Scalability)</h3>
+        <ul>
+            <li><strong>Tận dụng hạ tầng Self-host:</strong> Sử dụng server Workstation hiện có để vận hành toàn bộ 05 website và hơn thế nữa. Hành trình tiến tới "0 đồng" chi phí hosting hàng tháng.</li>
+            <li><strong>Kiến trúc Cell-based:</strong> Mỗi website là một "Cell" độc lập nhưng dùng chung một bộ lõi (Core Code). Việc ra mắt website thứ 6, thứ 7... chỉ mất 30 phút cấu hình thay vì phải cài đặt mới từ đầu.</li>
+            <li><strong>Quản trị tập trung:</strong> Cập nhật tính năng mới cho 10 website chỉ bằng một lệnh duy nhất, tiết kiệm tối đa nguồn lực nhân sự kỹ thuật.</li>
+        </ul>
+    </div>
+
+    <footer style="margin-top: 50px; text-align: center; color: var(--text-gray); font-size: 0.9rem; padding-bottom: 20px;">
+        &copy; 2026 Taza Group Technical Strategy
+    </footer>
+</body>
+</html>
