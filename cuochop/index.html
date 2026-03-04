@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Báo cáo KPI SEO & AI 2026</title>
+    <title>Hệ thống Báo cáo Cuộc họp SEO & AI 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,22 +25,22 @@
 <body class="bg-[#fafafa]">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 border-r border-slate-200 bg-white flex flex-col fixed h-full shadow-sm">
+        <aside class="w-72 border-r border-slate-200 bg-white flex flex-col fixed h-full shadow-sm">
             <div class="p-6 border-b border-slate-100">
                 <div class="flex items-center gap-2 mb-2">
                     <div class="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
-                        <i data-lucide="bar-chart-3" class="w-5 h-5 text-white"></i>
+                        <i data-lucide="users" class="w-5 h-5 text-white"></i>
                     </div>
-                    <span class="font-bold text-sm tracking-tight text-zinc-900">KPI AI REPORT</span>
+                    <span class="font-bold text-sm tracking-tight text-zinc-900">CUỘC HỌP REVIEW</span>
                 </div>
                 <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">TazaGroup 2026</p>
             </div>
 
             <nav class="flex-1 p-4 space-y-8 overflow-y-auto">
                 <div>
-                    <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Các tháng báo cáo</p>
-                    <div id="month-list" class="space-y-1">
-                        <!-- JS handles months -->
+                    <p class="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Các buổi họp</p>
+                    <div id="meeting-list" class="space-y-1">
+                        <!-- JS handles meetings -->
                     </div>
                 </div>
 
@@ -51,13 +51,9 @@
                             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
                             Quay lại Dashboard
                         </a>
-                        <a href="../cuochop/index.html" class="flex items-center gap-3 px-3 py-2 text-xs font-medium text-slate-600 rounded-md sidebar-item">
-                            <i data-lucide="users" class="w-4 h-4"></i>
-                            Cuộc Họp (Reviews)
-                        </a>
-                        <a href="https://docs.google.com/spreadsheets/d/1PJEYCoD8DIGaJSihAt4Yqrp_V7RZa3xqaFAkNDaSBnA/edit?gid=2031045761#gid=2031045761" target="_blank" class="flex items-center gap-3 px-3 py-2 text-xs font-medium text-slate-600 rounded-md sidebar-item">
-                            <i data-lucide="external-link" class="w-4 h-4"></i>
-                            Dữ liệu gốc
+                        <a href="../baocao/index.html" class="flex items-center gap-3 px-3 py-2 text-xs font-medium text-slate-600 rounded-md sidebar-item">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                            Báo cáo KPI
                         </a>
                     </div>
                 </div>
@@ -75,12 +71,12 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 ml-64 p-8">
+        <main class="flex-1 ml-72 p-8">
             <div class="max-w-6xl mx-auto">
                 <header class="mb-8 flex items-center justify-between animate-fade-in">
                     <div>
-                        <h1 id="month-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Tháng 02 / 2026</h1>
-                        <p class="text-sm text-slate-500 mt-1">Chi tiết hiệu suất nhận diện USP từ các lõi AI phổ biến.</p>
+                        <h1 id="meeting-header" class="text-2xl font-extrabold text-zinc-900 tracking-tight">Review Meeting</h1>
+                        <p class="text-sm text-slate-500 mt-1">Nội dung chi tiết các buổi họp chiến lược SEO & AI.</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <button onclick="refreshReport()" class="h-9 px-4 rounded-md border border-slate-200 bg-white text-xs font-semibold text-slate-900 hover:bg-slate-50 transition-colors flex items-center gap-2">
@@ -92,37 +88,27 @@
                     </div>
                 </header>
 
-                <!-- Report Container -->
+                <!-- Meeting Container -->
                 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden min-h-[800px] flex flex-col">
-                    <iframe id="report-frame" src="baocaothang2.html" class="w-full flex-1 border-none" style="min-height: 800px;"></iframe>
+                    <iframe id="report-frame" src="" class="w-full flex-1 border-none" style="min-height: 800px;"></iframe>
                 </div>
             </div>
         </main>
     </div>
 
     <script>
-        const months = [
-            { id: 1, name: "Tháng 1", file: "baocaothang1.html", active: true },
-            { id: 2, name: "Tháng 2", file: "baocaothang2.html", active: true },
-            { id: 3, name: "Tháng 3", file: "#", active: false },
-            { id: 4, name: "Tháng 4", file: "#", active: false },
-            { id: 5, name: "Tháng 5", file: "#", active: false },
-            { id: 6, name: "Tháng 6", file: "#", active: false },
-            { id: 7, name: "Tháng 7", file: "#", active: false },
-            { id: 8, name: "Tháng 8", file: "#", active: false },
-            { id: 9, name: "Tháng 9", file: "#", active: false },
-            { id: 10, name: "Tháng 10", file: "#", active: false },
-            { id: 11, name: "Tháng 11", file: "#", active: false },
-            { id: 12, name: "Tháng 12", file: "#", active: false }
+        const meetings = [
+            { id: 1, name: "Họp 03/03/2026", file: "../reviews/hop03032026.html", active: true },
+            // Thêm file họp mới tại đây: { id: 2, name: "Họp dd/mm/yyyy", file: "../reviews/file.html", active: true },
         ];
 
-        let currentMonth = 2;
+        let currentMeeting = 1;
 
-        function loadMonths() {
-            const list = document.getElementById('month-list');
-            list.innerHTML = months.map(m => `
-                <button onclick="${m.active ? `selectMonth(${m.id})` : ''}" 
-                        class="w-full flex items-center justify-between gap-3 px-3 py-2 text-xs font-medium rounded-md sidebar-item ${currentMonth === m.id ? 'sidebar-item-active' : 'text-slate-500'} ${!m.active ? 'opacity-40 cursor-not-allowed' : ''}">
+        function loadMeetings() {
+            const list = document.getElementById('meeting-list');
+            list.innerHTML = meetings.map(m => `
+                <button onclick="${m.active ? `selectMeeting(${m.id})` : ''}" 
+                        class="w-full flex items-center justify-between gap-3 px-3 py-2 text-xs font-medium rounded-md sidebar-item ${currentMeeting === m.id ? 'sidebar-item-active' : 'text-slate-500'} ${!m.active ? 'opacity-40 cursor-not-allowed' : ''}">
                     <div class="flex items-center gap-3">
                         <i data-lucide="calendar" class="w-4 h-4"></i>
                         ${m.name}
@@ -133,12 +119,12 @@
             lucide.createIcons();
         }
 
-        function selectMonth(id) {
-            currentMonth = id;
-            const month = months.find(m => m.id === id);
-            document.getElementById('report-frame').src = month.file;
-            document.getElementById('month-header').innerText = `${month.name} / 2026`;
-            loadMonths();
+        function selectMeeting(id) {
+            currentMeeting = id;
+            const meeting = meetings.find(m => m.id === id);
+            document.getElementById('report-frame').src = meeting.file;
+            document.getElementById('meeting-header').innerText = meeting.name;
+            loadMeetings();
         }
 
         function refreshReport() {
@@ -147,7 +133,10 @@
         }
 
         window.onload = () => {
-            loadMonths();
+            loadMeetings();
+            if (meetings.length > 0) {
+                selectMeeting(meetings[0].id);
+            }
             lucide.createIcons();
         };
     </script>
