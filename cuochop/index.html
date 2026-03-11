@@ -102,11 +102,12 @@
 
     <script>
         const meetings = [
+            { id: 2, name: "Họp 11/03/2026", file: "hop-11-03-2026.html", active: true },
             { id: 1, name: "Họp 03/03/2026", file: "../reviews/hop03032026.html", active: true },
             // Thêm file họp mới tại đây: { id: 2, name: "Họp dd/mm/yyyy", file: "../reviews/file.html", active: true },
         ];
 
-        let currentMeeting = 1;
+        let currentMeeting = 2;
 
         function loadMeetings() {
             const list = document.getElementById('meeting-list');
