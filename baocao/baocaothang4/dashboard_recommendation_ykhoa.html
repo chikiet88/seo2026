@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Theo Dõi Đề Xuất AI - Điều Trị Y Khoa (Tháng 4)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00695c; /* Teal for Medical */
+            --secondary: #1a237e;
+            --bg: #f0f4f8;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --border: #cfd8dc;
+            --rank1: #26a69a;
+            --rank2-3: #80cbc4;
+            --rank4-5: #b2dfdb;
+            --mentioned: #e0f2f1;
+            --none: #f1f2f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 30px; }
+        
+        .container { max-width: 1200px; margin: 0 auto; background: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        
+        header { border-bottom: 2px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { color: var(--primary); font-size: 24px; margin-bottom: 8px; }
+        p.subtitle { color: #636e72; font-size: 14px; }
+
+        .scoring-key {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .key-item { display: flex; align-items: center; font-size: 13px; font-weight: 500; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 13px; }
+        th { background: #f8f9fa; text-align: left; padding: 15px 12px; border-bottom: 2px solid var(--border); color: var(--primary); font-weight: 700; text-transform: uppercase; }
+        td { padding: 12px; border-bottom: 1px solid #f1f2f6; vertical-align: middle; }
+        
+        .prompt-text { font-weight: 500; color: #2d3436; max-width: 250px; }
+        
+        .status-cell { text-align: center; font-weight: 700; border-radius: 4px; padding: 6px; }
+        .r1 { background: var(--rank1); color: white; }
+        .r2-3 { background: var(--rank2-3); color: #2d3436; }
+        .r4-5 { background: var(--rank4-5); color: #2d3436; }
+        .ment { background: var(--mentioned); color: #2d3436; }
+        .zero { background: var(--none); color: #b2bec3; }
+
+        .summary-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .summary-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 5px solid var(--primary);
+        }
+        .summary-val { font-size: 28px; font-weight: 800; color: var(--primary); display: block; }
+        .summary-label { font-size: 12px; color: #636e72; font-weight: 600; text-transform: uppercase; }
+
+        footer { margin-top: 50px; text-align: center; color: #b2bec3; font-size: 12px; }
+        
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- PHẦN DÀNH CHO SẾP ĐỌC NHANH -->
+        <div style="background: #e0f2f1; padding: 25px; border-radius: 12px; border: 2px dashed #00695c; margin-bottom: 30px; line-height: 1.6;">
+            <h2 style="color: #00695c; font-size: 20px; margin-bottom: 15px;">📌 TÓM TẮT CHUYÊN MÔN Y KHOA (THÁNG 4)</h2>
+            <p style="font-size: 15px; color: #004d40;">
+                Đo lường độ uy tín chuyên môn của Taza Skin Clinic trên AI đối với các từ khóa bệnh lý da liễu:<br><br>
+                ● <b>PHÁC ĐỒ Y KHOA:</b> AI nhận diện chính xác phác đồ "Trị nám phân tầng" và "Peel sinh học Pacman".<br>
+                ● <b>85% ĐỀ XUẤT:</b> Lọt Top 5 khi khách hàng tìm kiếm phương pháp điều trị da an toàn, chuẩn y khoa.<br>
+                ● <b>TÍN HIỆU TỐT:</b> Các phản hồi lâm sàng từ bác sĩ được AI trích dẫn làm nguồn thông tin tin cậy.
+            </p>
+        </div>
+
+        <header>
+            <h1>AI RECOMMENDATION DASHBOARD - ĐIỀU TRỊ Y KHOA</h1>
+            <p class="subtitle">Theo dõi KPI Đề xuất AI - Nhóm từ khóa "Điều trị - Chuyên môn" | Tháng 04/2026</p>
+        </header>
+
+        <div class="scoring-key">
+            <span style="font-size: 13px; font-weight: 700; margin-right: 10px;">Quy tắc đọc:</span>
+            <div class="key-item"><span class="dot" style="background: var(--rank1);"></span> Ưu tiên số 1</div>
+            <div class="key-item"><span class="dot" style="background: var(--rank2-3);"></span> Top 2-3</div>
+            <div class="key-item"><span class="dot" style="background: var(--rank4-5);"></span> Top 4-5</div>
+            <div class="key-item"><span class="dot" style="background: var(--mentioned);"></span> Có nhắc tên</div>
+            <div class="key-item"><span class="dot" style="background: var(--none);"></span> Chưa có</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 30%;">Câu hỏi (Prompt) điều trị y khoa</th>
+                    <th style="text-align: center;">Gemini</th>
+                    <th style="text-align: center;">AI Overview</th>
+                    <th style="text-align: center;">GPT-4o</th>
+                    <th style="text-align: center;">Perplexity</th>
+                    <th style="text-align: center; width: 15%;">KPI (Top 10)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td class="prompt-text">Cách trị nám chân sâu an toàn không xâm lấn?</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment" style="background:#00b894; color:white;">ĐẠT (PASS)</div></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td class="prompt-text">Peel da sinh học Pacman là gì? Có tốt không?</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment" style="background:#00b894; color:white;">ĐẠT (PASS)</div></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="prompt-text">Địa chỉ trị nám uy tín chuẩn y khoa tại TPHCM?</td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment" style="background:#00b894; color:white;">ĐẠT (PASS)</div></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td class="prompt-text">Phác đồ phục hồi da mỏng yếu sau treatment.</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment" style="background:#00b894; color:white;">ĐẠT (PASS)</div></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td class="prompt-text">Trị mụn không bong tróc bằng công nghệ nào tốt?</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment" style="background:#00b894; color:white;">ĐẠT (PASS)</div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary-box">
+            <div class="summary-card">
+                <span class="summary-val">TOP 3</span>
+                <span class="summary-label">Vị thế chuyên môn</span>
+            </div>
+            <div class="summary-card" style="border-color: #00b894;">
+                <span class="summary-val">95%</span>
+                <span class="summary-label">Tỉ lệ xuất hiện</span>
+            </div>
+            <div class="summary-card" style="border-color: #f39c12;">
+                <span class="summary-val">85%</span>
+                <span class="summary-label">Độ uy tín (Y Khoa)</span>
+            </div>
+        </div>
+
+        <footer>
+            Báo cáo Dashboard Đề xuất AI (Y Khoa) - Tháng 4/2026 - Taza Skin Clinic.<br>
+            <i>Phân tích dựa trên các phác đồ điều trị đã được kiểm chứng lâm sàng.</i>
+        </footer>
+    </div>
+
+</body>
+</html>
