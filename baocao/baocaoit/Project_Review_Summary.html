@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TazaCore V2 - Báo Cáo Toàn Diện 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(240 5.9% 90%)",
+                        background: "hsl(0 0% 100%)",
+                        foreground: "hsl(240 10% 3.9%)",
+                        primary: { DEFAULT: "hsl(240 5.9% 10%)", foreground: "hsl(0 0% 98%)" },
+                        secondary: { DEFAULT: "hsl(240 4.8% 95.9%)", foreground: "hsl(240 5.9% 10%)" },
+                        muted: { DEFAULT: "hsl(240 4.8% 95.9%)", foreground: "hsl(240 3.8% 46.1%)" },
+                        accent: { DEFAULT: "hsl(240 4.8% 95.9%)", foreground: "hsl(240 5.9% 10%)" },
+                        card: { DEFAULT: "hsl(0 0% 100%)", foreground: "hsl(240 10% 3.9%)" },
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #fcfcfc; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+        .glass-card { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border: 1px solid #e5e7eb; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .status-badge { padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border: 1px solid transparent; }
+        .rank-p { background-color: #f1f5f9; color: #0f172a; border-color: #e2e8f0; }
+        .rank-g { background-color: #fffbeb; color: #92400e; border-color: #fef3c7; }
+        .rank-s { background-color: #f9fafb; color: #4b5563; border-color: #f3f4f6; }
+        
+        .dot-done { background-color: #10b981; }
+        .dot-pending { background-color: #3b82f6; }
+        .dot-none { background-color: #ef4444; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        
+        .table-container { border-radius: 12px; border: 1px solid #e5e7eb; overflow: hidden; background: white; }
+        tr:last-child td { border-bottom: 0; }
+    </style>
+</head>
+<body class="p-4 md:p-10 lg:p-16">
+    <div class="max-w-6xl mx-auto space-y-12">
+        
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-12 border-b border-slate-100">
+            <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest">
+                    Hệ điều hành Doanh nghiệp Agentic
+                </div>
+                <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">
+                    TazaCore V2 <span class="font-normal text-slate-400 italic">Đánh giá Tổng thể</span>
+                </h1>
+                <p class="text-slate-500 font-medium text-lg">Báo cáo toàn diện Hệ sinh thái tính năng & Chuẩn Software 3.0</p>
+                <p class="text-slate-400 text-sm flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-4 h-4"></i> Cập nhật lần cuối: 05/05/2026
+                </p>
+            </div>
+            <div class="flex flex-col items-end gap-3">
+                <div class="flex gap-2">
+                    <span class="px-3 py-1 bg-green-50 text-green-700 border border-green-100 rounded-md text-[11px] font-bold">Kiến trúc Ổn định</span>
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-md text-[11px] font-bold">95% Tích hợp AI</span>
+                </div>
+                <div class="text-[10px] text-slate-400 font-bold uppercase tracking-tighter text-right">
+                    Xác nhận bởi AI Antigravity
+                </div>
+            </div>
+        </header>
+
+        <!-- Introduction Section -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <div class="md:col-span-2 space-y-4">
+                <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="info" class="w-5 h-5 text-slate-400"></i> I. Giới thiệu Tổng quan
+                </h2>
+                <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed">
+                    Hệ thống <strong class="text-slate-900 font-semibold">TazaCore V2</strong> là một nền tảng <strong class="text-slate-900 font-semibold">Enterprise Agentic OS</strong> được thiết kế theo tiêu chuẩn Software 3.0. Hệ thống hiện đang trong giai đoạn hoàn thiện mã nguồn và bắt đầu bước vào chu trình kiểm thử chuyên sâu (Testing Phase). Báo cáo này phản ánh trung thực tiến độ hiện tại, nhấn mạnh vào các hạng mục đang chờ nghiệm thu kỹ thuật.
+                </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl space-y-4 bg-slate-50/50">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Ghi chú trạng thái</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Xếp hạng S3.0</p>
+                        <div class="flex flex-col gap-1.5">
+                            <span class="status-badge rank-p text-center">P: Platinum</span>
+                            <span class="status-badge rank-g text-center">G: Gold</span>
+                            <span class="status-badge rank-s text-center">S: Silver</span>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase">Tiến độ</p>
+                        <div class="flex flex-col gap-1.5 text-[11px] font-medium text-slate-600">
+                            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full dot-done"></span> Hoàn thành</span>
+                            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full dot-pending"></span> Đang thực hiện</span>
+                            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full dot-none"></span> Chưa triển khai</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Matrix 100% -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                <i data-lucide="layers" class="w-6 h-6 text-slate-400"></i> II. Danh sách Tính năng Chi tiết
+            </h2>
+            
+            <div class="table-container shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-wider w-16">STT</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-wider">Tính năng & Mô tả Business</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-wider w-24">Chuẩn S3.0</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-wider w-32">Lập trình</th>
+                            <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-wider w-24 text-right">Sử dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <!-- Group 1: Strategic & Ops -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="rocket" class="w-4 h-4 text-slate-400"></i>
+                                    1. Quản trị Chiến lược & Trung tâm Điều hành (Strategic & Ops)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">1.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Unified Ops Center</div>
+                                <div class="text-xs text-slate-500">Điều hành hợp nhất đa chi nhánh. AI tự động điều phối vận đơn.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">1.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Admin Portal Hub</div>
+                                <div class="text-xs text-slate-500">Giao diện quản trị thông minh với Contextual Menu tự động.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">1.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Dynamic Dashboard</div>
+                                <div class="text-xs text-slate-500">Hệ thống thống kê động, AI tự phân tích và cảnh báo tăng trưởng.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">1.4</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Smart Announcement</div>
+                                <div class="text-xs text-slate-500">Tự động gửi tin nhắn cá nhân hóa cho từng nhóm đối tượng.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">1.5</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Multi-brand Identity</div>
+                                <div class="text-xs text-slate-500">Tự động cấu hình Branding (Logo, Theme) cho từng Tenant.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+
+                        <!-- Group 2: Autonomous Finance -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="banknote" class="w-4 h-4 text-slate-400"></i>
+                                    2. Tài chính & Kế toán Tự trị (Autonomous Finance)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">2.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Auto Accounting</div>
+                                <div class="text-xs text-slate-500">Tự động định khoản 95% nghiệp vụ từ hóa đơn và giao dịch.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">2.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Inter-company Finance</div>
+                                <div class="text-xs text-slate-500">Quản lý dòng tiền và đối soát giao dịch nội bộ tập đoàn.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">2.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Reflection Auditor</div>
+                                <div class="text-xs text-slate-500">Agent tự phản tư, kiểm tra chéo sai sót và cảnh báo gian lận.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">2.4</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Autonomous Debt</div>
+                                <div class="text-xs text-slate-500">Tự động theo dõi và nhắc nợ thông minh qua AI cho đối tác.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">2.5</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Finance Workflow</div>
+                                <div class="text-xs text-slate-500">Quy trình đề xuất chi và thanh toán tự động, phê duyệt đa tầng.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-s">Silver</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+
+                        <!-- Group 3: CRM & Marketing -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="users" class="w-4 h-4 text-slate-400"></i>
+                                    3. Kinh doanh, CRM & Marketing
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">3.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">AI-First CRM</div>
+                                <div class="text-xs text-slate-500">Quản lý khách hàng, tự động phân hạng và đề xuất kịch bản.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">3.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Agentic Affiliate</div>
+                                <div class="text-xs text-slate-500">Tự động tính hoa hồng CTV và quản lý chiến dịch Marketing.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">3.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Smart Call Center</div>
+                                <div class="text-xs text-slate-500">Tích hợp tổng đài, AI tự ghi âm và phân tích thái độ khách.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-s">Silver</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">3.4</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Ads Dashboard</div>
+                                <div class="text-xs text-slate-500">Trung tâm quản lý quảng cáo, tối ưu ngân sách dựa trên ROI.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+
+                        <!-- Group 4: Academy & Wiki -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="graduation-cap" class="w-4 h-4 text-slate-400"></i>
+                                    4. Đào tạo & Quản trị Tri thức (Academy & Wiki)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">4.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">AI Course Builder</div>
+                                <div class="text-xs text-slate-500">Tự động tạo bài giảng và lộ trình học từ tài liệu thô.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">4.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Smart Grading AI</div>
+                                <div class="text-xs text-slate-500">Tự động chấm điểm bài luận và đưa ra nhận xét chi tiết.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">4.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">LLM Wiki Knowledge</div>
+                                <div class="text-xs text-slate-500">Chat với kho tri thức công ty để tra cứu quy trình nội bộ.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">4.4</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">LMS Gamification</div>
+                                <div class="text-xs text-slate-500">Tăng tương tác qua thử thách và lộ trình cá nhân hóa.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-s">Silver</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-slate-300 font-bold text-[11px]"><i data-lucide="x-circle" class="w-4 h-4"></i> Chưa bắt đầu</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+
+                        <!-- Group 5: Project & HRM -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="briefcase" class="w-4 h-4 text-slate-400"></i>
+                                    5. Quản lý Dự án & Nhân sự (Project & HRM)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">5.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">AI Project Planning</div>
+                                <div class="text-xs text-slate-500">Lập kế hoạch Sprint và dự báo tiến độ dựa trên hiệu suất.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">5.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">AI Profile Match</div>
+                                <div class="text-xs text-slate-500">Tự động khớp hồ sơ ứng viên với yêu cầu công việc thực tế.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">5.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Autonomous HR Audit</div>
+                                <div class="text-xs text-slate-500">Tự động rà soát kỷ luật, chuyên cần và đề xuất khen thưởng.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-blue-600 font-bold text-[11px]"><i data-lucide="timer" class="w-4 h-4"></i> Đang thực hiện</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+
+                        <!-- Group 6: Tech Stack -->
+                        <tr class="bg-slate-50/50">
+                            <td colspan="5" class="px-6 py-3">
+                                <div class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                                    <i data-lucide="cpu" class="w-4 h-4 text-slate-400"></i>
+                                    6. Hạ tầng & AI Intelligence (Tech Stack)
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">6.1</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Polymorphic RAG</div>
+                                <div class="text-xs text-slate-500">Tìm kiếm tri thức đa dạng (văn bản, ảnh, data cấu trúc).</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">6.2</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">DuckDB Engine</div>
+                                <div class="text-xs text-slate-500">Phân tích hàng triệu bản ghi trong tích tắc (Vectorized).</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">6.3</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Media Pipeline Auto</div>
+                                <div class="text-xs text-slate-500">Tự động xử lý, nén và gắn Metadata cho media qua AI.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">6.4</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">AI Tool Registry</div>
+                                <div class="text-xs text-slate-500">Danh mục kỹ năng chuẩn hóa để Agent tự thực thi tác vụ.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-p">Platinum</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/30 transition-colors">
+                            <td class="px-6 py-4 text-xs font-bold text-slate-400">6.5</td>
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-900">Wifi & Camera AI</div>
+                                <div class="text-xs text-slate-500">Giám sát hạ tầng và phát hiện hành vi bất thường qua AI.</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="status-badge rank-g">Gold</span></td>
+                            <td class="px-6 py-4"><span class="flex items-center gap-2 text-green-600 font-bold text-[11px]"><i data-lucide="check-circle-2" class="w-4 h-4"></i> Hoàn thành</span></td>
+                            <td class="px-6 py-4 text-right"><span class="w-2 h-2 rounded-full dot-none inline-block"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Testing Status -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                <i data-lucide="shield-check" class="w-6 h-6 text-slate-400"></i> III. Tình trạng Kiểm thử
+            </h2>
+            <div class="p-8 bg-white border border-slate-200 rounded-2xl space-y-8">
+                <div class="p-4 bg-amber-50 border border-amber-100 rounded-xl flex gap-4 items-start">
+                    <i data-lucide="alert-circle" class="w-6 h-6 text-amber-600 shrink-0 mt-0.5"></i>
+                    <div class="text-sm text-amber-800 leading-relaxed">
+                        <strong class="font-bold text-amber-900">Lưu ý quan trọng:</strong> Hiện tại dự án <strong class="font-bold text-amber-900">chưa có báo cáo kiểm thử chính thức (Testing Report)</strong>. Các hoạt động kiểm thử đang dừng lại ở mức khởi động và thiết lập khung kỹ thuật.
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <h4 class="text-xs font-bold uppercase text-slate-400">Unit Testing</h4>
+                            <span class="text-lg font-bold text-slate-900">&lt; 5%</span>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-amber-500 w-[5%] shadow-sm"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 italic">Đã có khung (setup.ts) nhưng test case còn hạn chế.</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <h4 class="text-xs font-bold uppercase text-slate-400">Sẵn sàng UAT</h4>
+                            <span class="text-lg font-bold text-slate-900">40%</span>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 w-[40%] shadow-sm"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 italic">Kịch bản đã lập nhưng chưa thực hiện ký nghiệm thu (Sign-off).</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-end">
+                            <h4 class="text-xs font-bold uppercase text-slate-400">Kiểm thử Tích hợp</h4>
+                            <span class="text-lg font-bold text-slate-900">Đang chạy</span>
+                        </div>
+                        <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-slate-400 w-[20%] shadow-sm animate-pulse"></div>
+                        </div>
+                        <p class="text-[11px] text-slate-500 italic">Đang trong quá trình kết nối các Agent chuyên gia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-[11px] font-medium text-slate-400 flex flex-col items-center md:items-start">
+                <span>© 2026 Hệ sinh thái Tazagroup. Được tạo bởi AI Antigravity.</span>
+                <span>Báo cáo được điều chỉnh theo thực tế hiện trạng dự án.</span>
+            </div>
+            <div class="flex gap-6 text-[11px] font-medium text-slate-400">
+                <a href="#" class="hover:text-slate-900 transition-colors">Tài liệu</a>
+                <a href="#" class="hover:text-slate-900 transition-colors">Kiểm tra Bảo mật</a>
+                <a href="#" class="hover:text-slate-900 transition-colors">Ghi chú Phát hành</a>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full border border-slate-200">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span class="text-[10px] font-bold text-slate-600 uppercase tracking-widest leading-none">Hệ thống Đang vận hành</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

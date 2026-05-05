@@ -103,6 +103,9 @@
           <button onclick="switchTab('overview')" id="nav-overview" class="w-full nav-btn sidebar-item-active">
             <i data-lucide="layout-grid" class="w-5 h-5"></i> Dashboard chính
           </button>
+          <button onclick="switchTab('it-report')" id="nav-it-report" class="w-full nav-btn text-slate-600">
+            <i data-lucide="file-check" class="w-5 h-5"></i> Báo cáo IT
+          </button>
           <button onclick="switchTab('kpi')" id="nav-kpi" class="w-full nav-btn text-slate-600">
             <i data-lucide="table-2" class="w-5 h-5"></i> KPI Tổng Hợp
           </button>
@@ -247,6 +250,14 @@
         titleEl.textContent = 'KPI Tổng Hợp 2026';
         subEl.textContent = 'Chi tiết mục tiêu 12 tháng của hệ thống (Dữ liệu từ Excel)';
         container.innerHTML = renderKPITables();
+      } else if (tab === 'it-report') {
+        titleEl.textContent = 'Báo Cáo Tiến Độ IT';
+        subEl.textContent = 'Tổng hợp đánh giá & Review hệ thống TazaGroup 2026';
+        container.innerHTML = `
+          <div class="w-full h-[calc(100vh-180px)] rounded-xl border border-slate-200 overflow-hidden shadow-lg animate-fade-in bg-white">
+            <iframe src="baocao/baocaoit/Project_Review_Summary.html" class="w-full h-full border-none"></iframe>
+          </div>
+        `;
       } else {
         const site = DATA_V3[tab];
         titleEl.textContent = site.name;
@@ -522,6 +533,8 @@ gantt
                         
                         return tasks.map(task => `
                           <div class="card p-8 space-y-8 animate-fade-in bg-white border-l-4 border-l-slate-900 shadow-sm hover:shadow-md transition-shadow">
+                             <div class="flex items-center justify-between border-b pb-4">
+                                shadow-sm hover:shadow-md transition-shadow">
                              <div class="flex items-center justify-between border-b pb-4">
                                 <div>
                                    <h4 class="text-lg font-bold text-slate-900">${task.title}</h4>
