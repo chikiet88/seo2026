@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Report: SEO & AI Tháng 6/2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c41e3a; /* Red Timona */
+            --secondary: #1a237e; /* Navy Blue */
+            --success: #2ec4b6; /* Turquoise Green */
+            --warning: #ff9f1c; /* Sun Yellow */
+            --info: #4361ee; /* Royal Blue */
+            --bg-color: #f1f4f9;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --gradient: linear-gradient(135deg, #1a237e 0%, #121858 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            padding: 30px; 
+            min-height: 100vh;
+        }
+        
+        .dashboard-container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        /* Header Section */
+        .header { 
+            text-align: center; 
+            margin-bottom: 45px; 
+            position: relative;
+        }
+        
+        .header h1 { 
+            font-family: 'Outfit', sans-serif;
+            color: var(--secondary); 
+            font-size: 34px; 
+            font-weight: 800;
+            margin-bottom: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            background: linear-gradient(120deg, var(--secondary) 30%, var(--primary) 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p { 
+            color: var(--text-muted); 
+            font-size: 16px; 
+            font-weight: 600;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* KPI Cards Section */
+        .kpi-cards { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 24px; 
+            margin-bottom: 40px; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            padding: 28px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.03); 
+            border: 1px solid rgba(26, 35, 126, 0.02);
+            border-bottom: 6px solid var(--primary); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(26, 35, 126, 0.01) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover { 
+            transform: translateY(-6px); 
+            box-shadow: 0 15px 35px rgba(26, 35, 126, 0.08);
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-title { 
+            font-size: 13px; 
+            color: var(--text-muted); 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            margin-bottom: 15px; 
+            letter-spacing: 0.5px;
+        }
+        
+        .card-value { 
+            font-family: 'Outfit', sans-serif;
+            font-size: 38px; 
+            font-weight: 800; 
+            color: var(--secondary); 
+            line-height: 1.1;
+        }
+        
+        .card-subtext { 
+            font-size: 13px; 
+            color: var(--success); 
+            font-weight: 700; 
+            margin-top: 10px; 
+            display: flex; 
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .card-subtext.neutral { color: var(--info); }
+        .card-subtext.warning { color: var(--warning); }
+
+        /* Navigation Tabs */
+        .tabs-container {
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.02);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            border: 1px solid rgba(26, 35, 126, 0.02);
+        }
+        
+        .tab-btn { 
+            padding: 14px 28px; 
+            font-size: 15px; 
+            font-weight: 700; 
+            background: transparent; 
+            border: 2px solid transparent; 
+            color: var(--text-muted); 
+            border-radius: 14px; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn.active { 
+            background: #e8eaf6; 
+            color: var(--secondary); 
+            border-color: var(--secondary); 
+            box-shadow: 0 4px 15px rgba(26, 35, 126, 0.05);
+        }
+        
+        .tab-btn:hover:not(.active) { 
+            background: #f8f9fa; 
+            color: var(--text-main);
+        }
+
+        /* Iframe Content Area */
+        .iframe-container { 
+            background: var(--card-bg); 
+            border-radius: 24px; 
+            box-shadow: 0 15px 50px rgba(26, 35, 126, 0.06); 
+            overflow: hidden; 
+            height: 950px; 
+            position: relative;
+            border: 1px solid rgba(26, 35, 126, 0.03);
+            transition: height 0.3s ease;
+        }
+        
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .iframe-container { height: 800px; }
+        }
+
+        @media (max-width: 768px) {
+            .tabs-container { flex-direction: column; gap: 8px; }
+            .tab-btn { width: 100%; justify-content: center; }
+            .iframe-container { height: 650px; }
+            body { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Báo Cáo Tháng 6 - SEO & AI RECOMMENDATION</h1>
+            <p>Bảng điều khiển tổng hợp hiệu suất kỹ thuật số - Timona Academy</p>
+        </div>
+
+        <!-- Đánh Giá Chung (Overview KPIs) -->
+        <div class="kpi-cards">
+            <!-- Card 1 (Traffic) -->
+            <div class="card" style="border-bottom-color: var(--info);">
+                <div class="card-title">🌐 Lượt Truy Cập (Traffic)</div>
+                <div class="card-value">4.319</div>
+                <div class="card-subtext neutral">Người dùng tự nhiên (Organic)</div>
+            </div>
+            
+            <!-- Card 2 (22 USP) -->
+            <div class="card" style="border-bottom-color: var(--success);">
+                <div class="card-title">🎯 Hiệu Suất 22 USP</div>
+                <div class="card-value">94.8%</div>
+                <div class="card-subtext">▲ Tăng +3.2% so với tháng trước</div>
+            </div>
+            
+            <!-- Card 3 (Hướng Nghiệp) -->
+            <div class="card" style="border-bottom-color: var(--warning);">
+                <div class="card-title">🤖 AI Rec (Hướng Nghiệp)</div>
+                <div class="card-value">21.25%</div>
+                <div class="card-subtext warning">KPI: Top 1 (21.25%) — Top 3: 43.75%</div>
+            </div>
+            
+            <!-- Card 4 (Chuẩn Y Khoa) -->
+            <div class="card" style="border-bottom-color: var(--primary);">
+                <div class="card-title">⚕️ AI Rec (Chuẩn Y Khoa)</div>
+                <div class="card-value">30%</div>
+                <div class="card-subtext warning">KPI: Top 1 (30%) — Top 3: 77.5%</div>
+            </div>
+        </div>
+
+        <!-- Điều hướng Report Chi tiết -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="changeReport('report_kpi_ai_thang_6_2026.html?v=20260701', this, 980)">
+                📊 Hiệu suất của 22 USP
+            </button>
+            <button class="tab-btn" onclick="changeReport('dashboard_recommendation_ai_thang_6.html?v=20260701', this, 1050)">
+                🎯 Top AI (Hướng Nghiệp)
+            </button>
+            <button class="tab-btn" onclick="changeReport('dashboard_recommendation_ykhoa_thang_6.html?v=20260701', this, 1050)">
+                ⚕️ Top AI (Điều Trị Y Khoa)
+            </button>
+        </div>
+
+        <!-- Vùng hiển thị Report -->
+        <div class="iframe-container" id="containerFrame">
+            <iframe id="mainFrame" src="report_kpi_ai_thang_6_2026.html?v=20260701" title="Report Content"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function changeReport(url, btnElement, targetHeight) {
+            // Đổi nguồn file iframe
+            document.getElementById('mainFrame').src = url;
+            
+            // Tự động chỉnh độ cao iframe phù hợp nội dung từng tab trên desktop
+            if (window.innerWidth > 768) {
+                document.getElementById('containerFrame').style.height = targetHeight + 'px';
+            }
+            
+            // Xoá class active của tất cả các nút
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Thêm class active cho nút vừa click
+            btnElement.classList.add('active');
+        }
+        
+        // Đảm bảo responsive về chiều cao khi thay đổi kích thước màn hình
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('containerFrame').style.height = '650px';
+            } else {
+                const activeTab = document.querySelector('.tab-btn.active').textContent;
+                if (activeTab.includes('22 USP')) {
+                    document.getElementById('containerFrame').style.height = '980px';
+                } else {
+                    document.getElementById('containerFrame').style.height = '1050px';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
