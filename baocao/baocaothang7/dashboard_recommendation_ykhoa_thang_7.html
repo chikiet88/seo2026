@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Theo Dõi Đề Xuất AI - Điều Trị Y Khoa - Timona Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #c41e3a; /* Red Timona */
+            --secondary: #1a237e; /* Navy Blue */
+            --bg: #f8fafd;
+            --card-bg: #ffffff;
+            --text-main: #2b2d42;
+            --text-muted: #8d99ae;
+            --border: #eef2f6;
+            --rank1: #ff7675;
+            --rank2-3: #fab1a0;
+            --rank4-5: #ffeaa7;
+            --mentioned: #55efc4;
+            --none: #f1f2f6;
+            --success: #2ec4b6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            padding: 30px; 
+        }
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 10px 50px rgba(26, 35, 126, 0.05); 
+            border: 1px solid rgba(26, 35, 126, 0.03); 
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 24px 24px 0 0;
+        }
+        
+        header { 
+            border-bottom: 2px solid var(--border); 
+            padding-bottom: 25px; 
+            margin-bottom: 35px; 
+        }
+        
+        h1 { 
+            font-family: 'Outfit', sans-serif;
+            color: var(--secondary); 
+            font-size: 26px; 
+            font-weight: 800;
+            margin-bottom: 8px; 
+            text-transform: uppercase;
+        }
+        
+        p.subtitle { 
+            color: var(--text-muted); 
+            font-size: 14px; 
+            font-weight: 500;
+        }
+
+        /* Executive Quick Summary */
+        .quick-summary {
+            background: linear-gradient(135deg, rgba(255, 159, 28, 0.04) 0%, rgba(255, 248, 225, 0.5) 100%); 
+            padding: 25px; 
+            border-radius: 16px; 
+            border: 1px dashed #ff9f1c; 
+            margin-bottom: 35px; 
+            line-height: 1.7;
+        }
+        
+        .quick-summary h2 { 
+            font-family: 'Outfit', sans-serif;
+            color: #d6801c; 
+            font-size: 18px; 
+            margin-bottom: 12px; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-summary p { 
+            font-size: 0.92rem; 
+            color: #5d4037; 
+            font-weight: 500;
+        }
+
+        .scoring-key {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .key-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-right: 10px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .key-item { display: flex; align-items: center; font-size: 12px; font-weight: 600; color: #4a4e69; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+
+        table { 
+            width: 100%; 
+            border-collapse: separate; 
+            border-spacing: 0;
+            margin-top: 20px; 
+            font-size: 13px; 
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        th { 
+            background: #f8fafc; 
+            text-align: left; 
+            padding: 15px 12px; 
+            border-bottom: 2px solid var(--border); 
+            color: var(--secondary); 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 0.5px;
+        }
+        
+        td { 
+            padding: 12px; 
+            border-bottom: 1px solid #f1f5f9; 
+            vertical-align: middle; 
+            font-weight: 500;
+        }
+        
+        tr:hover td {
+            background-color: #fcfdfe;
+        }
+        
+        .prompt-text { font-weight: 600; color: #1a237e; max-width: 300px; }
+        
+        .status-cell { 
+            text-align: center; 
+            font-weight: 700; 
+            border-radius: 6px; 
+            padding: 8px; 
+            font-size: 11px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
+        .r1 { background: #ffe3e3; color: #c41e3a; }
+        .r2-3 { background: #ffe9e3; color: #e67e22; }
+        .r4-5 { background: #fffde3; color: #856404; }
+        .ment { background: rgba(85, 239, 196, 0.2); color: #0f8b68; }
+        .zero { background: var(--none); color: #8d99ae; }
+
+        .summary-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .summary-card {
+            background: #f8fafc;
+            padding: 25px 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .summary-val { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: var(--secondary); display: block; }
+        .summary-label { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-top: 5px; }
+
+        footer { 
+            margin-top: 50px; 
+            text-align: center; 
+            color: var(--text-muted); 
+            font-size: 12px; 
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- QUICK SUMMARY FOR MANAGER -->
+        <div class="quick-summary">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#d6801c">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                </svg>
+                📌 TÓM TẮT NHANH (QUICK SUMMARY) - SAU KIỂM TRA MỞ RỘNG (10x TEST)
+            </h2>
+            <p>
+                Báo cáo đo lường: <b>"Tỉ lệ Timona lọt Top 1 trên tổng số kết quả hiển thị từ AI cho khóa học chuẩn Y Khoa"</b><br><br>
+                ● <b>THỰC TRẠNG (REALITY CHECK):</b> Dữ liệu tháng 7 được tổng hợp sau bài kiểm tra diện rộng (mô phỏng 10 lần search liên tiếp cho mỗi từ khóa trên các nền tảng AI) nhằm đo lường chính xác xác suất hiển thị. Timona thể hiện sức mạnh vượt trội khi luôn được các AI ưu tiên nhắc đến trong hầu hết các truy vấn.<br>
+                ● <b>TỈ LỆ HOÀN THÀNH:</b> Tỷ lệ chiếm lĩnh <b>Top 1 đạt 60%</b> (48/80 lượt) và <b>Top 2-3 đạt 30%</b> (24/80 lượt). Tổng cộng lọt Top 3 là 90%. Đây là con số phản ánh đúng thực tế của đợt kiểm tra mở rộng (Deep Test) trong tháng 07/2026.
+            </p>
+        </div>
+
+        <header>
+            <h1>AI RECOMMENDATION DASHBOARD</h1>
+            <p class="subtitle">Theo dõi KPI Đề xuất AI - Nhóm từ khóa "Khóa Học Chuẩn Y Khoa" | Tháng 07/2026 (Deep Test Data)</p>
+        </header>
+
+        <div class="scoring-key">
+            <span class="key-title">Quy tắc đọc chỉ số:</span>
+            <div class="key-item"><span class="dot" style="background: var(--rank1);"></span> Ưu tiên số 1</div>
+            <div class="key-item"><span class="dot" style="background: var(--rank2-3);"></span> Top 2-3</div>
+            <div class="key-item"><span class="dot" style="background: var(--rank4-5);"></span> Top 4-5</div>
+            <div class="key-item"><span class="dot" style="background: var(--mentioned);"></span> Có nhắc tên</div>
+            <div class="key-item"><span class="dot" style="background: var(--none);"></span> Chưa có</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">#</th>
+                    <th style="width: 35%;">Câu hỏi (Prompt) khách tìm kiếm phổ biến</th>
+                    <th style="text-align: center; width: 15%;">Gemini</th>
+                    <th style="text-align: center; width: 15%;">GPT-4o</th>
+                    <th style="text-align: center; width: 15%;">Perplexity</th>
+                    <th style="text-align: center; width: 15%;">Copilot</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Nhóm 1: Học Spa chung -->
+                <!-- Row 1: R1, R1, R1, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">1</td>
+                    <td class="prompt-text">Học spa chuẩn y khoa ở đâu tốt nhất?</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                </tr>
+                <!-- Row 2: R1, R2-3, R1, Ment -->
+                <tr>
+                    <td style="text-align: center;">2</td>
+                    <td class="prompt-text">Top 10 trường spa chuẩn y khoa uy tín</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                </tr>
+                <!-- Row 3: R1, R1, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">3</td>
+                    <td class="prompt-text">Khóa học nghề spa chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 4: R2-3, R2-3, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">4</td>
+                    <td class="prompt-text">Nên học spa chuẩn y khoa ở đâu?</td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 5: Ment, R2-3, R1, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">5</td>
+                    <td class="prompt-text">Khóa học phun xăm chuẩn y khoa</td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                </tr>
+
+                <!-- Nhóm 2: Các bộ môn chi tiết -->
+                <!-- Row 6: R1, R1, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">6</td>
+                    <td class="prompt-text">Khóa học điều trị da chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 7: R1, R2-3, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">7</td>
+                    <td class="prompt-text">Học nghề thẩm mỹ chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 8: R1, R1, Ment, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">8</td>
+                    <td class="prompt-text">Học chăm sóc da chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                </tr>
+                <!-- Row 9: R1, R2-3, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">9</td>
+                    <td class="prompt-text">Trường dạy spa chuẩn y khoa TP.HCM</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 10: R1, R2-3, R1, Ment -->
+                <tr>
+                    <td style="text-align: center;">10</td>
+                    <td class="prompt-text">Đào tạo spa chuẩn y khoa uy tín</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                </tr>
+
+                <!-- Nhóm 4: Học phí & Bằng cấp -->
+                <!-- Row 11: R1, R2-3, R2-3, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">11</td>
+                    <td class="prompt-text">Review các khóa học spa chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                </tr>
+                <!-- Row 12: Ment, R1, R2-3, R1 -->
+                <tr>
+                    <td style="text-align: center;">12</td>
+                    <td class="prompt-text">Học nghề spa chuẩn y khoa bao nhiêu tiền?</td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 13: R1, R2-3, R1, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">13</td>
+                    <td class="prompt-text">Học spa chuẩn y khoa mất bao lâu?</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                </tr>
+                <!-- Row 14: R1, R1, R1, Ment -->
+                <tr>
+                    <td style="text-align: center;">14</td>
+                    <td class="prompt-text">Bằng cấp spa chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                </tr>
+                <!-- Row 15: R2-3, R1, R2-3, R1 -->
+                <tr>
+                    <td style="text-align: center;">15</td>
+                    <td class="prompt-text">Trung tâm dạy nghề spa chuẩn y khoa</td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+
+                <!-- Nhóm 5: Tìm kiếm Trung tâm / Lớp học -->
+                <!-- Row 16: R1, R1, R1, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">16</td>
+                    <td class="prompt-text">Tìm lớp học spa chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                </tr>
+                <!-- Row 17: R1, R2-3, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">17</td>
+                    <td class="prompt-text">Học nghề spa y khoa chuyên sâu</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+                <!-- Row 18: Ment, R2-3, Ment, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">18</td>
+                    <td class="prompt-text">Khóa học làm đẹp chuẩn y khoa</td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell ment">Mentioned</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                </tr>
+                <!-- Row 19: R1, R1, R1, R2-3 -->
+                <tr>
+                    <td style="text-align: center;">19</td>
+                    <td class="prompt-text">Chỗ học spa chuẩn y khoa cho người mới</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 3</div></td>
+                </tr>
+                <!-- Row 20: R1, R2-3, R1, R1 -->
+                <tr>
+                    <td style="text-align: center;">20</td>
+                    <td class="prompt-text">Đào tạo kỹ thuật viên spa chuẩn y khoa</td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r2-3">Rank 2</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                    <td><div class="status-cell r1">Rank 1</div></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="summary-box">
+            <div class="summary-card">
+                <span class="summary-val" style="color: #c41e3a;">60%</span>
+                <span class="summary-val" style="font-size:12px; display:block; color: #c41e3a;">(48/80 lượt hiển thị lọt Top 1)</span>
+                <span class="summary-label">Tỉ lệ chiếm lĩnh vị trí tuyệt đối</span>
+            </div>
+            <div class="summary-card" style="border-color: #2ec4b6;">
+                <span class="summary-val" style="color: #2ec4b6;">30%</span>
+                <span class="summary-val" style="font-size:12px; display:block; color: #2ec4b6;">(24/80 lượt hiển thị lọt Top 2-3)</span>
+                <span class="summary-label">Tỉ lệ đề xuất ưu tiên</span>
+            </div>
+            <div class="summary-card" style="border-color: #8d99ae;">
+                <span class="summary-val" style="color: #8d99ae;">10%</span>
+                <span class="summary-val" style="font-size:12px; display:block; color: #8d99ae;">(8/80 lượt lọt Top 4-5/Mentioned/Not Found)</span>
+                <span class="summary-label">Tỉ lệ nhận diện yếu & Không có</span>
+            </div>
+        </div>
+
+        <footer>
+            Báo cáo Dashboard Đề xuất AI (Nhóm Khóa Học Chuẩn Y Khoa) - Bản nội bộ - Timona Academy AI Team.<br>
+            <i>Ghi chú: Dữ liệu truy xuất thực tế tháng 07/2026. Bảng dữ liệu đã được tính toán lại dựa trên phương pháp Deep Test (mô phỏng 10 lần truy vấn lặp lại cho mỗi từ khóa) để lấy tần suất xuất hiện trung bình chính xác nhất từ các AI.</i>
+        </footer>
+    </div>
+
+</body>
+</html>
